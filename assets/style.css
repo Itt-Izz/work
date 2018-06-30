@@ -1,0 +1,313 @@
+body {
+    background-image: url('../img/bg22.jpg');
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+/* Navbar */
+
+.navbar-default {
+    background-color: #ffffff;
+}
+
+.inputStyl {
+    width: 60%;
+}
+
+.inputStyl label {
+    margin-top: 20px;
+    background-color: none;
+}
+
+#inputBody {
+    z-index: auto;
+    position: relative;
+    line-height: 26.6667px;
+    font-size: 14px;
+    transition: none;
+    overflow: auto;
+    background: transparent !important;
+}
+
+#pan {
+    padding: 0;
+    margin: 0;
+}
+
+.pan p {
+    margin: 15px;
+}
+
+.chat {
+    border-radius: 55px 1px 1px 1px;
+}
+
+#acc img {
+    height: 100px;
+    width: 100px;
+    margin-left: 10px;
+}
+
+#hdimg {
+    width: 30px;
+    height: 30px
+}
+
+.imgPos {
+    margin: 10px;
+}
+
+#imgPos button {
+    margin: 20px;
+}
+
+#btn {
+    margin-top: 20px;
+}
+
+.navbar-default .navbar-brand {
+    color: rgb(40, 17, 63);
+}
+
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: rgb(164, 88, 247);
+}
+
+#nam {
+    color: rgb(194, 52, 1);
+}
+
+#nam:hover {
+    color: rgb(71, 25, 8);
+}
+
+.fix-me {
+    background: rgb(1, 109, 1);
+    color: rgb(240, 232, 232);
+    position: fixed;
+    top: 350px;
+    transform: rotate(90deg);
+    padding: 2px;
+}
+
+.fix-me:hover {
+    color: rgb(234, 248, 202);
+}
+
+
+/* custom */
+
+.main-color-bg {
+    background-color: rgb(61, 100, 61) !important;
+    border-color: rgb(61, 100, 61) !important;
+    color: #ffffff !important;
+}
+
+
+/* header */
+
+#header {
+    background: #333333;
+    color: #ffffff;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+#header .create {
+    padding-top: 20px;
+}
+
+
+/* breadcrumb */
+
+.breadcrumb {
+    color: rgb(75, 44, 105);
+    font-weight: bolder;
+    margin: 0;
+}
+
+.breadcrumb a {
+    color: rgb(75, 44, 105);
+    font-weight: bold;
+}
+
+.well {
+    padding: 5px;
+}
+
+#d {
+    float: right;
+    margin: 20px 30px !important;
+}
+
+#lg {
+    color: red !important;
+}
+
+#d li {
+    float: left;
+    font-size: 15px;
+    margin-left: 10px;
+}
+
+.badge {
+    background: rgb(250, 63, 30);
+}
+
+.badge-change {
+    background: #af7474;
+    float: right;
+}
+
+#scrolTable {
+    height: 500px;
+    overflow: auto;
+}
+
+.cont{
+    width: 100px;
+}
+#tabl {
+    background-color: #f2f7f4;
+}
+
+
+/* Image form style----------------------------------------------------------------- */
+
+#content{
+    width: 300px;
+    margin:10px auto;
+    padding: 5px;
+    border: 1px solid #cbcbcb;
+}
+#img_div {
+    width: 270px;
+    height: 200px;
+    padding: 5px;
+    margin: 5px auto;
+    border: 1px solid #cbcbcb;
+}
+img{
+    float: left;
+    margin: 5px;
+    width: 250px;
+    height: auto;
+}
+
+#img_div:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+
+/* progress bars..................................................... */
+
+.progress-bar {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+.dash-box {
+    text-align: center;
+}
+
+legend {
+    margin-left: 200px;
+}
+
+fieldset {
+    margin: 200px;
+}
+
+footer {
+    position: 700px;
+    background: #333333;
+    color: #ffffff;
+    text-align: center;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+.b {
+    color: orange;
+}
+
+@media(max-width:767px) {
+    .navbar-default .navbar-nav .open .dropdown-menu>li>a {
+        color: #ecf0f1;
+    }
+    .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover,
+    .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus {
+        color: #ffbbbc;
+    }
+    .navbar-default .navbar-nav .open .dropdown-menu>.active>a,
+    .navbar-default .navbar-nav .open .dropdown-menu>.active>a:hover,
+    .navbar-default .navbar-nav .open .dropdown-menu>.active>a:focus {
+        color: #ffbbbc;
+        background-color: #c0392b;
+    }
+}
+
+
+/* CSS talk bubble */
+
+.talk-bubble {
+    margin: 40px;
+    display: inline-block;
+    position: relative;
+    width: 200px;
+    height: auto;
+    background-color: rgb(134, 235, 67);
+}
+
+.border {
+    border: 8px solid #666;
+}
+
+.round {
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+}
+
+
+/* Right triangle, right side slightly down*/
+
+.tri-right.border.right-in:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: auto;
+    right: -40px;
+    top: 30px;
+    bottom: auto;
+    border: 20px solid;
+    border-color: #666 transparent transparent #666;
+}
+
+.tri-right.right-in:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: auto;
+    right: -20px;
+    top: 38px;
+    bottom: auto;
+    border: 12px solid;
+    border-color: rgb(134, 235, 67)transparent transparent rgb(134, 235, 67);
+}
+
+
+/* talk bubble contents */
+
+.talktext {
+    padding: 1em;
+    text-align: left;
+    line-height: 1.5em;
+}
