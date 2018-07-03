@@ -1,4 +1,3 @@
-
 <?php
 include('php/connection.php');
 session_start();
@@ -66,7 +65,52 @@ include ('php/query.php');
   </div>
   <div class="panel-body">
     <div id="scrolTable">
-      
+      <?php
+      $quer=sprintf("SELECT t_id, name, namba, cost FROM tools ORDER BY t_id");
+       $data=array();
+       $rw=$con->query($quer);
+       foreach ($rw as $row) {
+         $data[]=$row;
+       }
+//Print in json
+       print json_encode($data); ?>
+
+       <div class="col-md-12">
+         <div class="col-md-3" style="height: 150px; background-color: lightgrey;">
+           <h4>Present Today</h4>
+           <div class="col-md-4">
+             <h1>203</h1>
+           </div>
+           <div class="col-md-8">
+          <p> <h5>Male:</h5><h6>153</h6></p>
+           <p><h5>Female</h5><h6>50</h6></p>
+           </div>
+           
+         </div>
+         <div class="col-md-1""></div>
+         <div class="col-md-3" style="height: 150px; background-color: lightgreen;">
+            <h4>Total Salary this Month</h4>
+           <div class="col-md-5">
+             <h1>200k</h1>
+           </div>
+           <div class="col-md-7">
+          <p> <h5>Tea collection:</h5><h6>150k</h6></p>
+           <p><h5>Other:</h5><h6>50k</h6></p>
+           </div>
+         </div>
+         <div class="col-md-1"></div>
+         <div class="col-md-3" style="height: 150px; background-color: #cbcbcb;">
+            <h4>No of tools lost</h4>
+           <div class="col-md-4">
+             <h1>2</h1>
+           </div>
+           <div class="col-md-8">
+          <p> <h5>Cost</h5><h6>650</h6></p>
+           </div>
+         </div>
+         <div class="col-md-1"></div>
+       </div>
+       <div class="col-md-12">
             <div class="container col-md-6">
                 <canvas id="mychart"></canvas>
                 <h6 align="center">Total daily employee attendance </h6>
@@ -75,6 +119,13 @@ include ('php/query.php');
                 <canvas id="mypie"></canvas>
                 <h6 align="center">Total monthly payments</h6>
             </div> 
+         
+       </div>
+            <div class="col-md-12">
+                <canvas id="chartMy"></canvas>
+                <h6 align="center">Total monthly payments</h6>
+            </div> 
+
        <div class="col-md-12">
          <h3 align="center" class="breadcrumb">Employee Attendance</h3>
     <table class="table table-striped table-bordered table-hover" id="mytable4">
@@ -101,7 +152,7 @@ include ('php/query.php');
           <td><?php echo $row["dailyWage"]; ?></td>                   
           <td><?php echo $row["staff_id"]; ?></td>                      
           <td><?php
-             $em=$row["staff_id"];
+   $em=$row["staff_id"];
  $onePresenty="SELECT count(*) FROM `attendance` LEFT JOIN staff on staff.staff_id=attendance.staff_id WHERE attendance.present='yes' AND staff.staff_id=$em";
          $onePrey=$con->query($onePresenty);
            $rw=$onePrey->fetch_assoc();
@@ -130,7 +181,6 @@ include ('php/query.php');
 
       </tbody>            
     </table>
-
          
        </div>
    

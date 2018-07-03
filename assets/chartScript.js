@@ -3,17 +3,77 @@ $(function() {
     $("#more").hide();
     $("#payInfo").hide();
     $("#preTable").hide();
+    $("#code").hide();
     $('[data-toggle="tooltip"]').tooltip(); 
-    $('[data-toggle="popover"]').popover(); 
-//
-$('#button-a').click(function(){
+    $('[data-toggle="popover"]').popover();
+
+function fun1(){
+ swal({
+  position: 'top-end',
+  type: 'success',
+  title: 'Your work has been saved',
+  showConfirmButton: false,
+  timer: 1500
+});}
+
+function fun2(){
+    swal({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, delete it!'
+}).then((result) => {
+  if (result.value) {
+    swal(
+      'Deleted!',
+      'Your file has been deleted.',
+      'success'
+    )
+  }
+});}
+
+function fun3(){
+    swal({
+  title: "Are you sure?",
+  text: "Once deleted, you will not be able to recover this imaginary file!",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
+    swal("Poof! Your imaginary file has been deleted!", {
+      icon: "success",
+    });
+  } else {
+    swal("Your imaginary file is safe!");
+  }
+});}
+
+$("#phoneNo").on({
+    mouseleave: function(){
+    var bla = $('#phoneNo').val();
+        $('#inp[type=text]').val(bla);
+    }
+
+});
+
+    //Datepicker
+    $("#datepicker").datepicker({
+        autoclose:true,
+        todayHighlight:true
+    }).datepicker('update', new Date());
+//Sweetalert
+$('#btn').submit(function(){
       swal({
             title:"Confirmation",
             text:"Are You Sure?",
-            type: "input",
             button:{
                 showCancelButton: true,
-                closeOnConfirm: false,
+                closeOnConfirm: true,
                 confirm: "Submit"
             }
       }).then(val => {
@@ -27,6 +87,14 @@ $('#button-a').click(function(){
       });
 });
 
+
+
+ $("#sendCode").click(function(){
+        $("#code").show();
+    });
+ $("#sendCode").mouseleave(function(){
+        $("#code").hide();
+    });
  //More info on payments
      $(".show").click(function(){
         $('#view').hide();
@@ -94,7 +162,7 @@ $('#button-a').click(function(){
     },
     options: {}
 });
-  let mypie = document.getElementById('mypie').getContext('2d');
+  let mypie = document.getElementById('mypie');
   let massPoppie = new Chart(mypie, {
     type: 'pie', //bar,horicontalBar, pie,line ,doughnut, radar, polarArea
     data: {
@@ -124,27 +192,25 @@ $('#button-a').click(function(){
     },
     options: {}
 });
-  // Chart js implementation --------------------------------------------------------------------------------
-  let mybar = document.getElementById('mybar').getContext('2d');
-  let massPopBar = new Chart(mybar, {
-    type: 'bar', //bar,horicontalBar, pie,line ,doughnut, radar, polarArea
-    data: {
-        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-        datasets: [{
-            label: 'employee',
-            data: [
-            100,
-            180,
-            105,
-            45,
-            204,
-            163
+  //
+  //Graph and date from Db
+  $.ajax({
+    url: "http://localhost/work/stats.php",
+    type: "GET",
+    success: function(data){
+        var cost={
 
-            ],
-            backgroundColor: 'blue'
-        }]
+        };
+
+        var len=data.length;
+
+        for (var i=0; i<len; i++){
+            if(data[i].team=="TeamA"){}
+         }
+
     },
-    options: {}
-});
+    error: function(data){
+    }
+  });
 
 });

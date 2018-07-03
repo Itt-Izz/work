@@ -32,7 +32,13 @@ include ('php/query.php');
                 <a href="payment.php" id="payHist" class="list-group-item">
                   <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Payment</a>
                   <a href="register.php" id="regc2" class="list-group-item  mainNav">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Clerk </a>
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                           <?php 
+                           if($_SESSION['level']=='admin'){
+                          echo "Register Clerk";
+                           }else{
+                            echo "Add Employee";
+                           }?></a>
                       <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle list-group-item glyphicon glyphicon-user mainNav" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> Profile
                          <span class="caret"></span></button>
@@ -41,9 +47,10 @@ include ('php/query.php');
                           <li><a href="#"  id="acc2">Account Info</a></li>
                         </ul>
                       </div>
+                      <?php 
+                           if($_SESSION['level']=='admin'){?>
                       <a href="stats.php" id="st" class="list-group-item"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports </a>
-                      <a href="message.php" id="inbox" class="list-group-item">
-                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Messages </a>
+                          <?php }?>
                       </div>
 
                       <div class="well">
@@ -82,6 +89,7 @@ include ('php/query.php');
                         echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                     }    ?>
                 </h5>
+                <a href="register.php">Add New</a>
          </ol><br>
        <div id="view">
       <table class="table table-striped table-bordered table-hover" id="mytable3">
@@ -89,63 +97,76 @@ include ('php/query.php');
         <th>#</th>
         <th>Name</th>                   
         <th>age</th>                   
-        <th>Position</th>                   
-        <th>Sex</th>                   
+        <th>Gender</th>                   
         <th>Id No</th>                   
         <th>Phone No</th> 
-        <th>Details</th>
+        <th>Wage</th>
+        <th>Date Registered</th>
+        <th>Image</th>
       </tr>
     </thead>
     <tbody>
       <?php if ($employe->num_rows > 0) {
     // output data of each row
         $i=1;
-        while($row = $employe->fetch_assoc()) {
-         ?>  <tr>
+        while($row = $employe->fetch_assoc()) {?>
+          
+          <tr>
+            <form method="POST" action="staff.php">
           <td><?php echo $i; ?></td>
           <td><?php echo $row["fname"]; ?></td>                   
           <td><?php
             $date=date("Y");
              $age=$date-$row["year(birthday)"];
            echo $age; ?></td>                   
-          <td><?php echo $row["position"]; ?></td>                   
-          <td><?php echo $row["sex"]; ?></td>                   
+          <td><?php echo $row["sex"]; ?></td>                
           <td><?php echo $row["id_number"]; ?></td>                   
           <td><?php echo $row["phone_number"]; ?></td> 
-          <td>
-            <a href="#" class="show" name="view" data-toggle="tooltip" title="View more..!">&nbsp;&nbsp;&nbsp;&nbsp;View</a>&nbsp;&nbsp;
-            <!-- <button class="btn-danger btn-xs" name="remove" data-toggle="tooltip" title="Delete this employe...!"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button> -->
-          </td>                
+          <td><?php echo $row["dailyWage"]; ?></td>
+          <td><?php echo $row["date_registered"]; ?></td>
+          <td><?php echo "<img src='empImgs/".$row['image']."'class='img-circle' id='hdimg'>";?></td>
+           </form>               
           </tr><?php
           $i++; }
         } else {
           echo "0 results";
         }
         // $con->close();
-        ?> 
+        ?>
       </tbody>
       
     </table>
   </div>
       <div id="more">
+     <?php $staf=$_POST['staf'];?>
+
         <div class="col-md-4"></div>
-      <h4 class="col-md-6">Information about </h4> 
+      <h4 class="col-md-6">Information Isaac <?= "T".$staf.$_POST['fname'];?> </h4> 
+
       <button class="btn btn-info col-md-1 pull-right bac">Back<b style="color: black;"></b></button>       
     <table class="table">
     <thead>
+      <th>RegNo</th>
       <th>Name</th>
-      <th>Name</th>
-      <th>Name</th>
-      <th>Name</th>
-      <th>Name</th>
+      <th>ID No</th>
+      <th>Gender</th>
+      <th>Age</th>
+      <th>Date Registered</th>
+      <th>Phone No</th>
+      <th>Wage</th>
+      <th>Image</th>
     </thead>
     <tbody>
       <tr>
-        <td>try</td>
-        <td>try</td>
-        <td>try</td>
-        <td>try</td>
-        <td>try</td>
+        <td>No</td>
+        <td>jina</td>
+        <td>id</td>
+        <td>sex</td>
+        <td>age</td>
+        <td>date</td>
+        <td>4n No</td>
+        <td>mshandi</td>
+        <td>picha</td>
       </tr>
       
     </tbody>

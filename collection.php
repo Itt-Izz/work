@@ -83,9 +83,7 @@ include ('php/query.php');
                               $fourDaysBYesterday=date("Y-m-d", strtotime("-5 day"));
                               $fourDaysBY=date("D", strtotime("-5 day"));
                               $fiveDaysBYesterday=date("Y-m-d", strtotime("-6 day"));
-                              $fiveDaysBY=date("D", strtotime("-6 day"));
-
-                              ?>
+                              $fiveDaysBY=date("D", strtotime("-6 day"));  ?>
                             </div>
                           </ol>
                           <table class="table" id="mytable4">
@@ -107,7 +105,7 @@ include ('php/query.php');
 
                               while($row=$employ->fetch_array()){ ?>
                                 <tr>
-                                 <form method="POST" action="php/collect.php" id="collectForm">
+                                 <form method="POST" action="php/collect.php">
                                   <td><?php echo $row['staff_id']; ?></td>
                                   <td><?php echo $row['fname']; ?></td>
                                   <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
@@ -118,13 +116,14 @@ include ('php/query.php');
                                   <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
                                   <td><input type="" name=""class="form-control" placeholder="40" disabled></td>
                                   <td><input type="" name="" class="form-control" placeholder="80" disabled></td>
-                                  <td><input type="text" name="collect" class="form-control" placeholder="12.5"></td>
-                                  <td><button type="submit" name="submit" class="btn" id="col">Save</button></td>
+                                  <td><input  name="collect" class="form-control" minlength="2" maxlength="5" placeholder="12.5"type="number" required></td>
+                                  <td><button type="submit" name="submit" class="btn">Save</button></td>
                                 </form>
                               </tr>
                             <?php    }  ?>
                           </tbody>
                         </table>
+
                         <div class="col-md-5"></div>
                         <div class="col-md-5"></div>
                       </div>

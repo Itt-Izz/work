@@ -29,6 +29,7 @@
 
          $empAll="SELECT * FROM staff";
          $empA = $con->query($empAll);
+         $allEmpRow=$empA->fetch_assoc();
 
         
          $sl="SELECT image FROM staff where staff_id='$staff_id'";
@@ -66,6 +67,11 @@
 //All collections
               $collection="SELECT * FROM collection LEFT JOIN staff ON staff.staff_id=collection.staff_id";
               $col=$con->query($collection);
+              $collectW="SELECT sum(weight) as weight FROM collection LEFT JOIN staff ON staff.staff_id=collection.staff_id";
+              $sumWeight=$con->query($collectW);
+
+//chart
+              
 
 
 

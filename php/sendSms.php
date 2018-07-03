@@ -2,13 +2,13 @@
 // Be sure to include the file you've just downloaded
 require_once('AfricasTalkingGateway.php');
 // Specify your authentication credentials
-$username   = "MyAppUsername";
-$apikey     = "MyAppAPIKey";
+$username   = "employees";
+$apikey     = "220f4868d095452b9c0d930cd20f68abce855dff5f13fe00b948f36db942a0da";
 // Specify the numbers that you want to send to in a comma-separated list
 // Please ensure you include the country code (+254 for Kenya in this case)
-$recipients = "+254711XXXYYY,+254733YYYZZZ";
+$recipients = "+254710662656";
 // And of course we want our recipients to know what we really do
-$message    = "I'm a lumberjack and its ok, I sleep all night and I work all day";
+$message    = "LTC-127";
 // Create a new instance of our awesome gateway class
 $gateway    = new AfricasTalkingGateway($username, $apikey);
 /*************************************************************************************
@@ -35,7 +35,7 @@ try
     echo " Cost: "   .$result->cost."\n";
   }
 }
-catch ( AfricasTalkingGatewayException $e )
+catch ( AfricasTalkingGatewayException $e ) 
 {
   echo "Encountered an error while sending: ".$e->getMessage();
 }

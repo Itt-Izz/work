@@ -110,7 +110,7 @@ include ('php/query.php');
                                     <?php } ?>
                                   </select>
                                 </td>
-                                <td><button type="submit" class="btn" name="submit" value="save" style="color: green;">Save</button></td>
+                                <td><button type="submit" clas="btn" name="submit" value="save" style="color: green;">Save</button></td>
                                </form>
                               </tr>
                             <?php    }  ?>

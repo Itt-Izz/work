@@ -67,7 +67,6 @@ include ('php/query.php');
                         <div id="scrolTable">
                           <div id="pay">
                           <ol class="breadcrumb">
-                           <button class="btn btn-default pull-right form-groups" style="margin-left: 20px;">Print</button>
 
                            <button class="btn btn-info pull-right" data-target="#var" data-toggle="modal" href="">Change Tool cost</button>   
                           </ol>
@@ -84,6 +83,7 @@ include ('php/query.php');
                              </div>
                              <div class="panel-body">
 <!-- -----------------------Casual labourers-------------------------------------------------------- -->
+                           <button class="btn btn-default pull-right form-groups" style="margin-left: 20px;">Print</button> 
                               <table class="table table-striped table-hover">
                                 <thead>
                                  <tr>
@@ -96,7 +96,6 @@ include ('php/query.php');
                                   <th>Lost Tool</th>
                                   <th>Total Deduction</th>
                                   <th>Total Wage</th>
-                                  <th>Details</th> 
 
                                 </tr>
                               </thead>
@@ -120,8 +119,7 @@ include ('php/query.php');
                                   echo $rw['count(*)']; ?> </td> 
                                   <td><?php echo $row['returned_tool'] ;?> </td> 
                                   <td><?php echo $r['sum(deduction)']; ?> </td> 
-                                  <td><?php echo $r['sum(amt)']; ?></td>                             
-                                  <td><a href="#" class="show">Show More</a></td>                             
+                                  <td><?php echo $r['sum(amt)']; ?></td>                                      
                                   </tr><?php
                                   $i++; }
                                 } else {
@@ -153,16 +151,16 @@ include ('php/query.php');
                               <th>RegNo</th>
                               <th>Collection(Kgs)</th> 
                               <th>Rate</th>
-                              <th>Amount(Ksh)</th>
-                              <th>Details</th> 
+                              <th>Amount(Ksh)</th> 
 
                             </tr>
                           </thead>
                           <tbody>
                            <?php if ($col->num_rows > 0) {
-    // output data of each row
+                                // output data of each row
                             $i=1;
-                            while($row = $col->fetch_assoc()) {
+                            $row = $col->fetch_assoc();
+                            while($row) {
                              ?>  <tr>
                               <td><?php echo $i; ?></td>
                               <td><?php echo $row["fname"]; ?></td>                        
@@ -172,11 +170,23 @@ include ('php/query.php');
                               <td><?php echo $row['rate']; ?> </td> 
                               <td><?php 
                               $amt=$row["weight"]*$row['rate'];
-                              echo $amt;?> </td>                              
-                              <td><a href="#" class="show">Show More</a></td>                             
+                              echo $amt;?> </td>                                                         
                               </tr><?php
-                              $i++; }
-                            } else {
+                              $i++; }?>
+                              <tr>
+                              <td></td>
+                              <td></td>                        
+                              <td></td>                   
+                              <td><?php 
+                              $r = $sumWeight->fetch_assoc();
+                              echo $r['weight'];?></td> 
+
+                              <td> </td> 
+                              <td><?php 
+                             $tt=$r['weight']*$row['rate'];
+                              echo $tt;?> </td>                                                         
+                              </tr>
+                         <?php   } else {
                               echo "0 results";
                             }
                             ?> 
@@ -187,53 +197,8 @@ include ('php/query.php');
                     </div>
                   </div>
                 </div>
-
               </div>
 
-<form id="register-form">
-  <div class="form-group  col-md-12">
-    <input class="form-control" type="text" name="email" placeholder="Email address">
-  </div><br>
-  <div class="form-group  col-md-6">
-    <input  class="form-control" type="text" name="firstName" placeholder="First Name">
-  </div><br>
-  <div class="form-group  col-md-6">
-    <input  class="form-control" type="text" name="lastName" placeholder="Last name">
-  </div><br>
-  <div class="form-group col-md-6">
-    <input  class="form-control" type="password" id="password" name="password" placeholder="Enter Password">
-  </div><br>
-  <div class="form-group  col-md-6">
-    <input class="form-control" type="password" name="password2" placeholder="Re-Enter password">
-  </div><br>
-  <input align="center" class="btn btn-info" id="submit-button" type="submit" value="Sign In">
-</form>
-
-
-
-
-
-              </div>
-              <div id="payInfo">
-      <button class="btn btn-info col-md-1 pull-right bac">Back<b style="color: black;"></b></button>
-                <table class="table">
-                  <thead>
-                     <th>MyPay</th>
-                  <th>MyPay</th>
-                  <th>MyPay</th>
-                  <th>MyPay</th>
-                  </thead>
-                  <tbody>
-                     <tr>
-                    <td>Ksh. 920,000</td>
-                    <td>Ksh. 920,000</td>
-                    <td>Ksh. 2M</td>
-                    <td>Ksh. 920,000</td>
-                  </tr>
-                  </tbody>
-                 
-                 
-                </table>
               </div>
             </div>
           </div>

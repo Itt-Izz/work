@@ -45,8 +45,6 @@
                 </div>
                 </fieldset>
                 </form>
-<a class="fix-me button" data-target="#feed" data-toggle="modal" href="">Feedback <span class="glyphicon glyphicon-comment"></span></a>    
-<?php include 'inc/feed.php'; ?>
 <?php include 'inc/footer.php'; ?>
     <script src="assets/jquery-3.2.1.min.js"></script> 
     <script src="assets/script.js"></script>     

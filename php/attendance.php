@@ -34,7 +34,21 @@ $con->query("INSERT INTO `attendance`(`id`, `date`, `staff_id`, `present`, `t_id
 }else {  ?>
     <div class="container">
       <div class="alert alert-warning" align="center" style="margin-top: 300px; color: red; ">
-       <h3> <strong>Ooops!!</strong> Employee Already marked</h3>
+ 
+      <?php 
+         
+
+$yourJS = '<script >
+                window.onload = dothis();
+                function dothis(){
+                    fun1();
+                    //Replace the above code with anything you want.Just make sure you escape any single quotes
+                }
+           </script>';
+echo $yourJS;
+
+          //header('Location: ../home.php');
+          ?>      
      </div>
    </div>
    <?php

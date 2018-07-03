@@ -7,6 +7,7 @@
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/style.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="assets/css/dataTables.responsive.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/materialdesignicons.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/sweetalert.css">
 	<link rel="stylesheet" type="text/css" href="assets/bootstrap-datepicker.min.css">

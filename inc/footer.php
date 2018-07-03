@@ -12,23 +12,54 @@
     <script src="assets/Chart.min.js"></script>
     <script src="assets/chartScript.js"></script>
 	<script src="assets/validation.js"></script>
+
     <script type="text/javascript">
-          $(document).ready(function(){
-            alert("message?: DOMString")
-          $('#collectForm').validate({
-            rules:{
-              collect:{
-                required:true,
-                minlength: 4
-              }
-            },
-            message:{
+      var data=<?= json_encode($data)?>;
+      var tool={
+        nam:[],
+        cost:[]
+      };
+      var len=data.length;
 
-            }
-          });
+      for (var i=0; i<len; i++){
+        // console.log(data[i]);
+              tool.nam.push(data[i].namba);
+            
+              tool.cost.push(data[i].cost);
+      }
+      console.log(tool);
 
-          });
-        </script>
+      var ctx= document.getElementById("chartMy").getContext('2d');
+
+      var data={
+        labels : ["1st","sec","3rd","4th","5th"],
+        datasets:[
+        {
+            label: "Cost of tools",
+            data: tool.cost,
+            backgroundColor: "green",
+            borderColor: "lightgreen",
+            fill: false,
+            lineTension: 0,
+            pointRadius:5
+        },
+        {
+            label: "Number of tools",
+            data: tool.nam,
+            backgroundColor: "blue",
+            borderColor: "lightblue",
+            fill: false,
+            lineTension: 0,
+            pointRadius:5
+        }
+        ]
+      }
+      var chart=new Chart(ctx, {
+        type:"line",
+        data:data,
+        option: {}
+      });
+    </script>
      <?php include 'feed.php';?>
       <?php include 'adjustVar.php';?>
 <footer id="footer">
