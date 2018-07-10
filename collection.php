@@ -104,20 +104,19 @@ include ('php/query.php');
 
 
                               while($row=$employ->fetch_array()){ ?>
-                                <tr>
-                                 <form method="POST" action="php/collect.php">
+                                <tr class="rw">
+                                 <form method="POST">
                                   <td><?php echo $row['staff_id']; ?></td>
                                   <td><?php echo $row['fname']; ?></td>
                                   <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
                                   <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
                                   <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
-                                  <input type="hidden" name="staf" value="<?= $row['staff_id']?>">
-                                  <input type="hidden" name="nam" value="<?= $row['fname']?>">
+                                  <input type="hidden" name="staf" class="staf" value="<?= $row['staff_id']?>">
                                   <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
                                   <td><input type="" name=""class="form-control" placeholder="40" disabled></td>
                                   <td><input type="" name="" class="form-control" placeholder="80" disabled></td>
-                                  <td><input  name="collect" class="form-control" minlength="2" maxlength="5" placeholder="12.5"type="number" required></td>
-                                  <td><button type="submit" name="submit" class="btn">Save</button></td>
+                                  <td><input  name="collect" class="form-control tea_collect" minlength="2" maxlength="5" placeholder="12.5" type="number" required></td>
+                                  <td><input type="button" name="btb-sen"class="col_save" value="Save"></td>
                                 </form>
                               </tr>
                             <?php    }  ?>
@@ -134,6 +133,25 @@ include ('php/query.php');
             </div>
           </div>
         </section>
+
+ <!-- Modal -->
+  <div class="modal fade" id="showMod" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div id="showMess"></div>
+        </div>
+      </div>
+    </div>
+  </div> 
+
+
+
         
       </body>
       <?php include 'inc/footer.php';  ?>

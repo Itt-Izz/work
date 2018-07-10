@@ -93,7 +93,8 @@ include ('php/query.php');
                                   <th>RegNo</th>
                                   <th>Wage/day</th>
                                   <th>Days Present</th>  
-                                  <th>Lost Tool</th>
+                                  <th>Tool</th>
+                                  <th>Cost</th>
                                   <th>Total Deduction</th>
                                   <th>Total Wage</th>
 
@@ -112,14 +113,21 @@ include ('php/query.php');
 
                                   <td><?php
                                   $em=$row["staff_id"];
+                                  //count number of days attended
                                   $onePrey=$con->query("SELECT count(*) FROM `attendance` WHERE attendance.present='yes' AND staff_id=$em");
                                   $rw=$onePrey->fetch_assoc();
+                                 //total pay
                                   $de=$con->query("SELECT sum(amt),sum(deduction),sum(bal) FROM pay RIGHT JOIN pay_staff ON pay.p_id=pay_staff.p_id WHERE pay_staff.staff_id=$em");
                                   $r=$de->fetch_assoc();
+                                  //Non retured tools and total cost
+                                  $tol=$con->query("SELECT * FROM tools LEFT JOIN attendance ON attendance.t_id=tools.t_id WHERE attendance.staff_id=$em AND attendance.returned_tool='No'");
+                                  $rws=$tol->fetch_assoc();
+                                
                                   echo $rw['count(*)']; ?> </td> 
-                                  <td><?php echo $row['returned_tool'] ;?> </td> 
+                                  <td><?php echo $rws['name'] ;?> </td> 
+                                  <td><?php echo $rws['cost'] ;?> </td> 
                                   <td><?php echo $r['sum(deduction)']; ?> </td> 
-                                  <td><?php echo $r['sum(amt)']; ?></td>                                      
+                                  <td><?php echo $r['sum(amt)']; ?></td>                       
                                   </tr><?php
                                   $i++; }
                                 } else {

@@ -7,6 +7,36 @@ $(function() {
     $('[data-toggle="tooltip"]').tooltip(); 
     $('[data-toggle="popover"]').popover();
 
+
+  //Try ajax method
+  $('.col_save').click(function(){
+    var row=$(this).closest('tr')
+    var save=row.find('.tea_collect').val();
+    var staf=row.find('.staf').val();
+    if($.trim(save) != ''){//trim---remove spaces
+      $.ajax({
+        url:"php/collect.php",
+        method:"POST",
+        data: {collect:save, staff:staf},
+        success: function(response){
+          console.log(typeof response)
+         // $("#showMess").html(tea);
+         //  $('#showMod').modal();
+          swal("Status", response.message);
+        }, 
+        fail: function(err){
+          swal({
+            title:"Failed",
+            text:"There was an Error when saving this entry",
+            type:"warning"});
+        }
+      });
+    }else {
+       swal('Oops','Todays value Can not be Empty','error');
+      // alert("Empty feeds");
+    }
+  });
+
 function fun1(){
  swal({
   position: 'top-end',
@@ -162,6 +192,9 @@ $('#btn').submit(function(){
     },
     options: {}
 });
+
+
+  //pie chart
   let mypie = document.getElementById('mypie');
   let massPoppie = new Chart(mypie, {
     type: 'pie', //bar,horicontalBar, pie,line ,doughnut, radar, polarArea
@@ -212,5 +245,6 @@ $('#btn').submit(function(){
     error: function(data){
     }
   });
+
 
 });

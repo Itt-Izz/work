@@ -26,7 +26,8 @@ $con->query("INSERT INTO `attendance`(`id`, `date`, `staff_id`, `present`, `t_id
 }else {?>
   <div class="container" S>
     <div class="alert alert-info" align="center" style="margin-top: 300px; color: blue; ">
-     <h3> <strong>Stop!</strong><br> Please try checking as present before sending  </h3>
+    <script type="text/javascript"> alert("Please try checking as present before sending !!");</script>
+     <!-- <h3> <strong>Stop!</strong><br> Please try checking as present before sending  </h3> -->
    </div>
  </div>
     <?php }
