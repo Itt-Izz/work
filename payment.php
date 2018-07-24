@@ -83,8 +83,8 @@ include ('php/query.php');
                              </div>
                              <div class="panel-body">
 <!-- -----------------------Casual labourers-------------------------------------------------------- -->
-                           <button class="btn btn-default pull-right form-groups" style="margin-left: 20px;">Print</button> 
-                              <table class="table table-striped table-hover">
+                           <button class="btn btn-default pull-right form-groups" id="printPay" style="margin-left: 20px;">Print</button> 
+                              <table class="table table-striped table-hover pay">
                                 <thead>
                                  <tr>
                                   <?php ?>
@@ -94,46 +94,38 @@ include ('php/query.php');
                                   <th>Wage/day</th>
                                   <th>Days Present</th>  
                                   <th>Tool</th>
-                                  <th>Cost</th>
                                   <th>Total Deduction</th>
                                   <th>Total Wage</th>
 
                                 </tr>
                               </thead>
                               <tbody>
-                               <?php if ($present->num_rows > 0) {
+                               <?php if ($pay->num_rows > 0) {
     // output data of each row
                                 $i=1;
-                                while($row = $present->fetch_assoc()) {
+                                while($row = $pay->fetch_assoc()) {
+                                   $r="SELECT count(attendance.staff_id) as days FROM attendance where staff_id=".$row['staff_id']."";
+                                   $day=$con->query($r);
+                                   $days=$day->fetch_assoc();
+                                   if ($days['days']>0) {
                                  ?>  <tr>
                                   <td><?php echo $i; ?></td>
                                   <td><?php echo $row["fname"]; ?></td>                        
                                   <td><?php echo $row["staff_id"]; ?></td>                   
                                   <td><?php echo $row["dailyWage"]; ?></td> 
-
-                                  <td><?php
-                                  $em=$row["staff_id"];
-                                  //count number of days attended
-                                  $onePrey=$con->query("SELECT count(*) FROM `attendance` WHERE attendance.present='yes' AND staff_id=$em");
-                                  $rw=$onePrey->fetch_assoc();
-                                 //total pay
-                                  $de=$con->query("SELECT sum(amt),sum(deduction),sum(bal) FROM pay RIGHT JOIN pay_staff ON pay.p_id=pay_staff.p_id WHERE pay_staff.staff_id=$em");
-                                  $r=$de->fetch_assoc();
-                                  //Non retured tools and total cost
-                                  $tol=$con->query("SELECT * FROM tools LEFT JOIN attendance ON attendance.t_id=tools.t_id WHERE attendance.staff_id=$em AND attendance.returned_tool='No'");
-                                  $rws=$tol->fetch_assoc();
-                                
-                                  echo $rw['count(*)']; ?> </td> 
-                                  <td><?php echo $rws['name'] ;?> </td> 
-                                  <td><?php echo $rws['cost'] ;?> </td> 
-                                  <td><?php echo $r['sum(deduction)']; ?> </td> 
-                                  <td><?php echo $r['sum(amt)']; ?></td>                       
+                                  
+                                  <td><?php                                
+                                  echo $days['days'];?> </td> 
+                                  <td><?php echo $row["name"] ;?> </td> 
+                                  <td><?php echo $row['cost']; ?> </td> 
+                                  <td><?php echo "2300"; ?></td>                       
                                   </tr><?php
+}
                                   $i++; }
+                                
                                 } else {
                                   echo "0 results";
                                 } 
-                                $con->close();
                                 ?> 
                               </tbody>
                             </table>
@@ -167,17 +159,15 @@ include ('php/query.php');
                            <?php if ($col->num_rows > 0) {
                                 // output data of each row
                             $i=1;
-                            $row = $col->fetch_assoc();
-                            while($row) {
+                            while($rows= $col->fetch_assoc()) {
                              ?>  <tr>
                               <td><?php echo $i; ?></td>
-                              <td><?php echo $row["fname"]; ?></td>                        
-                              <td><?php echo $row["staff_id"]; ?></td>                   
-                              <td><?php echo $row["weight"]; ?></td> 
-
-                              <td><?php echo $row['rate']; ?> </td> 
+                              <td><?php echo $rows["fname"]; ?></td>                        
+                              <td><?php echo $rows["staff_id"]; ?></td>                   
+                              <td><?php echo $rows["weight"]; ?></td> 
+                              <td><?php echo $rows['rate']; ?> </td> 
                               <td><?php 
-                              $amt=$row["weight"]*$row['rate'];
+                              $amt=$rows["weight"]*$rows['rate'];
                               echo $amt;?> </td>                                                         
                               </tr><?php
                               $i++; }?>
@@ -186,12 +176,12 @@ include ('php/query.php');
                               <td></td>                        
                               <td></td>                   
                               <td><?php 
-                              $r = $sumWeight->fetch_assoc();
-                              echo $r['weight'];?></td> 
+                              $r=50;
+                              echo $r;?></td> 
 
                               <td> </td> 
                               <td><?php 
-                             $tt=$r['weight']*$row['rate'];
+                             $tt=$r*$row['rate'];
                               echo $tt;?> </td>                                                         
                               </tr>
                          <?php   } else {
@@ -216,5 +206,6 @@ include ('php/query.php');
   </div>
 </section>
 </body>
+
 <?php include 'inc/footer.php';  ?>
 </html>

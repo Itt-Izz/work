@@ -9,11 +9,9 @@ include ('php/query.php');
 ?>
 <!doctype html>
 <html lang="en">
-
 <head>
     <?php include 'inc/head.php'; ?>                   
 </head>
-
 <body>
     <?php include 'inc/header.php'; ?>
     <section id="main">
@@ -44,7 +42,6 @@ include ('php/query.php');
                       <a href="message.php" id="inbox" class="list-group-item">
                         <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Messages </a>
                       </div>
-
                       <div class="well">
                         <ul class="list-group">
                           <br> <span class="glyphicon glyphicon-flag"></span> <a href="stats.php">System Update</a><br><br>
@@ -73,7 +70,8 @@ include ('php/query.php');
          $data[]=$row;
        }
 //Print in json
-       print json_encode($data); ?>
+       // print json_encode($data);
+        ?>
 
        <div class="col-md-12">
          <div class="col-md-3" style="height: 150px; background-color: lightgrey;">
@@ -119,13 +117,11 @@ include ('php/query.php');
                 <canvas id="mypie"></canvas>
                 <h6 align="center">Total monthly payments</h6>
             </div> 
-         
        </div>
             <div class="col-md-12">
                 <canvas id="chartMy"></canvas>
                 <h6 align="center">Total monthly payments</h6>
             </div> 
-
        <div class="col-md-12">
          <h3 align="center" class="breadcrumb">Employee Attendance</h3>
     <table class="table table-striped table-bordered table-hover" id="mytable4">
@@ -141,7 +137,6 @@ include ('php/query.php');
     </thead>
     <tbody>
       <?php if ($present->num_rows > 0) {
-
     // output data of each row
         $i=1;
         while($row = $present->fetch_assoc()) {
@@ -163,27 +158,16 @@ include ('php/query.php');
                      echo $am;
             ?>                
           </tr><?php
-          $i++; }
+          $i++;
+           }
         } else {
           echo "0 results";
         }
         $con->close();
         ?> 
-
-<!--
- SELECT staff.fname, staff.staff_id , staff.sex, attendance.date tools.name FROM staff LEFT JOIN attendance ON attendance.staff_id=staff.staff_id INNER JOIN tools ON attendance.t_id =tools.t_id
-         -->
-
-
-
-<!-- Payment Computation per ID with total amount, deduction and balance
-  SELECT pay.p_id, pay.pay_date, SUM(amt) as Total, SUM(deduction) as Deduction, SUM(bal) AS Balance FROM pay_staff INNER JOIN pay WHERE pay.p_id=pay_staff.p_id -->
-
       </tbody>            
     </table>
-         
        </div>
-   
     </div>
                </div>                                                 
             </div>
@@ -217,13 +201,10 @@ include ('php/query.php');
       for (var i=0; i<len; i++){
         // console.log(data[i]);
               tool.nam.push(data[i].namba);
-            
               tool.cost.push(data[i].cost);
       }
-      console.log(tool);
-
+      // console.log(tool);
       var ctx= document.getElementById("chartMy").getContext('2d');
-
       var dataset={
         labels : ["1st","sec","3rd","4th","5th"],
         datasets:[
@@ -244,7 +225,6 @@ include ('php/query.php');
         }
         ]
       };
-
       var options = {
         title:{
             display : true,
@@ -258,7 +238,7 @@ include ('php/query.php');
             position: "bottom"
         }
       };
-      console.log(data);
+      // console.log(data);
       var chart=new Chart(ctx, {
         type:"line",
         data:dataset,

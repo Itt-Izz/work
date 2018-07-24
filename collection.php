@@ -105,19 +105,20 @@ include ('php/query.php');
 
                               while($row=$employ->fetch_array()){ ?>
                                 <tr class="rw">
-                                 <form method="POST">
+                                 
                                   <td><?php echo $row['staff_id']; ?></td>
                                   <td><?php echo $row['fname']; ?></td>
                                   <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
                                   <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
                                   <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
-                                  <input type="hidden" name="staf" class="staf" value="<?= $row['staff_id']?>">
+                                  <input type="hidden" class="staf" value="<?= $row['staff_id']?>">
                                   <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
                                   <td><input type="" name=""class="form-control" placeholder="40" disabled></td>
                                   <td><input type="" name="" class="form-control" placeholder="80" disabled></td>
-                                  <td><input  name="collect" class="form-control tea_collect" minlength="2" maxlength="5" placeholder="12.5" type="number" required></td>
-                                  <td><input type="button" name="btb-sen"class="col_save" value="Save"></td>
-                                </form>
+                                  <td><input class="form-control tea_collect" placeholder="12.5" type="number" required></td>
+                                  <td>
+                                    <input type="button" name="collectT"class="form-control col_save" value="Save">
+                                  </td>
                               </tr>
                             <?php    }  ?>
                           </tbody>

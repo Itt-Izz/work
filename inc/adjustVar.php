@@ -10,37 +10,25 @@
       </div>
       <div class="modal-body">
             <table class="table table-condensed" id="tabl">
-                          <tr>
-                               <td >Jembe</td>
-                                <td ><div class="form-group">
-                  <input type="text" class="form-control"name="housing" id="housing" /></div>
-                                                          </td>
-                                                      </tr>
-                                                      <tr>
-                                                          <td>Panga</td>
-                                                          <td><div class="form-group">
-                  <input type="text" class="form-control"name="transport" id="transport" /></div> </td>
-                                                      </tr>
-                                                      <tr>
-                                                          <td>Sickel</td>
-                                                          <td><div class="form-group">
-                  <input type="text" class="form-control"name="enter" id="enter" /></div></td>
-                                                      </tr>
-                                                      <tr>
-                                                          <td>Mattock</td>
-                                                          <td><div class="form-group">
-                  <input type="text" class="form-control"name="serv" id="serv" /></div></td>
-                                                      </tr>
-                                                      <tr>
-                                                          <td>Spade</td>
-                                                          <td><div class="form-group">
-                  <input type="text" class="form-control"name="tax" id="tax" /></div></td>
-                                                      </tr>
+              <form method="POST">  <?php 
+                  if ($rw->num_rows > 0) {
+                     $i=1;
+                  while($rw){ ?>
+                   <tr>
+                  <td> <?php echo $rw['name']; ?></td>
+                     <input type="hidden" class="tname" value="<?= $rw['name']?>">
+                  <td><div class="form-group"><input type="number"class="tool"></div></td>
+                  <td><input class="btn btn-success updateCost" value="Update"></td>
+               </tr> <?php
+               echo $rw['name']; $i++;  } 
+             } else{
+                  echo "No tools to show";
+                } ?>
+                    </form>
           </table>
       </div>
       <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-success" type="submit" name="submit" id="submit" value="Submit" onclick="proceed()">Save changes</button>
       </div>
     </form>
     </div>

@@ -16,14 +16,16 @@
             <?php 
             if(isset($_SESSION['username'])){ ?>      
             <li> <a href="account.php" id="nam2" > Hi <span id="nam"><?php echo $_SESSION['username']; ?></span></a></li>
-          <li><a href="message.php" id="mes"> New Messages: 
+          <li><div><a href="message.php"><img src='img/notification.png' class="img-circle" id='hdimg'> 
            <?php           
               if ($row = $mesNo->fetch_array()) {
                 if($row['count(*)']>0){ ?>
-                  <span class="badge"><?php echo $row['count(*)']; ?></span>
+                  <span class="notify-badge"><?php echo $row['count(*)']; ?></span>
             <?php }else
              echo "0"; }    ?>
-           </a> </li>   
+           </a> 
+            
+          </div></li>   
            <li> 
                 <div class="dropdown">
                    <a href="#" class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> 

@@ -111,10 +111,10 @@ include ('php/query.php');
         $i=1;
         while($row = $employe->fetch_assoc()) {?>
           
-          <tr>
+          <tr class="employeeDetails">
             <form method="POST" action="staff.php">
           <td><?php echo $i; ?></td>
-          <td><?php echo $row["fname"]; ?></td>                   
+          <td><?php echo $row["fname"]; ?></td> 
           <td><?php
             $date=date("Y");
              $age=$date-$row["year(birthday)"];
@@ -125,51 +125,14 @@ include ('php/query.php');
           <td><?php echo $row["dailyWage"]; ?></td>
           <td><?php echo $row["date_registered"]; ?></td>
           <td><?php echo "<img src='empImgs/".$row['image']."'class='img-circle' id='hdimg'>";?></td>
-           </form>               
+           </form> 
+              <input type="hidden" class="fname" value="<?= $row['fname']?>"                                
           </tr><?php
           $i++; }
         } else {
           echo "0 results";
-        }
-        // $con->close();
-        ?>
+        }  ?>
       </tbody>
-      
-    </table>
-  </div>
-      <div id="more">
-     <?php $staf=$_POST['staf'];?>
-
-        <div class="col-md-4"></div>
-      <h4 class="col-md-6">Information Isaac <?= "T".$staf.$_POST['fname'];?> </h4> 
-
-      <button class="btn btn-info col-md-1 pull-right bac">Back<b style="color: black;"></b></button>       
-    <table class="table">
-    <thead>
-      <th>RegNo</th>
-      <th>Name</th>
-      <th>ID No</th>
-      <th>Gender</th>
-      <th>Age</th>
-      <th>Date Registered</th>
-      <th>Phone No</th>
-      <th>Wage</th>
-      <th>Image</th>
-    </thead>
-    <tbody>
-      <tr>
-        <td>No</td>
-        <td>jina</td>
-        <td>id</td>
-        <td>sex</td>
-        <td>age</td>
-        <td>date</td>
-        <td>4n No</td>
-        <td>mshandi</td>
-        <td>picha</td>
-      </tr>
-      
-    </tbody>
     </table>
   </div>
   </div>
@@ -182,5 +145,5 @@ include ('php/query.php');
               </section>
      
             </body>
-            <?php include 'inc/footer.php';  ?>
-            </html>
+            <?php include 'inc/footer.php'; ?>
+        </html>

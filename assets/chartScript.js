@@ -8,7 +8,7 @@ $(function() {
     $('[data-toggle="popover"]').popover();
 
 
-  //Try ajax method
+  //Ajaxalert collections
   $('.col_save').click(function(){
     var row=$(this).closest('tr')
     var save=row.find('.tea_collect').val();
@@ -18,24 +18,100 @@ $(function() {
         url:"php/collect.php",
         method:"POST",
         data: {collect:save, staff:staf},
-        success: function(response){
-          console.log(typeof response)
-         // $("#showMess").html(tea);
-         //  $('#showMod').modal();
-          swal("Status", response.message);
-        }, 
-        fail: function(err){
-          swal({
-            title:"Failed",
-            text:"There was an Error when saving this entry",
-            type:"warning"});
+        success: function(responses){
+          if(responses !== null){
+            if(responses==1){
+              swal('Success',"Collection saved Successfully ",'success');
+            }else if (responses==2) {
+              swal('Aborted',"Unable to save that collection",'danger');
+              
+            }else{
+       swal('Oooooooooops','Employee Collection already taken!','error');
+            }
+          } else{
+              swal('Aborted',"Unable to save that collection",'danger');
         }
+      }
       });
     }else {
-       swal('Oops','Todays value Can not be Empty','error');
-      // alert("Empty feeds");
-    }
+         $(this).closest('tr').find('.tea_collect').css('border-color', 'red');
+      }
   });
+  //Ajaxalert Attendance
+  $('.btnS').click(function(){
+    var row=$(this).closest('tr')
+    var tool=row.find('.tool').val();
+    var staff=row.find('.staff').val();
+    if(row.find('.check').is(':checked')){
+      $.ajax({
+        url:"php/attendance.php",
+        method:"POST",
+        data: {staff:staff, tool: tool},
+        success: function(resp){
+          if(resp !==null){
+            if(resp==1){
+              swal('Success','Employee Saved Successfully!','success');
+            }else {
+              swal('Aborted','Employee already marked as present','error');
+            }          
+        } else {
+          swal('Error','An Error occured while saving','danger');
+        }
+          }
+      });
+    }else{
+              swal('Aborted','Check as present before saving','error');
+        }
+    });
+//Update tools cost
+  $('.updateCost').click(function(){
+    var row=$(this).closest('tr')
+    var tool=row.find('.tool').val();
+    var tname=row.find('.tname').val();
+    console.log(tool);
+    console.log(tname);
+    if($.trim(tool) != ''){
+      $.ajax({
+        url:"php/updateTools.php",
+        method:"POST",
+        data: {tool: tool, tname: tname},
+        success: function(resp){
+          console.log(resp);
+          if(resp !==null){
+            if(resp==1){
+              swal('Success','Update Successful!','success');
+            }else {
+              swal('Aborted','Something wennt wrong','error');
+            }          
+        } else {
+          swal('Error','An Error occured while saving','danger');
+        }
+          }
+      });
+    }else{
+         $(this).closest('tr').find('.tool').css('border-color', 'red');
+        }
+    });
+
+
+   //Show each employees info 
+  $('.employeeDetails').click(function(){
+    var row=$(this).closest('tr')
+    var emp=row.find('.fname').val();
+              swal('Yah', emp+' Selected','success');
+    });
+
+
+$('#printPay').click(function(){
+  alert('Its ok');
+   // $('.pay').DataTable( {
+   //      dom: 'Bfrtip',
+   //      buttons: [
+   //          'print'
+   //      ]
+    // } );
+    });
+
 
 function fun1(){
  swal({
@@ -164,8 +240,10 @@ $('#btn').submit(function(){
   $('#mytable2').dataTable({
     responsive: true
 })
-  $('#mytable3').dataTable({
-    responsive: true
+  $('#mytable3').DataTable({
+    // responsive: true,
+     dom: 'lBfrtip',
+        buttons: ['pageLength','copy', 'pdf', 'csv', 'excel' ]
 })
   $('#mytable4').dataTable({
     responsive: true

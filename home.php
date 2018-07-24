@@ -87,30 +87,30 @@ include ('php/query.php');
                             <tbody>
 
                               <?php 
-                              while($row=$employ->fetch_array()){
-                                // $staff=$row['staff_id']; ?>
+                              while($row=$employ->fetch_array()){ ?>
                                 <tr>
-                          <form method="POST" action="php/attendance.php" id="<?php echo 'form-'. $row['staff_id'];?>">
+                          <form method="POST">
                                   <td><?php echo $row['staff_id']; ?></td>
                                   <td><?php echo $row['fname']; ?></td>
                                   <td><?php echo $row['username']; ?></td>
                                   <td><?php echo $row['sex']; ?></td>
                                   <td>
                                     <div class="checkbox">
-                                  <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" value="Yes" style="height: 25px;width: 25px;" name="pre"></label>
+       <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" class="check" value="yes" style="height: 25px;width: 25px;"></label>
                                     </div>
-                                       <input type="hidden" name="staf" value="<?= $row['staff_id']?>">
-                                       <input type="hidden" name="nam" value="<?= $row['fname']?>">
                                   </td>
+                                       <input type="hidden" class="staff" value="<?= $row['staff_id']?>">
                                   <td>
-                                    <select  name="tool"  class="form-control">
-                                      <option value=" ">Select tool</option>
-                                     <?php  for($i=0;$i<=count($rw[0]);$i++) { ?>
-                                      <option  value="<?php   echo $rw[$i][0]; ?>"> <?php   echo $rw[$i][1]; ?></option>
+                                    <select  name="tool"  class="form-control tool">
+                                      <option value="">Select tool</option>
+                                     <?php
+                                     for($i=0;$i<=count($rw[0]);$i++) { ?>
+                                      <option value="<?php echo $rw[$i][0]; ?>"> <?php   echo $rw[$i][1]; ?></option>
                                     <?php } ?>
                                   </select>
                                 </td>
-                                <td><button type="submit" clas="btn" name="submit" value="save" style="color: green;">Save</button></td>
+                                <td><input type="button" class="btnS" value="Save" style="color: green;"></td>
+
                                </form>
                               </tr>
                             <?php    }  ?>
@@ -120,25 +120,6 @@ include ('php/query.php');
                       <button class="btn btn-success col-md-2" id="button-a">Save All</button>
 
                     </div>
-              <div id="preTable">
-      <button id="back3" class="btn btn-info col-md-1 pull-right bac">Back<b style="color: black;">-></b></button>
-                <table class="table">
-                  <thead>
-                    <th>Name</th>
-                    <th>Name</th>
-                    <th>Name</th>
-                    <th>Name</th>
-                    <th>Name</th>
-                  </thead>
-                    <tr>
-                      <td>present</td>
-                      <td>present</td>
-                      <td>present</td>
-                      <td>present</td>
-                      <td>present</td>
-                    </tr>
-                </table>
-              </div>
                       <div class="col-md-5"></div>
                     </div>
                   </div>
@@ -147,9 +128,21 @@ include ('php/query.php');
             </div>                                                                 
           </div>
         </section>
-        <?php 
+        <!-- Modal -->
+  <div class="modal fade" id="preCheck" role="dialog">
+    <div class="modal-dialog">
 
-        ?>
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div id="showMess"></div>
+        </div>
+      </div>
+    </div>
+  </div> 
       </body>
       <?php include 'inc/footer.php';  ?>
       </html>

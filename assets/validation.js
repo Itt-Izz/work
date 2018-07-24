@@ -19,12 +19,10 @@ $(function(){
       }
      }
    });
-
 //Phone number 11 digits and start with 07
 $.validator.addMethod("phoneNo", function(value, element) { 
   return this.optional(element) || /^07\d{8}$/.test(value); 
 }, "* Must be 11 digits and begin with 07");
-
    //Validate new Number
    $.validator.addMethod("regex",function(value, element, regexp) {
         var re = new RegExp(regexp);
