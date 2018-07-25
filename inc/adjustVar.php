@@ -10,17 +10,18 @@
       </div>
       <div class="modal-body">
             <table class="table table-condensed" id="tabl">
-              <form method="POST">  <?php 
-                  if ($rw->num_rows > 0) {
+              <form method="POST">  <?php
+              $tls="SELECT * FROM tools";
+              $tool=$con->query($tls); 
+                  if ($tool->num_rows > 0) {
                      $i=1;
-                  while($rw){ ?>
+                  while($rw=$tool->fetch_assoc()){ ?>
                    <tr>
                   <td> <?php echo $rw['name']; ?></td>
                      <input type="hidden" class="tname" value="<?= $rw['name']?>">
                   <td><div class="form-group"><input type="number"class="tool"></div></td>
                   <td><input class="btn btn-success updateCost" value="Update"></td>
-               </tr> <?php
-               echo $rw['name']; $i++;  } 
+               </tr> <?php $i++;  } 
              } else{
                   echo "No tools to show";
                 } ?>

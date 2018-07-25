@@ -52,7 +52,6 @@ include ('php/query.php');
                       <a href="stats.php" id="st" class="list-group-item"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports </a>
                           <?php }?>
                       </div>
-
                       <div class="well">
                         <ul class="list-group">
                           <br> <span class="glyphicon glyphicon-flag"></span> <a href="stats.php">System Update</a><br><br>
@@ -92,6 +91,7 @@ include ('php/query.php');
                 <a href="register.php">Add New</a>
          </ol><br>
        <div id="view">
+       <button class="btn btn-default pull-right form-groups" id="printEmp" style="margin: 10px;">Print All Employees</button> 
       <table class="table table-striped table-bordered table-hover" id="mytable3">
        <thead> <tr>
         <th>#</th>
@@ -102,7 +102,6 @@ include ('php/query.php');
         <th>Phone No</th> 
         <th>Wage</th>
         <th>Date Registered</th>
-        <th>Image</th>
       </tr>
     </thead>
     <tbody>
@@ -124,9 +123,9 @@ include ('php/query.php');
           <td><?php echo $row["phone_number"]; ?></td> 
           <td><?php echo $row["dailyWage"]; ?></td>
           <td><?php echo $row["date_registered"]; ?></td>
-          <td><?php echo "<img src='empImgs/".$row['image']."'class='img-circle' id='hdimg'>";?></td>
            </form> 
-              <input type="hidden" class="fname" value="<?= $row['fname']?>"                                
+              <input type="hidden" class="fname" value="<?= $row['fname']?>">                                
+              <input type="hidden" class="staff_id" value="<?= $row['staff_id']?>" >                               
           </tr><?php
           $i++; }
         } else {
@@ -143,6 +142,23 @@ include ('php/query.php');
                   </div>
                 </div>
               </section>
+<!-- Modal -->
+<div class="modal fade" id="emp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+  <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body" id="getMsg">
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div> 
+
+
+
+
+
      
             </body>
             <?php include 'inc/footer.php'; ?>

@@ -31,6 +31,9 @@
          $empA = $con->query($empAll);
          $allEmpRow=$empA->fetch_assoc();
 
+         $staf="SELECT * FROM staff WHERE `level`= 'clerk'";
+         $empB = $con->query($staf);
+
         
          $sl="SELECT image FROM staff where staff_id='$staff_id'";
          $img=$con->query($sl);

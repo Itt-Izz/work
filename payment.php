@@ -10,7 +10,6 @@ include ('php/query.php');
 ?>
 <!doctype html>
 <html lang="en">
-
 <head>
   <?php include 'inc/head.php'; ?>                   
 </head>
@@ -67,24 +66,12 @@ include ('php/query.php');
                         <div id="scrolTable">
                           <div id="pay">
                           <ol class="breadcrumb">
-
-                           <button class="btn btn-info pull-right" data-target="#var" data-toggle="modal" href="">Change Tool cost</button>   
-                          </ol>
-                         <ul class="nav nav-tabs">
-                          <li class="active"><a data-toggle="tab" href="#cl" class="btn btn-default">Casual Labour </a></li>
-                          <li><a data-toggle="tab" href="#tc" class="btn btn-warning">Tea Collection</a></li>
-                        </ul>
-                        <div class="tab-content">
-                         <div id="cl" class="tab-pane fade in active">
-                          <div class="row wel">
-                            <div class="panel panel-default">
-                              <div class="panel-heading clearfix">
-                               <h3 class="panel-title"></h3>
-                             </div>
-                             <div class="panel-body">
+                          <label>Farm Casual Labour </label> 
+                           <button class="btn btn-info pull-right" data-target="#var" data-toggle="modal" href="">Change Tool cost</button>
+                          </ol>                       
 <!-- -----------------------Casual labourers-------------------------------------------------------- -->
-                           <button class="btn btn-default pull-right form-groups" id="printPay" style="margin-left: 20px;">Print</button> 
-                              <table class="table table-striped table-hover pay">
+                           <button class="btn btn-default pull-right form-groups" id="printPay" style="margin: 10px;">Print</button> 
+                              <table class="table table-striped table-hover pay" id='print_content' >
                                 <thead>
                                  <tr>
                                   <?php ?>
@@ -116,9 +103,16 @@ include ('php/query.php');
                                   
                                   <td><?php                                
                                   echo $days['days'];?> </td> 
-                                  <td><?php echo $row["name"] ;?> </td> 
-                                  <td><?php echo $row['cost']; ?> </td> 
-                                  <td><?php echo "2300"; ?></td>                       
+                                  <td><?php if ($row["name"]=='') {
+                                    echo 'None';
+                                  } echo $row["name"] ;?> </td> 
+                                  <td><?php if ($row["name"]=='') {
+                                    echo 0;
+                                  }
+                                   echo $row['cost']; ?> </td> 
+                                  <td><?php
+                                    $tt=$row["dailyWage"]*$days['days']-$row['cost'];
+                                   echo $tt; ?></td>                       
                                   </tr><?php
 }
                                   $i++; }
@@ -128,30 +122,24 @@ include ('php/query.php');
                                 } 
                                 ?> 
                               </tbody>
-                            </table>
-
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div id="tc" class="tab-pane fade">
-                      <div class="row wel">
-                        <div class="panel panel-default">
-                          <div class="panel-heading clearfix">
-                           <h3 class="panel-title"></h3>
-                         </div>
-                         <div class="panel-body">
+                            </table><br><br><br><br><br>
  <!-- ------------------Daily Tea collection-------------------------------------------------- -->
-                           <table class="table table-striped table-hover">
+                        <ol class="breadcrumb">
+                          <label>Tea Collection per Labourer</label> <br>
+                          <label>Cost per unit is: 200</label> 
+
+                          </ol> 
+                           <button class="btn btn-default pull-right form-groups" id="printCol" style="margin-left: 20px;">Print</button> 
+                           <table class="table table-striped table-hover" id="print_collection">
                             <thead>
                              <tr>
-                              <?php ?>
                               <th>#</th>
                               <th>Name</th>
                               <th>RegNo</th>
                               <th>Collection(Kgs)</th> 
                               <th>Rate</th>
                               <th>Amount(Ksh)</th> 
+                              <th>Date </th> 
 
                             </tr>
                           </thead>
@@ -159,6 +147,8 @@ include ('php/query.php');
                            <?php if ($col->num_rows > 0) {
                                 // output data of each row
                             $i=1;
+                            $r=0;
+                            $j=0;
                             while($rows= $col->fetch_assoc()) {
                              ?>  <tr>
                               <td><?php echo $i; ?></td>
@@ -168,34 +158,29 @@ include ('php/query.php');
                               <td><?php echo $rows['rate']; ?> </td> 
                               <td><?php 
                               $amt=$rows["weight"]*$rows['rate'];
-                              echo $amt;?> </td>                                                         
+                              echo $amt;?> </td> 
+                              <td><?php echo $rows['col_date']; ?> </td>                                                         
                               </tr><?php
-                              $i++; }?>
-                              <tr>
-                              <td></td>
-                              <td></td>                        
-                              <td></td>                   
-                              <td><?php 
-                              $r=50;
-                              echo $r;?></td> 
-
-                              <td> </td> 
-                              <td><?php 
-                             $tt=$r*$row['rate'];
-                              echo $tt;?> </td>                                                         
-                              </tr>
+                              $i++;
+                              $r=$r+$rows["weight"];
+                              $j=$j+$amt;
+                               }?>
                          <?php   } else {
                               echo "0 results";
                             }
                             ?> 
+                            <tr>
+                              <td><b>Total</b></td>
+                              <td></td>
+                              <td></td>
+                              <td><b><?php echo $r; ?></b></td>
+                              <td></td>
+                              <td><b><?php echo $j; ?></b></td>
+                              <td></td>
+                            </tr>
                           </tbody>
                         </table>
-
-                      </div>
-                    </div>
                   </div>
-                </div>
-              </div>
 
               </div>
             </div>
@@ -208,4 +193,5 @@ include ('php/query.php');
 </body>
 
 <?php include 'inc/footer.php';  ?>
+
 </html>

@@ -68,8 +68,6 @@ $(function() {
     var row=$(this).closest('tr')
     var tool=row.find('.tool').val();
     var tname=row.find('.tname').val();
-    console.log(tool);
-    console.log(tname);
     if($.trim(tool) != ''){
       $.ajax({
         url:"php/updateTools.php",
@@ -97,21 +95,64 @@ $(function() {
    //Show each employees info 
   $('.employeeDetails').click(function(){
     var row=$(this).closest('tr')
-    var emp=row.find('.fname').val();
-              swal('Yah', emp+' Selected','success');
-    });
+    var empId=row.find('.staff_id').val();
+      $.ajax({
+        url:"php/emp.php",
+        method:"POST",
+        data: {empId: empId},
+        // dataType:'json',
+        success: function(resp){
+          resp=JSON.parse(resp);
+$.post(resp, function(returnedData) {
+    // do something here with the returnedData
+    console.log(returnedData);
+});
 
+          console.log(resp)
+        $("#emp").modal('show');
+        $("#getMsg").html(`
+           <form>
+            Name : <label class="form-group form-control ">${resp.fname}</label><br>
+         Registration No : <label class="form-group form-control"> ${resp.staff_id}</label><br>
+          <label class="form-group form-control">Gender : ${resp.sex}</label><br>
+          <label class="form-group form-control">Date of Birth : ${resp.birthday}</label><br>
+          <label class="form-group form-control">Username: ${resp.username}</label><br>
+          <label class="form-group form-control">Date of Birth : ${resp.birthday}</label><br>
+          <label class="form-group form-control">level: ${resp.level}</label><br>
+          <label class="form-group form-control">ID Number : ${resp.id_number}</label><br>
+          <label class="form-group form-control">Date Registered: ${resp.date_registered}</label><br>
+          <label class="form-group form-control">Image: &nbspc; ${resp.image}</label><br>
+           </form>
+          
+         `);  
+          }
+      });
+    });
 
 $('#printPay').click(function(){
-  alert('Its ok');
-   // $('.pay').DataTable( {
-   //      dom: 'Bfrtip',
-   //      buttons: [
-   //          'print'
-   //      ]
-    // } );
-    });
+   var divToPrint=document.getElementById("print_content");
+   newWin= window.open("");
+   newWin.document.write(divToPrint.outerHTML);
+   newWin.print();
+   newWin.close();
 
+   });
+$('#printCol').click(function(){
+
+   var divToPrint=document.getElementById("print_collection");
+   newWin= window.open("");
+   newWin.document.write(divToPrint.outerHTML);
+   newWin.print();
+   newWin.close();
+
+   });
+$('#printEmp').click(function(){
+  var divToPrint=document.getElementById("mytable3");
+   newWin= window.open("");
+   newWin.document.write(divToPrint.outerHTML);
+   newWin.print();
+   newWin.close();
+   });
 
 function fun1(){
  swal({
@@ -120,43 +161,6 @@ function fun1(){
   title: 'Your work has been saved',
   showConfirmButton: false,
   timer: 1500
-});}
-
-function fun2(){
-    swal({
-  title: 'Are you sure?',
-  text: "You won't be able to revert this!",
-  type: 'warning',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Yes, delete it!'
-}).then((result) => {
-  if (result.value) {
-    swal(
-      'Deleted!',
-      'Your file has been deleted.',
-      'success'
-    )
-  }
-});}
-
-function fun3(){
-    swal({
-  title: "Are you sure?",
-  text: "Once deleted, you will not be able to recover this imaginary file!",
-  icon: "warning",
-  buttons: true,
-  dangerMode: true,
-})
-.then((willDelete) => {
-  if (willDelete) {
-    swal("Poof! Your imaginary file has been deleted!", {
-      icon: "success",
-    });
-  } else {
-    swal("Your imaginary file is safe!");
-  }
 });}
 
 $("#phoneNo").on({
@@ -234,20 +238,24 @@ $('#btn').submit(function(){
     filePreview(this);
 });
   // DataTables implementation --------------------------------------------------------------------------------
-  $('#mytable').dataTable({
+  $('#print_content').dataTable({
     responsive: true
 })
   $('#mytable2').dataTable({
     responsive: true
 })
   $('#mytable3').DataTable({
-    // responsive: true,
+    responsive: true,
      dom: 'lBfrtip',
         buttons: ['pageLength','copy', 'pdf', 'csv', 'excel' ]
 })
   $('#mytable4').dataTable({
     responsive: true
 })
+  $('#print_collection').dataTable({
+    responsive: true
+})
+
   // Chart js implementation --------------------------------------------------------------------------------
   let mychart = document.getElementById('mychart').getContext('2d');
   let massPopChart = new Chart(mychart, {
@@ -303,22 +311,17 @@ $('#btn').submit(function(){
     },
     options: {}
 });
-  //
   //Graph and date from Db
   $.ajax({
     url: "http://localhost/work/stats.php",
     type: "GET",
     success: function(data){
         var cost={
-
         };
-
         var len=data.length;
-
         for (var i=0; i<len; i++){
             if(data[i].team=="TeamA"){}
          }
-
     },
     error: function(data){
     }

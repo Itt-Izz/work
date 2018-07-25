@@ -61,7 +61,7 @@ include ('php/query.php');
                   <div class="col-md-10" id="pan">
                     <div class="panel panel-default" id="pan2">
                       <div class="panel-heading main-color-bg">
-                        <h3 class="panel-title">Messages at <?php echo date("Y-m-d h:i"); ?></h3>
+                        <h3 class="panel-title">Message</h3>
                       </div> <!-- panel heading -->
 
                       <div class="panel-body"id="scrolTable">
@@ -234,10 +234,15 @@ include ('php/query.php');
                                           <label class="control-label col-sm-1">To</label>
                                           <div  class="col-sm-4">
                                             <select  name="to"  class="form-control">
-                                              <?php do{?>
-                                               <option  value= "<?php   echo $row['staff_id'];?>" selected> <?php   echo $row['username'];?></option><?php
-                                             } while($row=$empA->fetch_assoc()); ?>
-                                           </select> 
+                                              <?php
+                                              if($_SESSION['level']='admin') {
+                                                  do{?>
+                                               <option  value= "<?php   echo $row['staff_id'];?>" selected> <?php   echo $row['username'];?></option> <?php } while($row=$empB->fetch_assoc());
+                                               }
+
+                                                else{
+                                                echo "Manager";
+                                             } ?></select>
                                          </div>
                                          <div class="col-sm-4"></div>
 
