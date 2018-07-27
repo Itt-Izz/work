@@ -9,23 +9,27 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-          <a class="navbar-brand" href="index.php">LasitTeaCompany</a>
-      </div>
-      <div id="navR">
-          <ul class="nav navbar-nav navbar-right">    
+      </div>   
+        <ul class="nav navbar-nav">
+          <li><a class="navbar-brand" href="home.php" id="lasitStyl" >LasitTeaCompany</a>
+          </li>
+          <li><a href="home.php"> <img src="img/logo.png" id="hdimg2"></a></li>
+        </ul>
+          <ul class="nav navbar-nav navbar-right"> 
             <?php 
             if(isset($_SESSION['username'])){ ?>      
             <li> <a href="account.php" id="nam2" > Hi <span id="nam"><?php echo $_SESSION['username']; ?></span></a></li>
-          <li><div><a href="message.php"><img src='img/notification.png' class="img-circle" id='hdimg'> 
+            <?php if($_SESSION['level']!=='staff'){?>
+          <li><div style="margin-top: 5px;"><a href="message.php"><img src='img/notification.png' class="img-circle" id='hdimg'> 
            <?php           
               if ($row = $mesNo->fetch_array()) {
                 if($row['count(*)']>0){ ?>
                   <span class="notify-badge"><?php echo $row['count(*)']; ?></span>
             <?php }else
              echo "0"; }    ?>
-           </a> 
-            
-          </div></li>   
+           </a>            
+          </div></li>  
+          <?php } ?> 
            <li> 
                 <div class="dropdown">
                    <a href="#" class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> 
@@ -36,10 +40,12 @@
                              </div>
                    </a>
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                                <li><a href="contact.php" id="conn">My Contact</a></li>
-                                                <li><a href="account.php" id="accc">My Account</a></li>
-          <li><a href="php/logout.php" >Logout <span  id="lg" class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>   
-                                                
+                                                <li><a href="account.php" id="accc">My Profile</a></li>
+                                         <?php if($_SESSION['level']=='staff'){?>                                                   
+                                                <li><a href="sms.php" id="accc">Send SMs</a></li>
+                                                <?php } ?>
+                                                <li><a href="settings.php" id="conn">Settings</a></li>
+          <li><a href="php/logout.php" >Logout <span  id="lg" class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>          
                                             </ul>
                                         </div>
               </li>
@@ -47,6 +53,5 @@
     <?php } ?>
               
         </ul>
-      </div>
   </div>
   </nav>

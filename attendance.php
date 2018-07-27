@@ -23,12 +23,12 @@ include ('php/query.php');
      <div class="row">
       <div class="col-md-2">
 
-        <div class="list-group ">
+       <div class="list-group ">
           <a href="home.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Home </a>
-          <a href="attendance.php" class="list-group-item">
+          <a href="attendance.php" class="list-group-item active main-color-bg">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Attendance</a>
-            <a href="collection.php" class="list-group-item active main-color-bg">
+            <a href="collection.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Collection</a>
                     <?php if($_SESSION['level']!=='staff'){?>
               <a href="staff.php" id="stuff2" class="list-group-item">
@@ -44,7 +44,7 @@ include ('php/query.php');
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Clerk </a>
                     <a href="stats.php" id="st" class="list-group-item"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports </a>
                     <?php }?>
-                    <a href="settings.php" class="list-group-item">
+                    <a href="attendance.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Settings</a>
                     </div>
 
@@ -53,76 +53,68 @@ include ('php/query.php');
                         <br> <span class="glyphicon glyphicon-flag"></span> <a href="stats.php">System Update</a><br><br>
                         <span class="glyphicon glyphicon-flag"></span><a href="">Specialization</a><br><br>
                         <span class="glyphicon glyphicon-flag"></span> <a href="">Managing Your Acc</a><br><br>
-                        <span class="glyphicon glyphicon-flag"></span> <a href="">FAQ</a><br><br>
-                        <span class="glyphicon glyphicon-flag"></span> <a href="">How to Earn more </a><br><br>
                         <span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span><a href="#">Change Password</a>
                       </ul>
                     </div>                                      
-                  </div>
+     </div>
                   <div class="col-md-10" id="pan">
                     <div class="panel panel-default">
                       <div class="panel-heading main-color-bg">
-                        <h3 class="panel-title">Collection</h3>
+                        <h3 class="panel-title">Attendace Sheet <?php echo date('D') ?></h3>   
                       </div>
                       <div class="panel-body">
                         <div id="scrolTable">
+                          <div id="attTable">
                           <ol class="breadcrumb">
-                            <div class="col-md-3">
-                             Today's Rate:<label style="color: blue;"><h4>&nbsp;<b>10<b></h4></label> </div>
-                              <div class="col-md-6"> 
-                                <h4 align="center" class="two">Daily Tea Collection &nbsp;&nbsp;&nbsp;</h4> &nbsp;&nbsp;&nbsp;
-                              </div>
-                              <h5 align="right"> <em style="color: black;">Date: </em><b><?php echo " ".$date=date("D d, F Y");?></b></h5>
-                              <div class="col-md-3"><?php
-                              $yesterday=date("Y-m-d", strtotime("yesterday"));
-                              $dayBeforeYesterday=date("Y-m-d", strtotime("-2 day"));
-                              $dayBY=date("D", strtotime("-2 day"));
-                              $twoDaysBeforeYesterday=date("Y-m-d", strtotime("-3 day"));
-                              $twoDaysBY=date("D", strtotime("-3 day"));
-                              $threeDaysBYesterday=date("Y-m-d", strtotime("-4 day"));
-                              $threeDaysBY=date("D", strtotime("-4 day"));
-                              $fourDaysBYesterday=date("Y-m-d", strtotime("-5 day"));
-                              $fourDaysBY=date("D", strtotime("-5 day"));
-                              $fiveDaysBYesterday=date("Y-m-d", strtotime("-6 day"));
-                              $fiveDaysBY=date("D", strtotime("-6 day"));  ?>
+                          <?php if($_SESSION['level']=='clerk' || $_SESSION['level']=='admin'){?>
+                            <div class="col-md-3"><a href="#" style="color: blue;" class="show">Present Today</a> </div>
+                          <?php } ?>
+                            <div class="col-md-6"> 
+                              <h4 align="center" class="two">Attendance Register &nbsp;&nbsp;&nbsp;</h4> &nbsp;&nbsp;&nbsp;
                             </div>
+                            <h5 align="right"> <em style="color: black;">Date: </em><b><?php echo " ".$date=date("D d, F Y");?></b></h5>
+                            <div class="col-md-3">  </div>
                           </ol>
                           <?php if($_SESSION['level']=='clerk' || $_SESSION['level']=='admin'){?>
-                          <table class="table" id="mytable4">
+                           <table class="table" id="mytable2">
                             <thead>
                               <th>RegNo</th>
                               <th>Name</th>
-                              <th><?=$fiveDaysBY;?></th>
-                              <th><?=$fourDaysBY;?></th>
-                              <th><?=$threeDaysBY;?></th>
-                              <th><?=$twoDaysBY;?></th>
-                              <th><?=$dayBY;?></th>
-                              <th>Yesterday</th>
-                              <th>Today</th>
+                              <th>Username</th>
+                              <th>Gender</th>
+                              <th>Present</th>
+                              <th>Tool</th>
                               <th>Approve</th>
                             </thead>
                             <tbody>
-                              <?php 
 
-
-                              while($row=$employ->fetch_array()){ ?>
-                                <tr class="rw">
-                                 
+                          <?php while($row=$employ->fetch_array()){ ?>
+                                <tr>
+                          <form method="POST">
                                   <td><?php echo $row['staff_id']; ?></td>
                                   <td><?php echo $row['fname']; ?></td>
-                                  <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
-                                  <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
-                                  <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
-                                  <input type="hidden" class="staf" value="<?= $row['staff_id']?>">
-                                  <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
-                                  <td><input type="" name=""class="form-control" placeholder="40" disabled></td>
-                                  <td><input type="" name="" class="form-control" placeholder="80" disabled></td>
-                                  <td><input class="form-control tea_collect" placeholder="12.5" type="number" required></td>
+                                  <td><?php echo $row['username']; ?></td>
+                                  <td><?php echo $row['sex']; ?></td>
                                   <td>
-                                    <input type="button" name="collectT"class="form-control col_save" value="Save">
+                                    <div class="checkbox">
+       <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" class="check" value="yes" style="height: 25px;width: 25px;"></label>
+                                    </div>
                                   </td>
+                                       <input type="hidden" class="staff" value="<?= $row['staff_id']?>">
+                                  <td>
+                                    <select  name="tool"  class="form-control tool">
+                                      <option value="">Select tool</option>
+                                     <?php
+                                     for($i=0;$i<=count($rw[0]);$i++) { ?>
+                                      <option value="<?php echo $rw[$i][0]; ?>"> <?php   echo $rw[$i][1]; ?></option>
+                                    <?php } ?>
+                                  </select>
+                                </td>
+                                <td><input type="button" class="btnS" value="Save" style="color: green;"></td>
+
+                               </form>
                               </tr>
-                            <?php    }  ?>
+                            <?php    }?>
                           </tbody>
                         </table>
                            <?php  } else{ ?>
@@ -158,19 +150,18 @@ include ('php/query.php');
                             <?php $k++; } ?>
                             </table>
                             <?php } ?>
-                        <div class="col-md-5"></div>
-                        <div class="col-md-5"></div>
-                      </div>
+                      <div class="col-md-5"></div>
+                    </div>
+                      <div class="col-md-5"></div>
                     </div>
                   </div>
-                </div>                                   
-              </div>                                                                 
-            </div>
+                </div>
+              </div>                                   
+            </div>                                                                 
           </div>
         </section>
-
- <!-- Modal -->
-  <div class="modal fade" id="showMod" role="dialog">
+        <!-- Modal -->
+  <div class="modal fade" id="preCheck" role="dialog">
     <div class="modal-dialog">
 
       <!-- Modal content-->
@@ -183,7 +174,7 @@ include ('php/query.php');
         </div>
       </div>
     </div>
-  </div>   
+  </div> 
       </body>
       <?php include 'inc/footer.php';  ?>
       </html>

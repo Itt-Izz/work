@@ -65,6 +65,61 @@ include ('php/query.php');
                       </div> <!-- panel heading -->
 
                       <div class="panel-body"id="scrolTable">
+ <!-- Compossing Message     .............................................................................. -->
+                              
+                                      <form action="php/sendMessage.php" method='POST' class="form-horizontal">
+                                        
+                                       <div class="form-group">
+                                        <label class="col-sm-1" for="inputSubject">Subject</label>
+                                        <div class="col-sm-7"><input type="text" name="subject" class="form-control" id="inputSubject" placeholder="subject"></div>
+                                        <div class="col-sm-4"></div>
+                                      </div><!-- form group -->
+                                      <div class="form-group">
+                                        <label class="col-sm-1" for="inputBody">Message</label>
+                                        <div class="col-sm-7">
+                                          <textarea class="form-control"
+                                          id="inputBody" rows="8" data-gramm="true" data-gramm_editor="true"placeholder="Type your message here ................................." name="message"></textarea> </div>
+                                          <div class="col-sm-4"></div>         
+                                        </div><!-- form group -->
+                                        <div class="form-group">
+                                          <label class="col-sm-7"> </label>
+                                         
+                                          <div class="col-sm-4"></div>
+                                        </div><!-- form group -->
+                                   <div class="form-group"> 
+                                          <label class="control-label col-sm-1">To</label>
+                                          <div  class="col-sm-4">
+                                            <select  name="to"  class="form-control">
+                                              <?php
+                                              if($_SESSION['level']='admin') {
+                                                  do{?>
+                                               <option  value= "<?php echo $row['staff_id'];?>" selected> <?php   echo $row['username'];?></option> <?php } while($row=$empB->fetch_assoc());
+                                               }
+                                                else{
+                                                echo "Manager";
+                                             } ?></select>
+                                       </div><!-- form group --> 
+                           <button type="submit" name="submit" class="btn btn-info">Send Message</button>
+                           <button class="btn btn-default">Send to all Employees</button>
+                                         </div>
+                                   </form><br><br><br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         <div class="container col-md-12">
                           <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#inb" class="btn btn-default">Inbox <span class="badge"> 10</span></a></li>

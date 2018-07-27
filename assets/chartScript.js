@@ -200,8 +200,15 @@ $('#btn').submit(function(){
 
 
  $("#sendCode").click(function(){
-        $("#code").show();
+    var no = $('#inp').val();
+        if(no != ''){
+          $("#code").show();
+        }else{
+          alert("No Number please")
+        }
     });
+
+
  $("#sendCode").mouseleave(function(){
         $("#code").hide();
     });

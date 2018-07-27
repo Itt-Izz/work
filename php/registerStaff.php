@@ -6,6 +6,7 @@ if (!isset($_SESSION['staff_id']))
 die(header('Location: ../index.php'));
 }
 require_once 'connection.php';
+require_once('AfricasTalkingGateway.php');
  $target_dir = "../empImgs/";
 $target_file = $target_dir . basename($_FILES["image"]["name"]);
 $uploadOk = 1;
@@ -56,7 +57,7 @@ if ($uploadOk == 0) {
     $depart = trim($_POST['department']);
     $position = trim($_POST['position']);
     $grade = trim($_POST['grade']);//-----------------------
-    $years = trim($_POST['years']);//----------------------
+    //$years = trim($_POST['years']);//----------------------
     $uname = trim($_POST['username']);    
     $typ = trim($_POST['type']);
     $depart = trim($_POST['department']);
@@ -67,7 +68,6 @@ if ($uploadOk == 0) {
         $level="clerk";
     }
      $level="staff";
-    
 	// username exist or not
     $query = "SELECT * FROM staff WHERE username='$uname'";
    $result = $con->query($query);
@@ -81,10 +81,31 @@ if ($uploadOk == 0) {
 if($con->query("INSERT INTO staff(fname, sex,birthday, department, position, 
 username, password, date_registered, id_number, phone_number, level,image) 
 VALUES('$name','$sex','$birthday','$depart','$position','$uname','$upass','$date','$id','$phone','$level','$image')"))	{
+$username   = "employees";
+$apikey     = "220f4868d095452b9c0d930cd20f68abce855dff5f13fe00b948f36db942a0da";
+$recipients = $phone;
+$message    = "Welcome To Lasit. Username: $uname. Password: $upass";
+$gateway    = new AfricasTalkingGateway($username, $apikey);
+try 
+{  
+  $results = $gateway->sendMessage($recipients, $message);
+  foreach($results as $result) {
+    // status is either "Success" or "error message"
+    echo " Number: " .$result->number;
+    echo " Status: " .$result->status;
+    echo " StatusCode: " .$result->statusCode;
+    echo " MessageId: " .$result->messageId;
+    echo " Cost: "   .$result->cost."\n";
+  }
+}
+catch ( AfricasTalkingGatewayException $e ) 
+{
+  echo "Encountered an error while sending: Please Check Your internet Connection..".$e->getMessage();
+}
+
 			?>
 			<script>alert('Successfully registered ');</script>
 			<?php
-			header('Location: ../home.php');
 		}
 		else
 		{
@@ -100,9 +121,5 @@ VALUES('$name','$sex','$birthday','$depart','$position','$uname','$upass','$date
 	}
 		
     }	
-
-
-
-
 
 ?>

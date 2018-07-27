@@ -54,9 +54,30 @@ body {
     width: 30px;
     height: 30px;
 }
-
+#hdimg2 {
+    width: 50px;
+    height: 35px;
+    margin-bottom:0px;
+    margin-top: 0px;
+    padding: 0px;
+}
+#homLog {
+    width: 60px;
+    height: 60px;
+}
+#lasitStyl{
+    color:darkgreen;
+    margin-top: 10px;
+}
+#lasitStyl:hover {
+    color: #00FF00;
+}
+#homePan{
+    padding: 10;
+    margin: 10;
+}
 .imgPos {
-    margin: 10px;
+    margin: 5px;
 }
 
 #imgPos button {
@@ -105,10 +126,12 @@ body {
     border-color: rgb(61, 100, 61) !important;
     color: #ffffff !important;
 }
-
-
+.color-bg {
+    background-color: #4B5320 !important;
+    border-color: #4B5320 !important;
+    color: #ffffff !important;
+}
 /* header */
-
 #header {
     background: #333333;
     color: #ffffff;

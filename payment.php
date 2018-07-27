@@ -22,36 +22,34 @@ include ('php/query.php');
       <div class="row">
         <div class="col-md-2">
           <div class="list-group ">
-            <a href="home.php" class="list-group-item">
-              <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Home </a>
-               <a href="collection.php" class="list-group-item" id="col">
-            <span class="glyphicon glyphicon-flag" aria-hidden="true"></span>Collections </a>
+          <a href="home.php" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Home </a>
+          <a href="attendance.php" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Attendance</a>
+            <a href="collection.php" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Collection</a>
+                    <?php if($_SESSION['level']!=='staff'){?>
               <a href="staff.php" id="stuff2" class="list-group-item">
                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Employees </a>
+                    <?php }?>
                 <a href="payment.php" id="payHist" class="list-group-item active main-color-bg">
                   <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Payment</a>
-                  <a href="register.php" id="regc2" class="list-group-item">
+                  <?php if($_SESSION['level']=='clerk'){  ?>
+                  <a href="register.php" id="regc2" class="list-group-item  mainNav">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Employee </a>
+                    <?php } else if($_SESSION['level']=='admin'){?>
+                  <a href="register.php" id="regc2" class="list-group-item  mainNav">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Clerk </a>
-                    <div class="dropdown">
-                      <button class="btn btn-default dropdown-toggle list-group-item glyphicon glyphicon-user mainNav" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> Profile
-                       <span class="caret"></span></button>
-                       <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <li><a href="#"   id="con2">Contact Info</a></li>
-                        <li><a href="#"  id="acc2">Account Info</a></li>
-                      </ul>
-                    </div>
                     <a href="stats.php" id="st" class="list-group-item"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports </a>
-                    <a href="message.php" id="inbox" class="list-group-item">
-                      <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Messages </a>
+                    <?php }?>
+                    <a href="settings.php" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Settings</a>
                     </div>
 
                     <div class="well">
                       <ul class="list-group">
                         <br> <span class="glyphicon glyphicon-flag"></span> <a href="stats.php">System Update</a><br><br>
                         <span class="glyphicon glyphicon-flag"></span><a href="">Specialization</a><br><br>
-                        <span class="glyphicon glyphicon-flag"></span> <a href="">Managing Your Acc</a><br><br>
-                        <span class="glyphicon glyphicon-flag"></span> <a href="">FAQ</a><br><br>
-                        <span class="glyphicon glyphicon-flag"></span> <a href="">How to Earn more </a><br><br>
                         <span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span><a href="#">Change Password</a>
                       </ul>
                     </div>                                      
@@ -65,12 +63,14 @@ include ('php/query.php');
                       <div class="panel-body">
                         <div id="scrolTable">
                           <div id="pay">
+                          <?php if($_SESSION['level']=='clerk' || $_SESSION['level']=='admin'){?>
                           <ol class="breadcrumb">
                           <label>Farm Casual Labour </label> 
                            <button class="btn btn-info pull-right" data-target="#var" data-toggle="modal" href="">Change Tool cost</button>
                           </ol>                       
 <!-- -----------------------Casual labourers-------------------------------------------------------- -->
                            <button class="btn btn-default pull-right form-groups" id="printPay" style="margin: 10px;">Print</button> 
+
                               <table class="table table-striped table-hover pay" id='print_content' >
                                 <thead>
                                  <tr>
@@ -83,7 +83,6 @@ include ('php/query.php');
                                   <th>Tool</th>
                                   <th>Total Deduction</th>
                                   <th>Total Wage</th>
-
                                 </tr>
                               </thead>
                               <tbody>
@@ -116,13 +115,18 @@ include ('php/query.php');
                                   </tr><?php
 }
                                   $i++; }
-                                
                                 } else {
                                   echo "0 results";
                                 } 
                                 ?> 
                               </tbody>
-                            </table><br><br><br><br><br>
+                            </table>
+                            <?php    }  ?>
+                            <br><br><br><br><br>
+
+
+
+                          <?php if($_SESSION['level']=='clerk' || $_SESSION['level']=='admin'){?>
  <!-- ------------------Daily Tea collection-------------------------------------------------- -->
                         <ol class="breadcrumb">
                           <label>Tea Collection per Labourer</label> <br>
@@ -180,6 +184,8 @@ include ('php/query.php');
                             </tr>
                           </tbody>
                         </table>
+                            <?php    }  ?>
+
                   </div>
 
               </div>

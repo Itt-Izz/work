@@ -26,7 +26,48 @@
 
          $empW="SELECT * FROM staff WHERE `level`!= 'admin' AND `level`!= 'clerk'";
          $employ = $con->query($empW);
+        //All days present
+         $empo="SELECT count(*) FROM attendance WHERE staff_id='$staff_id'";
+         $empone = $con->query($empo);
+         //All days present this week
+          $dy=date('d');
+          $todate=date('Y-m-d');  
+         if(date('D')=='Mon'){
+          $dy=$dy-1;
+          $frm="2018-07-$dy";
+        } else if(date('D')=='Tue'){
+          $dy=$dy-2;
+          $frm="2018-07-$dy";
+        }else if(date('D')=='Wed'){
+          $dy=$dy-3;
+          $frm="2018-07-$dy";
+        }else if(date('D')=='Thu'){
+          $dy=$dy-4;
+          $frm="2018-07-$dy";
+        }else if(date('D')=='Fri'){
+          $dy=$dy-5;
+          $frm="2018-07-$dy";
+        }else if(date('D')=='Sat'){
+          $dy=$dy-6;
+          $frm="2018-07-$dy";
+        }else{
+          $dy=$dy-7;
+          $frm="2018-07-$dy";
+        }
+      $empo2="SELECT count(*) FROM attendance LEFT JOIN staff on attendance.staff_id=staff.staff_id WHERE attendance.staff_id='$staff_id' AND date BETWEEN '$frm' AND '$todate'";
+         $employeeC = $con->query($empo2);
+         $r2=$employeeC->fetch_assoc();
+      $empt="SELECT * FROM attendance LEFT JOIN staff on attendance.staff_id=staff.staff_id WHERE attendance.staff_id='$staff_id' AND date BETWEEN '$frm' AND '$todate'";
+         $employeeCounted = $con->query($empt);
+          
+         
 
+         //Present today
+         $empopre="SELECT * FROM `attendance`LEFT JOIN staff WHERE date=CURDATE()";
+         $emponPre = $con->query($empopre);
+
+
+//All staff
          $empAll="SELECT * FROM staff";
          $empA = $con->query($empAll);
          $allEmpRow=$empA->fetch_assoc();
@@ -71,8 +112,6 @@
               $sumWeight=$con->query($collectW);
 
 //chart
-
-
               //three tables
             $t3= " SELECT name id wage present tool cost TTdeduction TTwage FROM attendance INNER JOIN `staff` ON staff.staff_id=attendance.staff_id INNER JOIN tools ON tools.t_id=attendance.t_id";
            $payy= "select s.fname, s.staff_id, s.dailyWage, t.name, t.cost, p.deduction, p.amt from staff s inner join pay_staff ps on s.staff_id = ps.staff_id inner join pay p on p.p_id = ps.p_id INNER JOIN attendance a on a.staff_id=s.staff_id INNER JOIN tools t on t.t_id= a.t_id where s.staff_id = 18 ";
@@ -83,11 +122,6 @@
                   LEFT JOIN tools t on t.t_id= a.t_id group by s.staff_id";
     $pay=$con->query($pa);
 
-              
-// dates this week 
-//                SET DATEFIRST 1 -- Define beginning of week as Monday
-//                  SELECT [...]
-//                 AND WorkDate >= dateadd(day, 1-datepart(dw, getdate()), CONVERT(date,getdate())) 
-//                 AND WorkDate <  dateadd(day, 8-datepart(dw, getdate()), CONVERT(date,getdate()))
+
 
         ?>
