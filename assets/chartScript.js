@@ -1,9 +1,7 @@
 $(function() {
 
-    $("#more").hide();
-    $("#payInfo").hide();
-    $("#preTable").hide();
-    $("#code").hide();
+    $("#PresentToday").hide();
+    $("#pay").hide();
     $('[data-toggle="tooltip"]').tooltip(); 
     $('[data-toggle="popover"]').popover();
 
@@ -91,6 +89,26 @@ $(function() {
         }
     });
 
+//Mark tool as returned 
+  $('.retanT').click(function(){
+    var row=$(this).closest('tr')
+    var stafId=row.find('.stafT').val();
+      $.ajax({
+        url:"php/returnTool.php",
+        method:"POST",
+        data: {stafId: stafId},
+        success: function(resp){ 
+           if(resp==1){
+              swal('Success','Update Successful!','success');
+            }else {
+              swal('Aborted','Something wennt wrong','error');
+            }  
+              swal('Failure','Encountered an error!','error');
+          }
+
+      });
+    });
+
 
    //Show each employees info 
   $('.employeeDetails').click(function(){
@@ -154,14 +172,7 @@ $('#printEmp').click(function(){
    newWin.close();
    });
 
-function fun1(){
- swal({
-  position: 'top-end',
-  type: 'success',
-  title: 'Your work has been saved',
-  showConfirmButton: false,
-  timer: 1500
-});}
+
 
 $("#phoneNo").on({
     mouseleave: function(){
@@ -208,26 +219,60 @@ $('#btn').submit(function(){
         }
     });
 
-
- $("#sendCode").mouseleave(function(){
-        $("#code").hide();
-    });
  //More info on payments
      $(".show").click(function(){
-        $('#view').hide();
-        $("#more").show();
-        $('#pay').hide();
-        $("#payInfo").show();
         $('#attTable').hide();
-        $("#preTable").show();
+        $('#PresentToday').show();
     }); $(".bac").click(function(){
-        $('#more').hide();
-        $("#view").show();
-        $('#payInfo').hide();
-        $("#pay").show();
-        $('#preTable').hide();
+        $('#PresentToday').hide();
         $("#attTable").show();
     });
+      $("#allC").click(function(){
+        $('#singlePay').hide();
+        $('#pay').show();
+    });
+        $("#allS").click(function(){
+        $('#pay').hide();
+        $('#singlePay').show();
+  });
+        $(".payWage").click(function(){
+    var row=$(this).closest('tr')
+    var stafId=row.find('.staf').val();
+    var deduct=row.find('.ded').val();
+    var amt=row.find('.total').val();
+      $.ajax({
+        url:"php/payAtt.php",
+        method:"POST",
+        data: {stafId: stafId, deduct:deduct, amt:amt},
+        success: function(resp){ 
+           if(resp==1){
+              swal('Success','Update Successful!','success');
+            }else {
+              swal('Aborted','Something wennt wrong','error');
+            }  
+          }
+
+      });
+  });
+
+      $(".payCol").click(function(){
+    var row=$(this).closest('tr')
+    var stafId=row.find('.staff').val();
+    var amt=row.find('.amount').val();
+      $.ajax({
+        url:"php/payCol.php",
+        method:"POST",
+        data: {stafId: stafId, amt:amt},
+        success: function(resp){ 
+           if(resp==1){
+              swal('Success','Update Successful!','success');
+            }else {
+              swal('Aborted','Something wennt wrong','error');
+            }  
+          }
+
+      });
+  });
     //File preview Load image from pc to DOM
     function filePreview(input){
         if(input.files && input.files[0]){
@@ -263,61 +308,39 @@ $('#btn').submit(function(){
     responsive: true
 })
 
-  // Chart js implementation --------------------------------------------------------------------------------
-  let mychart = document.getElementById('mychart').getContext('2d');
-  let massPopChart = new Chart(mychart, {
-    type: 'line', //bar,horicontalBar, pie,line ,doughnut, radar, polarArea
-    data: {
-        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-        datasets: [{
-            label: 'employee',
-            data: [
-            100,
-            180,
-            105,
-            45,
-            204,
-            163
-
-            ],
-            backgroundColor: 'green'
-        }]
-    },
-    options: {}
-});
-
+ 
 
   //pie chart
-  let mypie = document.getElementById('mypie');
-  let massPoppie = new Chart(mypie, {
-    type: 'pie', //bar,horicontalBar, pie,line ,doughnut, radar, polarArea
-    data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-        datasets: [{
-            label: 'Money(Ksh)',
-            data: [
-            627000,
-            163000,
-            150000,
-            90000,
-            60000,
-            200000
+//   let mypie = document.getElementById('mypie');
+//   let massPoppie = new Chart(mypie, {
+//     type: 'pie', //bar,horicontalBar, pie,line ,doughnut, radar, polarArea
+//     data: {
+//         labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+//         datasets: [{
+//             label: 'Money(Ksh)',
+//             data: [
+//             627000,
+//             163000,
+//             150000,
+//             90000,
+//             60000,
+//             200000
 
-            ],
-            // backgroundColor: 'green'
-            backgroundColor: [
-            'rgba(255,99,132,0.6)',
-            'rgba(255,162,235,0.6)',
-            'rgba(255,206,86,0.6)',
-            'rgba(75,192,192,0.6)',
-            'rgba(153,102,255,0.6)',
-            'rgba(255,159,64,0.6)',
-            'rgba(255,99,132,0.6)'
-            ]
-        }]
-    },
-    options: {}
-});
+//             ],
+//             // backgroundColor: 'green'
+//             backgroundColor: [
+//             'rgba(255,99,132,0.6)',
+//             'rgba(255,162,235,0.6)',
+//             'rgba(255,206,86,0.6)',
+//             'rgba(75,192,192,0.6)',
+//             'rgba(153,102,255,0.6)',
+//             'rgba(255,159,64,0.6)',
+//             'rgba(255,99,132,0.6)'
+//             ]
+//         }]
+//     },
+//     options: {}
+// });
   //Graph and date from Db
   $.ajax({
     url: "http://localhost/work/stats.php",

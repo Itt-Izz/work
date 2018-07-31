@@ -10,7 +10,25 @@
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/style.css" rel="stylesheet">
   </head>
-  <body>  
+  <body>
+    <nav class="navbar navbar-default">
+  <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" 
+        data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>   
+        <ul class="nav navbar-nav">
+          <li><a class="navbar-brand" href="#" id="lasitStyl" >LasitTeaCompany</a>
+          </li>
+          <li><a href="#"> <img src="img/logo.png" id="hdimg2"></a></li>
+        </ul>
+  </div>
+  </nav> 
     <form class="form-horizontal" method='POST' action='login.php'> 
                 <fieldset>
                 <!-- Form Name -->

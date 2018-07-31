@@ -34,7 +34,7 @@ include ('php/query.php');
               <a href="staff.php" id="stuff2" class="list-group-item">
                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Employees </a>
                     <?php }?>
-                <a href="payment.php" id="payHist" class="list-group-item">
+                 <a href="payment.php" id="payHist" class="list-group-item">
                   <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Payment</a>
                   <?php if($_SESSION['level']=='clerk'){  ?>
                   <a href="register.php" id="regc2" class="list-group-item  mainNav">
@@ -44,16 +44,14 @@ include ('php/query.php');
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Clerk </a>
                     <a href="stats.php" id="st" class="list-group-item"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports </a>
                     <?php }?>
-                    <a href="attendance.php" class="list-group-item">
+                    <a href="settings.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Settings</a>
                     </div>
 
                     <div class="well">
                       <ul class="list-group">
-                        <br> <span class="glyphicon glyphicon-flag"></span> <a href="stats.php">System Update</a><br><br>
-                        <span class="glyphicon glyphicon-flag"></span><a href="">Specialization</a><br><br>
-                        <span class="glyphicon glyphicon-flag"></span> <a href="">Managing Your Acc</a><br><br>
-                        <span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span><a href="#">Change Password</a>
+                     <a href=""><span class="glyphicon glyphicon-flag"></span><a href="">Inquery</a><br>
+                      <a href=""></a><span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span><a href="#">Change Password</a>
                       </ul>
                     </div>                                      
      </div>
@@ -151,6 +149,78 @@ include ('php/query.php');
                             </table>
                             <?php } ?>
                       <div class="col-md-5"></div>
+                    </div>
+                    <div id="PresentToday">
+                          <ol class="breadcrumb">
+                            <div class="col-md-3"><a href="#" style="color: blue;" class="bac">Back</a> </div>
+                            <div class="col-md-6"> 
+                              <h4 align="center" class="two">Employees Present today &nbsp;&nbsp;&nbsp;</h4> &nbsp;&nbsp;&nbsp;
+                            </div>
+                            <h5 align="right"> <em style="color: black;">Date: </em><b><?php echo " ".$date=date("D d, F Y");?></b></h5>
+                            <div class="col-md-3">  </div>
+                          </ol>
+                           <table class="table" id="presentTable">
+                            <thead>
+                              <th>RegNo</th>
+                              <th>Name</th>
+                              <th>Username</th>
+                              <th>Gender</th>
+                              <th>Tool</th>
+                              <th>Status</th>
+                              <th>Check</th>
+                              <?php if ($_SESSION['level']=='admin') { ?>
+                              <th>Served By</th>                               
+                            <?php  } ?>
+                            </thead>
+                            <tbody>
+                          <?php
+                           while($rows=$emponPre->fetch_assoc()){ ?>
+                                <tr>
+                                  <td><?php echo $rows['staff_id']; ?></td>
+                                  <td><?php echo $rows['fname']; ?></td>
+                                  <td><?php echo $rows['username']; ?></td>
+                                  <td><?php echo $rows['sex']; ?></td>
+                        <input type="hidden" class="stafT" value="<?= $rows['staff_id']?>">                             
+
+                                  <td><?php 
+                                  if ($rows['t_id']=='') {
+                                    echo 'None';
+                                  } ?>
+                                <em style="color: blue"> <?php echo $rows['name']; ?></em></td>
+                                  <td>
+                          <?php // check whether tool is returned
+                                  if ($rows['returned_tool']=='') {
+                                    echo '___';
+                                  }else if ($rows['returned_tool']=='yes') { ?>
+                                <em style="color: green"> <?php echo 'Returned'; ?></em>
+                                <?php  }else{ ?>
+                                <em style="color: red"> <?php 
+                                   echo 'Pending'; ?></em>
+                                <?php } ?></td>
+                                  <td>
+                         <?php if ($rows['returned_tool']=='') {
+                                    echo '0';
+                                  }else if ($rows['returned_tool']=='yes') { ?>
+                                <em style="color: green"> <?php echo 'Done'; ?></em>
+                                <?php  }else{ ?>
+                                  <button class="btn btn-warning retanT">Return</button>
+                                <?php } ?>
+                           </td>
+                           
+                              <?php if ($_SESSION['level']=='admin') { 
+                                $clerkId=$rows['ur_clerk'];
+                               $sq="SELECT fname FROM staff where staff_id='$clerkId'";
+                               $cl=$con->query($sq);
+                               $row=$cl->fetch_assoc();
+                                ?>
+                               <td><?php echo $row['fname']; ?> </td>                            
+                            <?php  } ?>
+                          
+                              </tr>
+                            <?php    }?>
+                          </tbody>
+                        </table>
+                      
                     </div>
                       <div class="col-md-5"></div>
                     </div>

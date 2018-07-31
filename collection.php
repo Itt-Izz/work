@@ -50,14 +50,10 @@ include ('php/query.php');
 
                     <div class="well">
                       <ul class="list-group">
-                        <br> <span class="glyphicon glyphicon-flag"></span> <a href="stats.php">System Update</a><br><br>
-                        <span class="glyphicon glyphicon-flag"></span><a href="">Specialization</a><br><br>
-                        <span class="glyphicon glyphicon-flag"></span> <a href="">Managing Your Acc</a><br><br>
-                        <span class="glyphicon glyphicon-flag"></span> <a href="">FAQ</a><br><br>
-                        <span class="glyphicon glyphicon-flag"></span> <a href="">How to Earn more </a><br><br>
-                        <span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span><a href="#">Change Password</a>
+                     <a href=""><span class="glyphicon glyphicon-flag"></span><a href="">Inquery</a><br>
+                      <a href=""></a><span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span><a href="#">Change Password</a>
                       </ul>
-                    </div>                                      
+                    </div>                                       
                   </div>
                   <div class="col-md-10" id="pan">
                     <div class="panel panel-default">
@@ -73,18 +69,7 @@ include ('php/query.php');
                                 <h4 align="center" class="two">Daily Tea Collection &nbsp;&nbsp;&nbsp;</h4> &nbsp;&nbsp;&nbsp;
                               </div>
                               <h5 align="right"> <em style="color: black;">Date: </em><b><?php echo " ".$date=date("D d, F Y");?></b></h5>
-                              <div class="col-md-3"><?php
-                              $yesterday=date("Y-m-d", strtotime("yesterday"));
-                              $dayBeforeYesterday=date("Y-m-d", strtotime("-2 day"));
-                              $dayBY=date("D", strtotime("-2 day"));
-                              $twoDaysBeforeYesterday=date("Y-m-d", strtotime("-3 day"));
-                              $twoDaysBY=date("D", strtotime("-3 day"));
-                              $threeDaysBYesterday=date("Y-m-d", strtotime("-4 day"));
-                              $threeDaysBY=date("D", strtotime("-4 day"));
-                              $fourDaysBYesterday=date("Y-m-d", strtotime("-5 day"));
-                              $fourDaysBY=date("D", strtotime("-5 day"));
-                              $fiveDaysBYesterday=date("Y-m-d", strtotime("-6 day"));
-                              $fiveDaysBY=date("D", strtotime("-6 day"));  ?>
+                              <div class="col-md-3">  
                             </div>
                           </ol>
                           <?php if($_SESSION['level']=='clerk' || $_SESSION['level']=='admin'){?>
@@ -103,10 +88,8 @@ include ('php/query.php');
                             </thead>
                             <tbody>
                               <?php 
-
-
                               while($row=$employ->fetch_array()){ ?>
-                                <tr class="rw">
+                                <tr>
                                  
                                   <td><?php echo $row['staff_id']; ?></td>
                                   <td><?php echo $row['fname']; ?></td>

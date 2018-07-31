@@ -20,7 +20,7 @@
             if(isset($_SESSION['username'])){ ?>      
             <li> <a href="account.php" id="nam2" > Hi <span id="nam"><?php echo $_SESSION['username']; ?></span></a></li>
             <?php if($_SESSION['level']!=='staff'){?>
-          <li><div style="margin-top: 5px;"><a href="message.php"><img src='img/notification.png' class="img-circle" id='hdimg'> 
+          <li><div style="margin-top: 5px;"><a href="message.php"><img src='img/notification.png' class="img-circle" id='hd'> 
            <?php           
               if ($row = $mesNo->fetch_array()) {
                 if($row['count(*)']>0){ ?>
@@ -41,7 +41,7 @@
                    </a>
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                                 <li><a href="account.php" id="accc">My Profile</a></li>
-                                         <?php if($_SESSION['level']=='staff'){?>                                                   
+                                         <?php if($_SESSION['level']=='admin'){?>                                                   
                                                 <li><a href="sms.php" id="accc">Send SMs</a></li>
                                                 <?php } ?>
                                                 <li><a href="settings.php" id="conn">Settings</a></li>

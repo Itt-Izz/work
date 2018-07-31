@@ -14,7 +14,11 @@ $clerk=$_SESSION['staff_id'];
 $d=$con->query("SELECT date FROM attendance WHERE date='$date' AND staff_id='$staf'");
 $r=$d->fetch_assoc();
 if($r<1) {
-$con->query("INSERT INTO `attendance`(`id`, `date`, `staff_id`, `present`, `t_id`, `returned_tool`, `ur_clerk`) VALUES ('','$date','$staf','$present','$tool','','$clerk')");
+	if ($tool=='') {
+$con->query("INSERT INTO `attendance`(`id`, `date`, `staff_id`, `present`, `t_id`, `returned_tool`, `ur_clerk`) VALUES ('','$date','$staf','$present','$tool','no','$clerk')");
+	}else{
+$con->query("INSERT INTO `attendance`(`id`, `date`, `staff_id`, `present`, `t_id`, `returned_tool`, `ur_clerk`) VALUES ('','$date','$staf','$present','$tool','yes','$clerk')");
+}
      $success=1;
 }else {
      $success=2;

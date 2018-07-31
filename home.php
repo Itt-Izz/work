@@ -67,8 +67,10 @@ include ('php/query.php');
                // echo $j.'<br>';
                $t='+254'.$j;
                // echo $t;
-                ?><div class="col-md-12">
-                      <div class="col-md-6" id="homePan">
+                ?>
+                <?php if ($_SESSION['level']!=='admin') { ?>
+                <div class="col-md-12">
+                      <div class="col-md-6 homePan">
                      <div class="panel panel-default">
                       <div class="panel-heading color-bg">
                         <h3 class="panel-title">Personal details</h3>   
@@ -77,28 +79,30 @@ include ('php/query.php');
                         <table class="table table-bordered">
                           <tbody>
                            <tr>
+                            <?php
+                            $staff=$_SESSION['staff_id'];
+                             $stfInfo="SELECT *FROM staff where staff_id='$staff'";
+                                    $stf=$con->query($stfInfo);
+                                    $stfRow=$stf->fetch_assoc();
+                            ?>
                             <td>First Name</td>
-                            <td>Isaac</td>                              
+                            <td><?php echo $stfRow['fname']; ?></td>                              
                             </tr>
                             <tr>
                             <td>Second Name</td>
-                            <td>Thuo</td>                              
+                            <td><?php echo $stfRow['lname']; ?></td>                              
                             </tr>
                             <tr>
                             <td>DOB</td>
-                            <td>5/6/2000</td>                              
+                            <td><?php echo $stfRow['birthday']; ?></td>                              
                             </tr>
                            <tr>
                             <td>Phone Number</td>
-                            <td>0710662656</td>                              
+                            <td><?php echo $stfRow['phone_number']; ?></td>                              
                             </tr>
                             <tr>
                             <td>Date</td>
-                            <td>2/7/18</td>                              
-                            </tr>
-                            <tr>
-                            <td>Location</td>
-                            <td>Nakuru</td>                              
+                            <td><?php echo $stfRow['date_registered']; ?></td>                              
                             </tr>
                           </tbody>                          
                         </table>
@@ -113,11 +117,17 @@ include ('php/query.php');
                       <div class="panel-body"> 
                         <table class="table table-bordered">
                           <tbody>
+                            <?php if ($_SESSION['level']=='clerk') { ?>
                            <tr>
+                            <td>Wage (Per Week)</td>
+                            <td>Ksh. 42,000</td>                              
+                            </tr>
+                           <tr>
+                         <?php } ?>
                             <td>Last payment Id</td>
                             <td>5</td>                              
                             </tr>
-                            <tr>
+                            <tr> 
                             <td>Date</td>
                             <td>2/7/18</td>                              
                             </tr>
@@ -136,8 +146,8 @@ include ('php/query.php');
                     </div>              
                 </div>
                 <div class="col-md-12">
-                  <div class="col-md-4"></div>
-                      <div class="col-md-4">
+                  <div class="col-md-2"></div>
+                      <div class="col-md-8">
                      <div class="panel panel-default">
                       <div class="panel-heading color-bg">
                         <h3 class="panel-title">Totals</h3>   
@@ -161,9 +171,92 @@ include ('php/query.php');
                         </table>
                       </div>                        
                       </div>
-                      <div class="col-md-4"></div>
                 </div>
-                      </div> 
+                      <div class="col-md-2"></div>
+                </div> 
+                 
+              <?php  } else { ?>
+                       <div class="col-md-12">
+                         <div class="col-md-4 homePan">
+                     <div class="panel panel-default">
+                      <div class="panel-heading color-bg">
+                        <h3 class="panel-title">All employees</h3>   
+                      </div>
+                      <div class="panel-body"> 
+                        <table class="table table-bordered">
+                           <tbody>
+                            
+                  <?php while ($rows = $run2->fetch_array()) { ?>
+                      <tr>                         
+                           <td>Total No</td>
+                            <td><?= $rows['count(*)'];?></td>                              
+                            </tr>
+                   <?php } while($rowsb = $run3->fetch_array()) { ?>
+                            <tr>
+                            <td><?= $rowsb['sex']; ?></td>
+                            <td><?= $rowsb['count(*)']; ?></td>                              
+                            </tr>
+                          <?php   }    ?>
+                          </tbody>                          
+                        </table>
+                      </div>                        
+                      </div>
+
+                         </div>
+                         <div class="col-md-4 homePan">
+                     <div class="panel panel-default">
+                      <div class="panel-heading color-bg">
+                        <h3 class="panel-title">Number of tools</h3>   
+                      </div>
+                      <div class="panel-body"> 
+                        <table class="table table-bordered">
+                           <tbody>
+                            <tr>
+                            <td>Total Paid</td>
+                            <td>22,000</td>                              
+                            </tr>
+                            <tr>
+                            <td>Total Balance</td>
+                            <td>2,050</td>                              
+                            </tr>
+                            <tr>
+                            <td>Last day present</td>
+                            <td>3 out of 7</td>                              
+                            </tr>
+                          </tbody>                          
+                        </table>
+                      </div>                        
+                      </div>
+
+                         </div>
+                         <div class="col-md-4">
+                     <div class="panel panel-default">
+                      <div class="panel-heading color-bg">
+                        <h3 class="panel-title">Payments</h3>   
+                      </div>
+                      <div class="panel-body"> 
+                        <table class="table table-bordered">
+                           <tbody>
+                            <tr>
+                            <td>Total Paid</td>
+                            <td>22,000</td>                              
+                            </tr>
+                            <tr>
+                            <td>Total Balance</td>
+                            <td>2,050</td>                              
+                            </tr>
+                            <tr>
+                            <td>Last day present</td>
+                            <td>3 out of 7</td>                              
+                            </tr>
+                          </tbody>                          
+                        </table>
+                      </div>                        
+                      </div>
+
+                         </div>
+                       </div>
+            <?php  } ?>
                   </div>
                 </div>
               </div>                                   

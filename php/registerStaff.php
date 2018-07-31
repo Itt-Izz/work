@@ -50,6 +50,7 @@ if ($uploadOk == 0) {
         echo "Sorry, there was an error uploading your file.";
     }
 }	$name = trim($_POST['fname']);
+    $lname = trim($_POST['lname']);
 	$sex = $_POST['gender'];
 	$birthday =trim ($_POST['birthday']);
 	$id = trim($_POST['id']);
@@ -78,9 +79,8 @@ if ($uploadOk == 0) {
 //then register
 	if( $result->num_rows== 0){
         
-if($con->query("INSERT INTO staff(fname, sex,birthday, department, position, 
-username, password, date_registered, id_number, phone_number, level,image) 
-VALUES('$name','$sex','$birthday','$depart','$position','$uname','$upass','$date','$id','$phone','$level','$image')"))	{
+if($con->query("INSERT INTO staff(fname, lname, sex, birthday, username, password, date_registered, id_number, phone_number, level, image) 
+VALUES('$name','$lname','$sex','$birthday','$uname','$upass','$date','$id','$phone','$level','$image')"))	{
 $username   = "employees";
 $apikey     = "220f4868d095452b9c0d930cd20f68abce855dff5f13fe00b948f36db942a0da";
 $recipients = $phone;

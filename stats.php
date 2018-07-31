@@ -63,69 +63,105 @@ include ('php/query.php');
   <div class="panel-body">
     <div id="scrolTable">
       <?php
-      $quer=sprintf("SELECT t_id, name, namba, cost FROM tools ORDER BY t_id");
+      $quer="SELECT t_id, name, namba, cost FROM tools ORDER BY t_id";
        $data=array();
        $rw=$con->query($quer);
        foreach ($rw as $row) {
          $data[]=$row;
        }
+       //Daily employee attendance
+      $que="SELECT date_format(date, '%W') AS day, COUNT('day') as dayCount FROM attendance GROUP BY day";
+       $dat=array();
+       $r=$con->query($que);
+       foreach ($r as $row) {
+         // $dat[]=$row;
+        array_push($dat, $row);
+       }
+//Daily employee collection
+      $que2="SELECT date_format(col_date, '%W') AS day, COUNT('day') as dayCount FROM collection GROUP BY day";
+       $dat2=array();
+       $rc=$con->query($que2);
+       foreach ($rc as $row) {
+         // $dat[]=$row;
+        array_push($dat2, $row);
+       }
 //Print in json
-       // print json_encode($data);
+       // print json_encode($dat2);
+          // die();
+
         ?>
 
        <div class="col-md-12">
          <div class="col-md-3" style="height: 150px; background-color: lightgrey;">
            <h4>Present Today</h4>
+
            <div class="col-md-4">
-             <h1>203</h1>
+            <?php $preNo="SELECT COUNT(*) FROM attendance LEFT JOIN staff on attendance.staff_id=staff.staff_id WHERE attendance.present='yes' AND attendance.date=CURDATE() ";
+               $resultPresent=$con->query($preNo);
+               $row=$resultPresent->fetch_assoc();
+               echo "<h1>".$row['COUNT(*)']."</h1>";
+
+             ?>
+             
            </div>
            <div class="col-md-8">
-          <p> <h5>Male:</h5><h6>153</h6></p>
-           <p><h5>Female</h5><h6>50</h6></p>
+          <p> <?php 
+         $qr3 = "SELECT *, count(*) FROM attendance LEFT JOIN staff on attendance.staff_id=staff.staff_id WHERE attendance.present='yes' AND attendance.date=CURDATE() GROUP BY sex";
+        $sex =  $con->query($qr3);
+            while($rowsb = $sex->fetch_array()) {
+                        echo $rowsb['sex'].": <b>".$rowsb['count(*)'].'</b>';
+                        echo "<br><br>";
+                    } ?></p>
            </div>
            
          </div>
          <div class="col-md-1""></div>
          <div class="col-md-3" style="height: 150px; background-color: lightgreen;">
-            <h4>Total Salary this Month</h4>
+            <h4>Total collection</h4>
            <div class="col-md-5">
-             <h1>200k</h1>
+            <?php $tc="SELECT COUNT(weight) as weight FROM collection";
+                  $t=$con->query($tc);
+                  $row=$t->fetch_assoc(); 
+                  $rat="SELECT rate FROM collectionrate";
+                  $rate=$con->query($rat);
+                  $rowRate=$rate->fetch_assoc();
+           ?>
+             <h1><?php echo $row['weight']; ?></h1>
            </div>
            <div class="col-md-7">
-          <p> <h5>Tea collection:</h5><h6>150k</h6></p>
-           <p><h5>Other:</h5><h6>50k</h6></p>
+          <p> <h5>Rate:</h5><h6><b><?php echo $rowRate['rate']." per Kg"; ?></b></h6></p>
+           <p><h5>Amount:</h5><h6><b><?php echo "Ksh. ".$rowRate['rate']*$row['weight']; ?></b></h6></p>
            </div>
          </div>
          <div class="col-md-1"></div>
          <div class="col-md-3" style="height: 150px; background-color: #cbcbcb;">
-            <h4>No of tools lost</h4>
+            <h4>Tools lost</h4>
            <div class="col-md-4">
-             <h1>2</h1>
+            <?php $tl="SELECT COUNT(*)as no, sum(cost)as cost FROM `attendance` LEFT JOIN tools on attendance.t_id=tools.t_id WHERE attendance.returned_tool='No'";
+                $tq=$con->query($tl);
+                $toolRows=$tq->fetch_assoc();
+             ?>
+             <h1><?php echo $toolRows['no']; ?></h1>
            </div>
            <div class="col-md-8">
-          <p> <h5>Cost</h5><h6>650</h6></p>
+          <p> <h5>Cost</h5><h6><?php echo $toolRows['cost']; ?></h6></p>
            </div>
          </div>
          <div class="col-md-1"></div>
-       </div>
-       <div class="col-md-12">
+       </div><br><br><br><br>
+       <div class="col-md-12" style="background-color: #F8F8F8; margin: 20px; padding: 10px;">
             <div class="container col-md-6">
                 <canvas id="mychart"></canvas>
-                <h6 align="center">Total daily employee attendance </h6>
             </div>
             <div class="container col-md-6">
-                <canvas id="mypie"></canvas>
-                <h6 align="center">Total monthly payments</h6>
+                <canvas id="mypy"></canvas>
             </div> 
-       </div>
-            <div class="col-md-12">
-                <canvas id="chartMy"></canvas>
-                <h6 align="center">Total monthly payments</h6>
-            </div> 
+       </div><br><br><br><br>
        <div class="col-md-12">
          <h3 align="center" class="breadcrumb">Employee Attendance</h3>
     <table class="table table-striped table-bordered table-hover" id="mytable4">
-       <thead> <tr>
+       <thead>
+     <tr>
         <th>#</th>
         <th>Name</th>                       
         <th>Sex</th>                         
@@ -191,45 +227,116 @@ include ('php/query.php');
 
     <script type="text/javascript">
   //gragh datasets
-      var data=<?php echo json_encode($data)?>;
-      var tool={
-        nam:[],
-        cost:[]
-      };
-      var len=data.length;
+      // var data=<?php echo json_encode($data)?>;
+      // var tool={
+      //   nam:[],
+      //   cost:[]
+      // };
+      // var len=data.length;
 
-      for (var i=0; i<len; i++){
+      // for (var i=0; i<len; i++){
+      //   // console.log(data[i]);
+      //         tool.nam.push(data[i].namba);
+      //         tool.cost.push(data[i].cost);
+      // }
+      // // console.log(tool);
+      // var ctx= document.getElementById("chartMy").getContext('2d');
+      // var dataset={
+      //   labels : ["1st","sec","3rd","4th","5th"],
+      //   datasets:[
+      //   {
+      //       label: "Cost of tools",
+      //       data: tool.cost,
+      //       backgroundColor: "green",
+      //       borderColor: "lightgreen",
+      //       fill: false,
+      //       pointRadius:5
+      //   }, {
+      //       label: "Number of tools",
+      //       data: tool.nam,
+      //       backgroundColor: "blue",
+      //       borderColor: "lightblue",
+      //       fill: false,
+      //       pointRadius:5
+      //   }
+      //   ]
+      // };
+      // var options = {
+      //   title:{
+      //       display : true,
+      //       position: "top",
+      //       text : "Line Graph",
+      //       fontSize: 18, 
+      //       fontColor: "#333"
+      //   },
+      //   legend:{
+      //       display: true,
+      //       position: "bottom"
+      //   }
+      // };
+      // var option2 = {
+      //   title:{
+      //       display : true,
+      //       position: "top",
+      //       text : "Daily Employee Attendance",
+      //       fontSize: 18, 
+      //       fontColor: "#333"
+      //   },
+      //   legend:{
+      //       display: true,
+      //       position: "bottom"
+      //   }
+      // };
+      // // console.log(data);
+      // var chart=new Chart(ctx, {
+      //   type:"line",
+      //   data:dataset,
+      //   options: options
+      // });
+
+       // Attendance implementation --------------------------------------------------------------------------------
+     var dat=<?php echo json_encode($dat)?>;
+      var day={
+        attendance:[]
+      };
+      var leng=dat.length;
+
+      for (var i=0; i<leng; i++){
         // console.log(data[i]);
-              tool.nam.push(data[i].namba);
-              tool.cost.push(data[i].cost);
+              day.attendance.push(dat[i].dayCount);
       }
-      // console.log(tool);
-      var ctx= document.getElementById("chartMy").getContext('2d');
-      var dataset={
-        labels : ["1st","sec","3rd","4th","5th"],
-        datasets:[
-        {
-            label: "Cost of tools",
-            data: tool.cost,
+  var mychart = document.getElementById('mychart').getContext('2d');
+  var  data = {
+        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        datasets:[{
+            label: 'Daily Employee Attendance',
+            data: day.attendance,
             backgroundColor: "green",
             borderColor: "lightgreen",
             fill: false,
-            pointRadius:5
-        }, {
-            label: "Number of tools",
-            data: tool.nam,
-            backgroundColor: "blue",
-            borderColor: "lightblue",
-            fill: false,
-            pointRadius:5
-        }
-        ]
-      };
+            pointRadius:5,
+            backgroundColor: 'lightgreen'
+        }]
+     };
+
       var options = {
         title:{
             display : true,
             position: "top",
-            text : "Line Graph",
+            text : "Daily Collections",
+            fontSize: 18, 
+            fontColor: "#333"
+        },
+        legend:{
+            display: true,
+            position: "bottom"
+        }
+      };
+      var option2 = {
+        title:{
+            display : true,
+            position: "top",
+            text : "Daily Employee Attendance",
             fontSize: 18, 
             fontColor: "#333"
         },
@@ -239,11 +346,51 @@ include ('php/query.php');
         }
       };
       // console.log(data);
-      var chart=new Chart(ctx, {
+      var chart=new Chart(mychart, {
         type:"line",
-        data:dataset,
+        data:data,
+        options: option2
+      });
+
+
+       // Collection implementation --------------------------------------------------------------------------------
+     var dat2=<?php echo json_encode($dat2)?>;
+      var day={
+        collection:[]
+      };
+      var leng=dat.length;
+
+      for (var i=0; i<leng; i++){
+        // console.log(data[i]);
+              day.collection.push(dat[i].dayCount);
+      }
+  var mypy = document.getElementById('mypy').getContext('2d');
+  var  data2 = {
+        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday'],
+        datasets:[{
+            label: 'Daily Collections',
+            data: day.collection,
+            fill: false,
+            pointRadius:5,
+            backgroundColor: [
+            'rgba(255,99,132,0.6)',
+            'rgba(255,162,235,0.6)',
+            'rgba(255,206,86,0.6)',
+            'rgba(75,192,192,0.6)',
+            'rgba(153,102,255,0.6)',
+            'rgba(255,159,64,0.6)',
+            'rgba(255,99,132,0.6)'
+            ]
+        }]
+     };
+      // console.log(data);
+      var chart=new Chart(mypy, {
+        type:"pie",
+        data:data2,
         options: options
       });
+
+
     </script>
 <footer id="footer">
     <p>Copyright &copy; www.lasittea.com 2018</p>

@@ -33,13 +33,13 @@ include ('php/query.php');
               <a href="staff.php" id="stuff2" class="list-group-item">
                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Employees </a>
                     <?php }?>
-                <a href="payment.php" id="payHist" class="list-group-item">
+                 <a href="payment.php" id="payHist" class="list-group-item">
                   <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Payment</a>
                   <?php if($_SESSION['level']=='clerk'){  ?>
                   <a href="register.php" id="regc2" class="list-group-item  mainNav">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Employee </a>
                     <?php } else if($_SESSION['level']=='admin'){?>
-                  <a href="register.php" id="regc2" class="list-group-item  active main-color-bg mainNav">
+                  <a href="register.php" id="regc2" class="list-group-item  mainNav">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Clerk </a>
                     <a href="stats.php" id="st" class="list-group-item"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports </a>
                     <?php }?>
@@ -47,13 +47,12 @@ include ('php/query.php');
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Settings</a>
                     </div>
 
-                      <div class="well">
-                        <ul class="list-group">
-                          <br> <span class="glyphicon glyphicon-flag"></span> <a href="stats.php">System Update</a><br><br>
-                          <span class="glyphicon glyphicon-flag"></span><a href="">Specialization</a><br><br>
-                          <span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span><a href="#">Change Password</a>
-                        </ul>
-                      </div>
+                    <div class="well">
+                      <ul class="list-group">
+                     <a href=""><span class="glyphicon glyphicon-flag"></span><a href="">Inquery</a><br>
+                      <a href=""></a><span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span><a href="#">Change Password</a>
+                      </ul>
+                    </div>  
         </div> 
                     <div class="col-md-10" id="pan">              
                       <!-- Latest Users -->
@@ -136,8 +135,14 @@ include ('php/query.php');
                                     <div class="col-sm-4"><button type="submit" name="codeS" class="btn btn-success form-control">Register</button></div>
                                     <div class="col-md-4">
                                       <div class="pull-right" id="code">
-                                    </b><h4 style="color: #FF00FF;">Sent Code:</h4><label><b>&nbsp;GT-<?php echo rand(4,7959); ?></label> 
-                                    </div> </div>
+                     <!-- <h4 style="color: #FF00FF;">Sent Code:</h4><label><b>&nbsp;GT-
+                      <?php 
+                      //echo rand(4,7959);
+                       ?>
+                    </label>  -->
+                                    </div> 
+
+                                  </div>
                            </div>
                          </div>
                                 <div class="col-md-4 well" id="content">
