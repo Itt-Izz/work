@@ -36,10 +36,10 @@ include ('php/query.php');
                  <a href="payment.php" id="payHist" class="list-group-item">
                   <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Payment</a>
                   <?php if($_SESSION['level']=='clerk'){  ?>
-                  <a href="register.php" id="regc2" class="list-group-item  mainNav">
+                  <a href="register.php" id="regc2" class="list-group-item main-color-bg">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Employee </a>
                     <?php } else if($_SESSION['level']=='admin'){?>
-                  <a href="register.php" id="regc2" class="list-group-item  mainNav">
+                  <a href="register.php" id="regc2" class="list-group-item  main-color-bg">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Clerk </a>
                     <a href="stats.php" id="st" class="list-group-item"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports </a>
                     <?php }?>

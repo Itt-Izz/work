@@ -15,39 +15,47 @@ $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 if(isset($_POST["submit"])) {
     $check = getimagesize($_FILES["image"]["tmp_name"]);
     if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
+        // echo "File is an image - " . $check["mime"] . ".";
         $uploadOk = 1;
     } else {
-        echo "File is not an image.";
+        // echo "File is not an image.";
+        echo "<script> alert('File not ana image!'); </script>";
         $uploadOk = 0;
     }
 }
 // Check if file already exists
 if (file_exists($target_file)) {
-    echo "Sorry, file already exists.";
+        // echo "<script>alert('Sorry, your file already exists!') </script>";
+     echo "Sorry, file already exists.";
     $uploadOk = 0;
 }
 // Check file size
 if ($_FILES["image"]["size"] > 1000000) {
+        // echo "<script>alert('Sorry, your file is too large!') </script>";
     echo "Sorry, your file is too large.";
     $uploadOk = 0;
 }
 // Allow certain file formats
 if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 && $imageFileType != "gif" ) {
+        // echo "<script>alert('Sorry, only JPG, JPEG, PNG & GIF files are allowed!') </script>";
     echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
     $uploadOk = 0;
 }
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
+        // echo "<script>alert('Sorry, File not aploaded!') </script>";
     echo "Sorry, your file was not uploaded.";
 // if everything is ok, try to upload file
 } else {
     if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
         $image=$_FILES["image"]["name"];
+        echo "<script>alert('File uploaded Successfully!') </script>";
+        header('Location: registerStaff.php');
         // echo "The file". basename( $_FILES["image"]["name"]). " has been uploaded.";
     } else {
-        echo "Sorry, there was an error uploading your file.";
+        // echo "<script>alert('Sorry, there was an error while uploading your file!') </script>";
+         echo "Sorry, there was an error uploading your file.";
     }
 }	$name = trim($_POST['fname']);
     $lname = trim($_POST['lname']);

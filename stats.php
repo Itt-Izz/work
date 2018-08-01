@@ -44,10 +44,6 @@ include ('php/query.php');
                       </div>
                       <div class="well">
                         <ul class="list-group">
-                          <br> <span class="glyphicon glyphicon-flag"></span> <a href="stats.php">System Update</a><br><br>
-                          <span class="glyphicon glyphicon-flag"></span><a href="">Specialization</a><br><br>
-                          <span class="glyphicon glyphicon-flag"></span> <a href="">Managing Your Acc</a><br><br>
-                          <span class="glyphicon glyphicon-flag"></span> <a href="">FAQ</a><br><br>
                           <span class="glyphicon glyphicon-flag"></span> <a href="">How to Earn more </a><br><br>
                           <span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span><a href="#">Change Password</a>
                         </ul>

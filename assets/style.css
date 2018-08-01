@@ -50,7 +50,7 @@ body {
     margin-left: 10px;
 }
 
-#hdimg {
+.hdimg {
     width: 30px;
     height: 30px;
 }
@@ -196,6 +196,9 @@ body {
 
 .badge {
     background: rgb(250, 63, 30);
+}
+.badg {
+    background: lightgrey!important;
 }
 
 .badge-change {

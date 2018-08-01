@@ -92,10 +92,10 @@
          $sl="SELECT image FROM staff where staff_id='$staff_id'";
          $img=$con->query($sl);
 
-         $out="SELECT * FROM message LEFT JOIN staff on staff.staff_id=message.staff_id where message.dest_id='$staff_id'";
+         $out="SELECT * FROM message LEFT JOIN staff on staff.staff_id=message.dest_id where message.staff_id='$staff_id' order by sent_date desc";
          $outbox=$con->query($out);
 
-         $in="SELECT * FROM message LEFT JOIN staff on staff.staff_id=message.staff_id where message.staff_id='$staff_id'";
+         $in="SELECT * FROM message LEFT JOIN staff on staff.staff_id=message.staff_id where message.dest_id='$staff_id'";
          $inbox=$con->query($in);
 
          $unR="SELECT * FROM message LEFT JOIN staff on staff.staff_id=message.staff_id where Msg_read=0 AND message.staff_id!='$staff_id'";

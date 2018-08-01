@@ -60,65 +60,11 @@ include ('php/query.php');
                       </div> <!-- panel heading -->
 
                       <div class="panel-body"id="scrolTable">
- <!-- Compossing Message     .............................................................................. -->
-                              
-                                      <form action="php/sendMessage.php" method='POST' class="form-horizontal">
-                                        
-                                       <div class="form-group">
-                                        <label class="col-sm-1" for="inputSubject">Subject</label>
-                                        <div class="col-sm-7"><input type="text" name="subject" class="form-control" id="inputSubject" placeholder="subject"></div>
-                                        <div class="col-sm-4"></div>
-                                      </div><!-- form group -->
-                                      <div class="form-group">
-                                        <label class="col-sm-1" for="inputBody">Message</label>
-                                        <div class="col-sm-7">
-                                          <textarea class="form-control"
-                                          id="inputBody" rows="8" data-gramm="true" data-gramm_editor="true"placeholder="Type your message here ................................." name="message"></textarea> </div>
-                                          <div class="col-sm-4"></div>         
-                                        </div><!-- form group -->
-                                        <div class="form-group">
-                                          <label class="col-sm-7"> </label>
-                                         
-                                          <div class="col-sm-4"></div>
-                                        </div><!-- form group -->
-                                   <div class="form-group"> 
-                                          <label class="control-label col-sm-1">To</label>
-                                          <div  class="col-sm-4">
-                                            <select  name="to"  class="form-control">
-                                              <?php
-                                              if($_SESSION['level']='admin') {
-                                                  do{?>
-                                               <option  value= "<?php echo $row['staff_id'];?>" selected> <?php   echo $row['username'];?></option> <?php } while($row=$empB->fetch_assoc());
-                                               }
-                                                else{
-                                                echo "Manager";
-                                             } ?></select>
-                                       </div><!-- form group --> 
-                           <button type="submit" name="submit" class="btn btn-info">Send Message</button>
-                           <button class="btn btn-default">Send to all Employees</button>
-                                         </div>
-                                   </form><br><br><br>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                         <div class="container col-md-12">
                           <ul class="nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#inb" class="btn btn-default">Inbox <span class="badge"> 10</span></a></li>
-                            <li><a data-toggle="tab" href="#unr" class="btn btn-warning">Unread 
+                            <li class="active"><a data-toggle="tab" href="#inb">Inbox <span class="badge badg"> 10</span></a></li>
+                            <li><a data-toggle="tab" href="#unr">Unread 
                               <?php              
                               if($row = $mesNo->fetch_array()) {
                                 if($row['count(*)']>0){ ?>
@@ -127,8 +73,8 @@ include ('php/query.php');
                                   <?php }else echo "0"; } ?>
 
                                 </a></li>
-                                <li><a data-toggle="tab" href="#sen" class="btn btn-success">Sent  <span class="badge"> 5</span></a></li>
-                                <li><a data-toggle="tab" href="#comp" class="btn btn-danger">Compose </a></li>
+                                <li><a data-toggle="tab" href="#sen" >Sent  <span class="badge badg"> 10</span></a></li>
+                                <li><a data-toggle="tab" href="#comp">Compose </a></li>
                               </ul>
                               <!-- Inbox Message     .............................................................................. -->    
                               <div class="tab-content">
@@ -136,7 +82,6 @@ include ('php/query.php');
                                   <div class="row wel">
                                     <div class="panel panel-default">
                                       <div class="panel-heading clearfix">
-                                        <h3 class="panel-title">All messages</h3>
                                       </div><!-- message head ->from -->
                                       <div class="panel-body">
                                         <table class="table table-striped table-hover">
@@ -147,8 +92,7 @@ include ('php/query.php');
                                             <th>subject</th>                   
                                             <th>Date</th>                   
                                             <th>Message</th> 
-                                            <th>Status</th>
-                                            <th>Details</th>     
+                                            <th>Delete</th>     
                                           </tr>
                                           <?php
                                           if($inbox->num_rows > 0) {
@@ -156,16 +100,11 @@ include ('php/query.php');
                                             while($row=$inbox->fetch_assoc()){ ?>
                                              <tr> 
                                               <td><?php echo $i; ?></td>                   
-                                              <td><?php echo $row["dest_id"]; ?></td>                   
+                                              <td><?php echo $row["fname"]; ?></td>                   
                                               <td><?php echo $row["subject"]; ?></td>                   
                                               <td><?php echo $row["sent_date"]; ?> </td>                   
-                                              <td><?php echo $row["msg"]; ?></td>                   
-                                              <td><b><?php if($row["Msg_read"]==1){
-                                                echo "Unread";
-                                              }else echo "Read"; ?></b></td>  
-                                              <td><button class="btn btn-success">view</button>
-                                                <button class="btn-danger">Remove</button>
-                                              </td>             
+                                              <td><?php echo $row["msg"]; ?></td> 
+                                              <td><img src="img/delete.png" id='hd'> </td>             
 
                                             </tr>
                                             <?php
@@ -196,7 +135,7 @@ include ('php/query.php');
                                           <th>subject</th>                   
                                           <th>Date</th>                   
                                           <th>Message</th> 
-                                          <th>Details</th>     
+                                          <th>Remove</th>     
                                         </tr>
                                         <?php
                                         if($unRead->num_rows > 0) {
@@ -204,13 +143,11 @@ include ('php/query.php');
                                           while($row=$unRead->fetch_assoc()){ ?>
                                            <tr> 
                                             <td><?php echo $i; ?></td>                   
-                                            <td><?php echo $row["dest_id"]; ?></td>                   
+                                            <td><?php echo $row["fname"]; ?></td>                   
                                             <td><?php echo $row["subject"]; ?></td>                   
                                             <td><?php echo $row["sent_date"]; ?> </td>                   
                                             <td><?php echo $row["msg"]; ?></td>                   
-                                            <td><button class="btn btn-success">view</button>
-                                              <button class="btn-danger">Remove</button>
-                                            </td>             
+                                            <td><img src="img/delete.png" id='hd'></td>             
                                           </tr>
                                           <?php
                                           $i++; }
@@ -239,7 +176,7 @@ include ('php/query.php');
                                           <th>subject</th>                   
                                           <th>Date</th>                   
                                           <th>Message</th> 
-                                          <th>Details</th>     
+                                          <th>Remove</th>     
                                         </tr>
                                         <?php
                                         if($outbox->num_rows > 0) {
@@ -251,9 +188,7 @@ include ('php/query.php');
                                             <td><?php echo $row["subject"]; ?></td>                   
                                             <td><?php echo $row["sent_date"]; ?> </td>                   
                                             <td><?php echo $row["msg"]; ?></td>                   
-                                            <td><button class="btn btn-success">view</button>
-                                              <button class="btn-danger">Remove</button>
-                                            </td>             
+                                            <td><img src="img/delete.png" id='hd'></td>             
                                           </tr>
                                           <?php
                                           $i++; }
@@ -279,42 +214,43 @@ include ('php/query.php');
                                       </h3>
                                     </div><!-- message head ->from -->
                                     <div class="panel-body">
+                                      
                                       <form action="php/sendMessage.php" method='POST' class="form-horizontal">
-                                        <div class="form-group"> 
-                                          <label class="control-label col-sm-1">To</label>
-                                          <div  class="col-sm-4">
-                                            <select  name="to"  class="form-control">
-                                              <?php
-                                              if($_SESSION['level']='admin') {
-                                                  do{?>
-                                               <option  value= "<?php   echo $row['staff_id'];?>" selected> <?php   echo $row['username'];?></option> <?php } while($row=$empB->fetch_assoc());
-                                               }
-
-                                                else{
-                                                echo "Manager";
-                                             } ?></select>
-                                         </div>
-                                         <div class="col-sm-4"></div>
-
-                                       </div><!-- form group -->
+                                        
                                        <div class="form-group">
                                         <label class="col-sm-1" for="inputSubject">Subject</label>
-                                        <div class="col-sm-7"><input type="text" name="subject" class="form-control" id="inputSubject" placeholder="subject"></div>
+                                        <div class="col-sm-7"><input type="text" name="subject" class="form-control" id="inputSubject" placeholder="subject" required></div>
                                         <div class="col-sm-4"></div>
                                       </div><!-- form group -->
                                       <div class="form-group">
                                         <label class="col-sm-1" for="inputBody">Message</label>
                                         <div class="col-sm-7">
                                           <textarea class="form-control"
-                                          id="inputBody" rows="8" data-gramm="true" data-gramm_editor="true"placeholder="Type your message here ................................." name="message"></textarea> </div>
+                                          id="inputBody" rows="8" data-gramm="true" data-gramm_editor="true"placeholder="Type your message here ................................." name="message" required></textarea> </div>
                                           <div class="col-sm-4"></div>         
                                         </div><!-- form group -->
                                         <div class="form-group">
                                           <label class="col-sm-7"> </label>
-                                          <div class="col-sm-1"><button type="submit" name="submit" class="btn btn-info">Send Message</button></div>
+                                         
                                           <div class="col-sm-4"></div>
                                         </div><!-- form group -->
-                                      </form><!-- compose form -->
+                                   <div class="form-group"> 
+                                          <label class="control-label col-sm-1">To</label>
+                                          <div  class="col-sm-4">
+                                            <select  name="to"  class="form-control">
+                                              <?php
+                                              if($_SESSION['level']='admin') {
+                                                  do{?>
+                                               <option  value= "<?php echo $row['staff_id'];?>" selected> <?php   echo $row['username'];?></option> <?php } while($row=$empB->fetch_assoc());
+                                               }
+                                                else{
+                                                echo "Manager";
+                                             } ?></select>
+                                       </div><!-- form group --> 
+                           <button type="submit" name="submit" class="btn btn-info">Send Message</button>
+                           <button class="btn btn-default">Send to all Employees</button>
+                                         </div>
+                                   </form>
                                     </div><!-- compose panel body -->
                                   </div><!-- compose panel-->
                                 </div><!-- compose row well -->

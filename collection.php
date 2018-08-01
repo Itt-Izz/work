@@ -90,16 +90,24 @@ include ('php/query.php');
                               <?php 
                               while($row=$employ->fetch_array()){ ?>
                                 <tr>
-                                 
                                   <td><?php echo $row['staff_id']; ?></td>
                                   <td><?php echo $row['fname']; ?></td>
-                                  <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
+                                  <?php
+                                   $da="SELECT staff.fname, date_format(col_date, '%W') as day, collection.col_date, collection.weight FROM `collection` LEFT JOIN staff ON collection.staff_id=staff.staff_id WHERE col_date BETWEEN '2018-07-24' AND CURRENT_DATE() and collection.staff_id=18";
+                                  $dayz=$con->query($da);
+                                   $rwz=$dayz->fetch_assoc(); ?>
+                                    <?php  if ($fiveDaysBYesterday==$rwz['col_date']) { ?> 
+                                  <td><input type="" name=""class="form-control" placeholder="<?= $rwz['weight']; ?>" disabled></td>
+                                  <?php } ?>
                                   <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
                                   <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
                                   <input type="hidden" class="staf" value="<?= $row['staff_id']?>">
                                   <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
                                   <td><input type="" name=""class="form-control" placeholder="40" disabled></td>
                                   <td><input type="" name="" class="form-control" placeholder="80" disabled></td>
+                                  <?php  if ($fourDaysBYesterday==$rwz['col_date']) { ?> 
+                                  <td><input type="" name=""class="form-control" placeholder="<?= $rwz['weight']; ?>" disabled></td>
+                                  <?php } ?>
                                   <td><input class="form-control tea_collect" placeholder="12.5" type="number" required></td>
                                   <td>
                                     <input type="button" name="collectT"class="form-control col_save" value="Save">

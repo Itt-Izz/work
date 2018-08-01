@@ -34,8 +34,13 @@
                 <div class="dropdown">
                    <a href="#" class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> 
                               <div class="imgPos">
-                                <?php $row = $img->fetch_assoc();  
-                           echo "<img src='empImgs/".$row['image']."'class='img-circle' id='hdimg'>";?>
+                                <?php $row = $img->fetch_assoc(); 
+                                if ($row['image']=='') { ?>
+                                  <img src="img/ava.png" class="img-circle hdimg">
+                               <?php  } else{
+                                  echo "<img src='empImgs/".$row['image']."'class='img-circle hdimg'>";
+                                 }
+                           ?>
                             <span class="caret"></span>
                              </div>
                    </a>

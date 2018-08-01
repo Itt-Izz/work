@@ -14,7 +14,7 @@ require_once 'connection.php';
 	
 
 
-if($con->query("INSERT INTO message(m_id, subject, msg, sent_date,staff_id, dest_id, Msg_read) 
+if($con->query("INSERT INTO message(m_id, subject, msg, sent_date, staff_id, dest_id, Msg_read) 
 VALUES('','$sub','$mes','$date','$from','$to','0')"))	{
 			?>
 	<div class="alert alert-success">

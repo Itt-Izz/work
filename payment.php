@@ -32,7 +32,7 @@ include ('php/query.php');
               <a href="staff.php" id="stuff2" class="list-group-item">
                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Employees </a>
                     <?php }?>
-                 <a href="payment.php" id="payHist" class="list-group-item">
+                 <a href="payment.php" id="payHist" class="list-group-item main-color-bg">
                   <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Payment</a>
                   <?php if($_SESSION['level']=='clerk'){  ?>
                   <a href="register.php" id="regc2" class="list-group-item  mainNav">
