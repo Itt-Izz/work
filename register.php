@@ -62,7 +62,7 @@ include ('php/query.php');
                         </div>
                         <div class="panel-body">
                           <div id="scrolTable">
-                            <form class="form-horizontal" method='POST' action='php/registerStaff.php' enctype="multipart/form-data" id="uploadForm">
+                            <form class="form-horizontal" method='POST'  enctype="multipart/form-data" id="uploadForm" name="uploadForm">
                               <div class=" col-md-8 well">
                                 <h4 align="center">Enter Employee details</h4>
                                 <div class="col-md-12"> 

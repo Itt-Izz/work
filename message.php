@@ -215,7 +215,7 @@ include ('php/query.php');
                                     </div><!-- message head ->from -->
                                     <div class="panel-body">
                                       
-                                      <form action="php/sendMessage.php" method='POST' class="form-horizontal">
+                                      <form method='POST' class="form-horizontal" name="smsForm">
                                         
                                        <div class="form-group">
                                         <label class="col-sm-1" for="inputSubject">Subject</label>
@@ -247,8 +247,8 @@ include ('php/query.php');
                                                 echo "Manager";
                                              } ?></select>
                                        </div><!-- form group --> 
-                           <button type="submit" name="submit" class="btn btn-info">Send Message</button>
-                           <button class="btn btn-default">Send to all Employees</button>
+                           <button type="submit" name="submit" class="btn btn-info" id="sendOne">Send Message</button>
+                                 <a href="#" > <input type="" name=""id="sendMore" value="Send to all Employees"class="btn"> </a>
                                          </div>
                                    </form>
                                     </div><!-- compose panel body -->

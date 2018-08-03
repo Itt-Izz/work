@@ -87,27 +87,30 @@ include ('php/query.php');
                               <th>Approve</th>
                             </thead>
                             <tbody>
-                              <?php 
+                              <?php  
+                              $yesterday=date("Y-m-d", strtotime("yesterday"));
+                              $dayBeforeYesterday=date("Y-m-d", strtotime("-2 day"));
+                              $twoDaysBeforeYesterday=date("Y-m-d", strtotime("-3 day"));
+                              $threeDaysBYesterday=date("Y-m-d", strtotime("-4 day"));
+                              $fourDaysBYesterday=date("Y-m-d", strtotime("-5 day"));
+                              $fiveDaysBYesterday=date("Y-m-d", strtotime("-6 day"));
                               while($row=$employ->fetch_array()){ ?>
                                 <tr>
                                   <td><?php echo $row['staff_id']; ?></td>
                                   <td><?php echo $row['fname']; ?></td>
                                   <?php
-                                   $da="SELECT staff.fname, date_format(col_date, '%W') as day, collection.col_date, collection.weight FROM `collection` LEFT JOIN staff ON collection.staff_id=staff.staff_id WHERE col_date BETWEEN '2018-07-24' AND CURRENT_DATE() and collection.staff_id=18";
+                                  $staf=$row['staff_id'];
+                                   $da="SELECT staff.fname, date_format(col_date, '%W') as day, collection.col_date, collection.weight FROM `collection` LEFT JOIN staff ON collection.staff_id=staff.staff_id WHERE col_date BETWEEN '2018-07-24' AND CURRENT_DATE() and collection.staff_id='$staf'";
                                   $dayz=$con->query($da);
-                                   $rwz=$dayz->fetch_assoc(); ?>
-                                    <?php  if ($fiveDaysBYesterday==$rwz['col_date']) { ?> 
-                                  <td><input type="" name=""class="form-control" placeholder="<?= $rwz['weight']; ?>" disabled></td>
-                                  <?php } ?>
+                                   $rwz=$dayz->fetch_assoc();
+                                   ?>
                                   <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
                                   <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
                                   <input type="hidden" class="staf" value="<?= $row['staff_id']?>">
                                   <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
                                   <td><input type="" name=""class="form-control" placeholder="40" disabled></td>
                                   <td><input type="" name="" class="form-control" placeholder="80" disabled></td>
-                                  <?php  if ($fourDaysBYesterday==$rwz['col_date']) { ?> 
                                   <td><input type="" name=""class="form-control" placeholder="<?= $rwz['weight']; ?>" disabled></td>
-                                  <?php } ?>
                                   <td><input class="form-control tea_collect" placeholder="12.5" type="number" required></td>
                                   <td>
                                     <input type="button" name="collectT"class="form-control col_save" value="Save">
@@ -159,7 +162,6 @@ include ('php/query.php');
             </div>
           </div>
         </section>
-
  <!-- Modal -->
   <div class="modal fade" id="showMod" role="dialog">
     <div class="modal-dialog">

@@ -49,7 +49,6 @@ include ('php/query.php');
 
                     <div class="well">
                       <ul class="list-group">
-                     <a href=""><span class="glyphicon glyphicon-flag"></span><a href="">Inquery</a><br>
                       <a href=""></a><span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span><a href="#">Change Password</a>
                       </ul>
                     </div>                                      
@@ -61,13 +60,7 @@ include ('php/query.php');
                       </div>
                       <div class="panel-body"> 
                       <div id="scrolTable" style="background-color: #F8F8F8  ">
-               <?php  
-               $i='0710662656';
-               $j=substr($i, 1, 9);
-               // echo $j.'<br>';
-               $t='+254'.$j;
-               // echo $t;
-                ?>
+               
                 <?php if ($_SESSION['level']!=='admin') { ?>
                 <div class="col-md-12">
                       <div class="col-md-6 homePan">

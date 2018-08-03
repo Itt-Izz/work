@@ -50,7 +50,6 @@ include ('php/query.php');
 
                     <div class="well">
                       <ul class="list-group">
-                     <a href=""><span class="glyphicon glyphicon-flag"></span><a href="">Inquery</a><br>
                       <a href=""></a><span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span><a href="#">Change Password</a>
                       </ul>
                     </div>                                      
@@ -62,7 +61,13 @@ include ('php/query.php');
                       </div>
                       <div class="panel-body"> 
                       <div id="scrolTable">
-                              <button class="btn btn-success">Change Setting here</button>
+                              <button class="btn btn-success">Add a clerk</button>
+                              <button class="btn btn-success">Delete a clerk</button>
+                              <button class="btn btn-success">Change collection rate</button>
+                              <button class="btn btn-success">Increase salary</button>
+
+
+
                       </div> 
                   </div>
                 </div>
