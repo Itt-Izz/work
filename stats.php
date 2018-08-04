@@ -84,6 +84,7 @@ include ('php/query.php');
 //Print in json
        // print json_encode($dat2);
           // die();
+       print json_encode($dat)
 
         ?>
 
@@ -176,7 +177,7 @@ include ('php/query.php');
           <td><?php echo $i; ?></td>
           <td><?php echo $row["fname"]; ?></td>                        
           <td><?php echo $row["sex"]; ?></td>                        
-          <td><?php echo $row["dailyWage"]; ?></td>                   
+          <td><?php echo $row["employee"]; ?></td>                   
           <td><?php echo $row["staff_id"]; ?></td>                      
           <td><?php
    $em=$row["staff_id"];
@@ -186,7 +187,7 @@ include ('php/query.php');
            echo $rw['count(*)']; ?>
             </td> 
           <td>
-            <?php $am=$row["dailyWage"]*$rw["count(*)"];
+            <?php $am=$row["employee"]*$rw["count(*)"];
                      echo $am;
             ?>                
           </tr><?php
@@ -222,74 +223,6 @@ include ('php/query.php');
   <script src="assets/validation.js"></script>
 
     <script type="text/javascript">
-  //gragh datasets
-      // var data=<?php echo json_encode($data)?>;
-      // var tool={
-      //   nam:[],
-      //   cost:[]
-      // };
-      // var len=data.length;
-
-      // for (var i=0; i<len; i++){
-      //   // console.log(data[i]);
-      //         tool.nam.push(data[i].namba);
-      //         tool.cost.push(data[i].cost);
-      // }
-      // // console.log(tool);
-      // var ctx= document.getElementById("chartMy").getContext('2d');
-      // var dataset={
-      //   labels : ["1st","sec","3rd","4th","5th"],
-      //   datasets:[
-      //   {
-      //       label: "Cost of tools",
-      //       data: tool.cost,
-      //       backgroundColor: "green",
-      //       borderColor: "lightgreen",
-      //       fill: false,
-      //       pointRadius:5
-      //   }, {
-      //       label: "Number of tools",
-      //       data: tool.nam,
-      //       backgroundColor: "blue",
-      //       borderColor: "lightblue",
-      //       fill: false,
-      //       pointRadius:5
-      //   }
-      //   ]
-      // };
-      // var options = {
-      //   title:{
-      //       display : true,
-      //       position: "top",
-      //       text : "Line Graph",
-      //       fontSize: 18, 
-      //       fontColor: "#333"
-      //   },
-      //   legend:{
-      //       display: true,
-      //       position: "bottom"
-      //   }
-      // };
-      // var option2 = {
-      //   title:{
-      //       display : true,
-      //       position: "top",
-      //       text : "Daily Employee Attendance",
-      //       fontSize: 18, 
-      //       fontColor: "#333"
-      //   },
-      //   legend:{
-      //       display: true,
-      //       position: "bottom"
-      //   }
-      // };
-      // // console.log(data);
-      // var chart=new Chart(ctx, {
-      //   type:"line",
-      //   data:dataset,
-      //   options: options
-      // });
-
        // Attendance implementation --------------------------------------------------------------------------------
      var dat=<?php echo json_encode($dat)?>;
       var day={
@@ -298,7 +231,7 @@ include ('php/query.php');
       var leng=dat.length;
 
       for (var i=0; i<leng; i++){
-        // console.log(data[i]);
+        console.log(data[i]);
               day.attendance.push(dat[i].dayCount);
       }
   var mychart = document.getElementById('mychart').getContext('2d');
@@ -314,7 +247,7 @@ include ('php/query.php');
             backgroundColor: 'lightgreen'
         }]
      };
-
+console.log(data);
       var options = {
         title:{
             display : true,
@@ -379,7 +312,7 @@ include ('php/query.php');
             ]
         }]
      };
-      // console.log(data);
+       console.log(data);
       var chart=new Chart(mypy, {
         type:"pie",
         data:data2,

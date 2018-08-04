@@ -8,7 +8,9 @@ if (!isset($_SESSION['staff_id']))
 require_once 'connection.php';
 $stafId =$_POST['stafId'];
 $day =date('Y-m-d');
-$con->query("UPDATE attendance SET returned_tool ='yes' WHERE staff_id='$stafId' AND date='$day'");
-  $success=1;
- echo $success;
+if ($con->query("UPDATE attendance SET returned_tool ='yes' WHERE staff_id='$stafId' AND date='$day'")) {
+	echo 1;
+}else{
+	echo 2;
+}  
   ?>

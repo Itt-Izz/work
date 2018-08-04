@@ -64,7 +64,7 @@ include ('php/query.php');
                           <div id="singlePay">
                         <ol class="breadcrumb"> 
                         <button class="btn btn-default" id="allC">All Collections</button>                 
-                          <h4><?php  echo "Days worked from: <em>".$dayBf.'</em> to <em>'.$today.'</em><br>'; ?></h4>
+                          <h4><?php  echo "Days worked from: <em>".$threeDaysBY.'</em> to <em>'.$today.'</em><br>'; ?></h4>
                         </ol>                
                               <table class="table table-striped table-hover pay" >
                                 <thead>
@@ -91,12 +91,15 @@ include ('php/query.php');
                                    $r="SELECT count(attendance.staff_id) as days FROM attendance where staff_id=".$row['staff_id']." AND  date BETWEEN '$frm' AND '$todate'";
                                    $day=$con->query($r);
                                    $days=$day->fetch_assoc();
+                                   $pay="SELECT employee from wage left join attendance on attendance.w_id=wage.w_id";
+                                   $py=$con->query($pay);
+                                   $rw=$py->fetch_assoc();
                                    if ($days['days']>0) {
                                  ?>  <tr>
                                   <td><?php echo $i; ?></td>
                                   <td><?php echo $row["fname"]; ?></td>                        
                                   <td><?php echo $row["staff_id"]; ?></td>                   
-                                  <td><?php echo $row["dailyWage"]; ?></td> 
+                                  <td><?php echo $rw["employee"]; ?></td> 
                                   <input type="hidden" class="staf" value="<?= $row['staff_id']?>">
                                   <td><?php                                
                                   echo $days['days'];?> </td> 
@@ -109,7 +112,7 @@ include ('php/query.php');
                                    echo $row['cost']; ?> </td> 
                                   <input type="hidden" class="ded" value="<?= $row['cost']?>">
                                   <td><?php
-                                    $tt=$row["dailyWage"]*$days['days']-$row['cost'];
+                                    $tt=$rw["employee"]*$days['days']-$row['cost'];
                                    echo $tt; ?></td> 
                                   <input type="hidden" class="total" value="<?= $tt?>">
                                    <td>
@@ -136,7 +139,7 @@ include ('php/query.php');
                             </table>
 
                         <ol class="breadcrumb">                  
-                          <h4><?php  echo "Collections Taken from: <em>".$dayBf.'</em> to <em>'.$today.'</em><br>'; ?></h4>
+                          <h4><?php  echo "Collections Taken from: <em>".$dayBf.'</em> to <em>'.$today.'</em><br>'; echo $frm; ?></h4>
                         </ol>                
                               <table class="table table-striped table-hover pay" >
                                 <thead>

@@ -133,7 +133,7 @@ $(function() {
     var row=$(this).closest('tr')
     var stafId=row.find('.stafT').val();
     $.ajax({
-      url:"php/returnTool.php",
+      url:"./php/returnTool.php",
       method:"POST",
       data: {stafId: stafId},
       success: function(resp){ 
@@ -305,7 +305,27 @@ $(function() {
        if(resp==1){
         swal('Success','Update Successful!','success');
       }else {
-        swal('Aborted','Something wennt wrong','error');
+        swal('Aborted','Something went wrong','error');
+      }  
+    }
+
+  });
+  });
+
+  //give feedback message
+   $("#sendFeed").click(function(){
+    var mess=$.trim('#msgfeed').val();
+    var staff=$.trim('#staf').val();
+    alert(mess+''+staff);
+    $.ajax({
+      url:"php/feed.php",
+      method:"POST",
+      data: {msg: mess, staff:staff},
+      success: function(resp){ 
+       if(resp==1){
+        swal('Success','Your feed Sent Successful!','success');
+      }else {
+        swal('Aborted','Something went wrong','error');
       }  
     }
 
@@ -367,6 +387,83 @@ $(function() {
 
   });
 
+  //Update collection readAsText(//Send one sms
+  $("form[name='colForm']").submit(function(e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+    $.ajax({
+      url: "./php/updateColrate.php",
+      type: "POST",
+      data: formData,
+      async: false,
+      success: function (msg) {
+        console.log(msg);
+        if(msg==1){
+          swal('Success','Collection rate Updated Successful!','success');
+        }else {
+         swal('Oooooops','Something went wrong! Please check your value before submiting','error');
+       }
+     },
+     error: function(data){
+    },
+    cache: false,
+    contentType: false,
+    processData: false
+  });
+
+  });
+
+
+  //Update Employee payWage 
+$("form[name='updateWage']").submit(function(e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+    $.ajax({
+      url: "./php/updateWage.php",
+      type: "POST",
+      data: formData,
+      async: false,
+      success: function (msg) {
+        if(msg==1){
+          swal('Success','Wage Updated Successful!','success');
+        }else {
+         swal('Oooooops','Something went wrong! Please check your values before submiting','error');
+       }
+     },
+     error: function(data){
+    },
+    cache: false,
+    contentType: false,
+    processData: false
+  });
+
+  });
+//Promote Employee 
+$("form[name='updatePromotion']").submit(function(e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+    console.log(formData);
+    $.ajax({
+      url: "./php/updatePromotion.php",
+      type: "POST",
+      data: formData,
+      async: false,
+      success: function (msg) {
+        console.log(msg);
+        if(msg==1){
+          swal('Success','Updated Successful!','success');
+        }else {
+         swal('Oooooops','Something went wrong! Please check your values before submiting','error');
+       }
+     },
+     error: function(data){
+    },
+    cache: false,
+    contentType: false,
+    processData: false
+  });
+
+  });
 
 
 
@@ -393,33 +490,6 @@ $(function() {
   })
 
 
-  //check image before uploading
-  (function($) {
-    $.fn.checkFileType = function(options) {
-      var defaults = {
-        allowedExtensions: [],
-        success: function() {},
-        error: function() {}
-      };
-      options = $.extend(defaults, options);
-
-      return this.each(function() {
-
-        $(this).on('change', function() {
-          var value = $(this).val(),
-          file = value.toLowerCase(),
-          extension = file.substring(file.lastIndexOf('.') + 1);
-
-          if ($.inArray(extension, options.allowedExtensions) == -1) {
-            options.error();
-            $(this).focus();
-          } else {
-            options.success();
-          }
-        });
-      });
-    };
-  })
 
   //File preview Load image from pc to DOM
   function filePreview(input){
@@ -452,6 +522,12 @@ $(function() {
       error: function(data){
       }
     });
+
+
+  //Auto refresh 
+  // setInterval(function(){
+      // $('#mytable2').load("./attendance.php").fadeIn("slow");
+  // }, 1000);
 
 
 });

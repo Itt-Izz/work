@@ -87,7 +87,7 @@ include ('php/query.php');
         <th>Gender</th>                   
         <th>Id No</th>                   
         <th>Phone No</th> 
-        <th>Wage</th>
+        <th>Location</th>
         <th>Date Registered</th>
       </tr>
     </thead>
@@ -108,7 +108,7 @@ include ('php/query.php');
           <td><?php echo $row["sex"]; ?></td>                
           <td><?php echo $row["id_number"]; ?></td>                   
           <td><?php echo $row["phone_number"]; ?></td> 
-          <td><?php echo $row["dailyWage"]; ?></td>
+          <td><?php echo $row["location"]; ?></td> 
           <td><?php echo $row["date_registered"]; ?></td>
            </form> 
               <input type="hidden" class="fname" value="<?= $row['fname']?>">                                

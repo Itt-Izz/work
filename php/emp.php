@@ -18,7 +18,7 @@ if($row=$emp->fetch_assoc()){
                 'id_number' => $row["id_number"],
                 'phone_number' => $row["phone_number"],
                 'level' => $row["level"],
-                'dailyWage' => $row["dailyWage"],
+                'dailyWage' => $row["location"],
                 'image' => $row["image"]
                 );
  echo json_encode($array);

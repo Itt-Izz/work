@@ -18,20 +18,9 @@ if($result->num_rows>0)
 	
 	$_SESSION['level']=$row['level'];
 	header('location: home.php');
-}
-else
-        {
-			$extract2="SELECT password FROM staff WHERE username='$username'";
-            $result2= $con->query($extract2);
-            $row = $result2->fetch_assoc();
-            $checkpass = $row['password'];
-
-            if($password != $checkpass)
-            {
-			echo $_SESSION['staff_id']; 
-			echo $_SESSION['username'];
-			echo $_SESSION['level'];  }
-
-			else{  echo header('Location:index.php');}
+} else
+        { 
+        	echo "Incorrect username or password!";
+         // echo header('Location:index.php');
         }
 ?>

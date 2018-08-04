@@ -140,7 +140,7 @@ include ('php/query.php');
                                   <td><?php echo $dates; ?></td>
                                   <td><?php echo 'yes'; ?></td>
                                   <td><?php echo $r2['count(*)']; ?></td>
-                                  <td><?php echo $roow['dailyWage'];?></td>
+                                  <td><?php echo $roow['employee'];?></td>
                                   <?php if($dayy=='Tue'){ ?>
                                   <td><h4 style="color: green">Paid</h4></td>
                                <?php }else { ?>

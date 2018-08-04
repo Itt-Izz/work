@@ -89,16 +89,25 @@ include ('php/query.php');
                           <?php while($row=$employ->fetch_array()){ ?>
                                 <tr>
                           <form method="POST">
-                                  <td><?php echo $row['staff_id']; ?></td>
+                                  <td><?php echo $row['staff_id']; $staf=$row['staff_id']; ?></td>
                                   <td><?php echo $row['fname']; ?></td>
                                   <td><?php echo $row['username']; ?></td>
                                   <td><?php echo $row['sex']; ?></td>
-                                  <td>
-                                    <div class="checkbox">
-       <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" class="check" value="yes" style="height: 25px;width: 25px;"></label>
-                                    </div>
-                                  </td>
-                                       <input type="hidden" class="staff" value="<?= $row['staff_id']?>">
+                                 <?php
+                                 $preCheck="SELECT * FROM attendance WHERE staff_id='$staf' and date=CURDATE() AND present='yes'";
+                                 $pr=$con->query($preCheck);
+                                 $t="SELECT tools.name FROM tools left join attendance on tools.t_id=attendance.t_id where attendance.staff_id='$staf' and date=CURDATE()";
+                                 $too=$con->query($t);
+                                 $tool=$too->fetch_assoc();
+                                 if($pr->num_rows>0) { ?>
+                                  <td style="color: lightgreen">Checked</td>
+                                  <td><?php if ($tool['name']=='') {
+                                   echo '*** No tool ***';
+                                  } echo $tool['name'];?></td>
+                                  <td style="color: lightblue">Yes</td>
+                                <?php } else { ?> <td>
+                                    <div class="checkbox"><label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" class="check" value="yes" style="height: 25px;width: 25px;"></label>
+                                    </div> </td>
                                   <td>
                                     <select  name="tool"  class="form-control tool">
                                       <option value="">Select tool</option>
@@ -109,6 +118,8 @@ include ('php/query.php');
                                   </select>
                                 </td>
                                 <td><input type="button" class="btnS" value="Save" style="color: green;"></td>
+                               <?php  } ?>
+                                       <input type="hidden" class="staff" value="<?= $row['staff_id']?>">
 
                                </form>
                               </tr>
@@ -128,7 +139,8 @@ include ('php/query.php');
                                 while ($roow=$employeeCounted->fetch_assoc()){ 
                               $y=$k-1;
                               $dayy=date("D", strtotime("-$y day"));
-                              $dates=date("Y-m-d", strtotime("-$y day"));       ?>
+                              $dates=date("Y-m-d", strtotime("-$y day"));   
+                                  ?>
                               <tr>
                           <form method="POST">
                                   <td><?php echo $k; ?></td>
@@ -136,7 +148,7 @@ include ('php/query.php');
                                   <td><?php echo $dates; ?></td>
                                   <td><?php echo 'yes'; ?></td>
                                   <td><?php echo $r2['count(*)']; ?></td>
-                                  <td><?php echo $roow['dailyWage'];?></td>
+                                  <td><?php echo $roow['employee'];?></td>
                                   <?php if($dayy=='Tue'){ ?>
                                   <td><h4 style="color: green">Paid</h4></td>
                                <?php }else { ?>
