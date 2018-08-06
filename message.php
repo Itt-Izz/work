@@ -63,102 +63,105 @@ include ('php/query.php');
 
                         <div class="container col-md-12">
                           <ul class="nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#inb">Inbox <span class="badge badg"> 10</span></a></li>
-                            <li><a data-toggle="tab" href="#unr">Unread 
-                              <?php              
-                              if($row = $mesNo->fetch_array()) {
-                                if($row['count(*)']>0){ ?>
-                                  <span class="badge">
-                                    <?php echo $row['count(*)']; ?></span>
-                                  <?php }else echo "0"; } ?>
-
-                                </a></li>
-                                <li><a data-toggle="tab" href="#sen" >Sent  <span class="badge badg"> 10</span></a></li>
+                            <li class="active"><a data-toggle="tab" href="#inb">Inbox</a></li>
+                                <li><a data-toggle="tab" href="#sen" >Sent</a></li>
                                 <li><a data-toggle="tab" href="#comp">Compose </a></li>
                               </ul>
-                              <!-- Inbox Message     .............................................................................. -->    
+       <!-- Inbox Message     .............................................................................. -->    
                               <div class="tab-content">
                                 <div id="inb" class="tab-pane fade in active">
                                   <div class="row wel">
                                     <div class="panel panel-default">
                                       <div class="panel-heading clearfix">
                                       </div><!-- message head ->from -->
-                                      <div class="panel-body">
+                                      <div class="panel-body" id="inBody">
                                         <table class="table table-striped table-hover">
 
                                           <tr>
                                             <th >#</th>
                                             <th >From</th>                   
                                             <th>subject</th>                   
-                                            <th>Date</th>                   
-                                            <th>Message</th> 
+                                            <th>Date</th>  
+                                            <th>Status</th>     
                                             <th>Delete</th>     
                                           </tr>
                                           <?php
-                                          if($inbox->num_rows > 0) {
+                                          if($inbox2->num_rows > 0) {
                                             $i=1;
-                                            while($row=$inbox->fetch_assoc()){ ?>
-                                             <tr> 
+                                            while($row=$inbox2->fetch_assoc()){ ?>
+                                             <tr class="viewMessage" > 
                                               <td><?php echo $i; ?></td>                   
                                               <td><?php echo $row["fname"]; ?></td>                   
-                                              <td><?php echo $row["subject"]; ?></td>                   
+                                              <td><?php echo $row["subject"]; ?></td> 
                                               <td><?php echo $row["sent_date"]; ?> </td>                   
-                                              <td><?php echo $row["msg"]; ?></td> 
-                                              <td><img src="img/delete.png" id='hd'> </td>             
-
+                                              <td><?php if ($row["Msg_read"]>0) {
+                                                       echo "Read";
+                                                     }else{
+                                                      echo "<b> Unread </b>";
+                                                     } ?> </td> 
+                                              <td><button><img src="img/delete.png" class='hd del'> </button></td>                
+                                      <input type="hidden" class="m_id" value="<?= $row['m_id']?>" >                          
+                                      <input type="hidden" class="name" value="<?= $row['fname']?>" >                          
+                                      <input type="hidden" class="subject" value="<?= $row['subject']?>" >                        
+                                      <input type="hidden" class="date" value="<?= $row['sent_date']?>" >                      
+                                      <input type="hidden" class="message" value="<?= $row['msg']?>" >                               
                                             </tr>
                                             <?php
                                             $i++; }
                                           }else{
                                             echo "No Messages found";
                                           } ?> 
-                                        </table><!-- data table -->
-                                      </div><!-- inbox panel body -->
-                                    </div><!-- inbox panel-->
-                                  </div><!-- inbox row well -->
+                                        </table>
+                                      </div>
+                                      <div class="panel-body" id="mes">
+                                              <div class="col-md-12">
+                                                   <div class="col-sm-2">
+                                                <button class="btn btn-info pull-left bac">Back</button></div>
+                                               <div class="col-sm-8 form-group">
+                                                     <label>Subject:</label>
+                                                     <input class="form-control" id="sub1" type="" value="" disabled>
+                                                     <label>Message:</label>
+                                          <textarea class="form-control" rows="5" id="mes1" value="" disabled></textarea>
+                                                      <label>From:</label>
+                                            <input class="form-control" id="name1" type="" value="" disabled>
+                                              <label>Date:</label>
+                                            <input class="form-control" id="date1" type="" value="" disabled><br>
+                                                          
+                                                          <a href="#" id="rep">Reply</a>
+                                                          <button class="btn btn-danger pull-right">Delete</button><br>
+                                                   </div>
+                                                   <div class="col-sm-2"></div>                          
+                                                            </div>
+                                       
+                                      </div>
+                                      <div class="panel-body" id="repMes">
+                                      <form method='POST' class="form-horizontal" name="smsForm"> 
+                                      <button class="btn bac">back</button>                               
+                                       <div class="form-group"> 
+                                          <label class="control-label">Reply this message</label>
+                                          <label class="control-label col-sm-1">To</label>
+                                          <div  class="col-sm-4"><input type="text" id="to" name="to" value="" class="form-control"  placeholder="subject" disabled></div>
+                                     </div>
+                                     <div class="form-group">
+                                        <label class="col-sm-1" for="inputSubject">Subject</label>
+                                        <div class="col-sm-7"><input type="text" name="subject" class="form-control"  placeholder="subject" required></div>
+                                     </div>
+                                      <div class="form-group">
+                                          <div class="col-sm-8">
+                                        <label for="inputBody">Message</label>
+                                          <textarea class="form-control"
+                                          id="inputBody" rows="8" data-gramm="true" data-gramm_editor="true"placeholder="Type your message here ................................." name="message" required></textarea><br>
+                           <button  name="submit" class="btn btn-info pull-right" id="sendOne">Send Message</button>
+                         </div>
+                                          <div class="col-sm-4"></div>
+                                        </div>
+                                   </form>
+                                        
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
 
-                                </div><!-- inbox tab pane -->
-
-                                <!-- Unread Message     .............................................................................. -->
-                                <div id="unr" class="tab-pane fade">
-                                  <div class="row wel">
-                                    <div class="panel panel-default">
-                                      <div class="panel-heading clearfix">
-                                       <h3 class="panel-title"></h3>
-                                     </div><!-- message head ->from -->
-                                     <div class="panel-body">
-                                      <table class="table table-striped table-hover">
-
-                                        <tr>
-                                          <th >#</th>
-                                          <th >From</th>                   
-                                          <th>subject</th>                   
-                                          <th>Date</th>                   
-                                          <th>Message</th> 
-                                          <th>Remove</th>     
-                                        </tr>
-                                        <?php
-                                        if($unRead->num_rows > 0) {
-                                          $i=1;
-                                          while($row=$unRead->fetch_assoc()){ ?>
-                                           <tr> 
-                                            <td><?php echo $i; ?></td>                   
-                                            <td><?php echo $row["fname"]; ?></td>                   
-                                            <td><?php echo $row["subject"]; ?></td>                   
-                                            <td><?php echo $row["sent_date"]; ?> </td>                   
-                                            <td><?php echo $row["msg"]; ?></td>                   
-                                            <td><img src="img/delete.png" id='hd'></td>             
-                                          </tr>
-                                          <?php
-                                          $i++; }
-                                        }else{
-                                          echo "No Messages found";
-                                        } ?> 
-                                      </table><!-- data table --> 
-                                    </div><!-- unread panel body -->
-                                  </div><!-- unread panel-->
-                                </div><!-- unread row well -->
-                              </div><!-- unread tab pane -->
 
                               <!-- Sent Messages ------------------------------------------------------------------------------->
                               <div id="sen" class="tab-pane fade">
@@ -188,7 +191,7 @@ include ('php/query.php');
                                             <td><?php echo $row["subject"]; ?></td>                   
                                             <td><?php echo $row["sent_date"]; ?> </td>                   
                                             <td><?php echo $row["msg"]; ?></td>                   
-                                            <td><img src="img/delete.png" id='hd'></td>             
+                                              <td><button><img src="img/delete.png" class='hd del'> </button></td>           
                                           </tr>
                                           <?php
                                           $i++; }
@@ -199,8 +202,8 @@ include ('php/query.php');
                                     </div><!-- sent panel body -->
                                   </div><!-- sent panel-->
                                 </div><!-- sent row well -->
-                              </div><!-- sent tab pane -->
-                              <!-- Compossing Message     .............................................................................. -->
+                              </div>
+              <!-- Compossing Message     .............................................................................. -->
                               <div id="comp" class="tab-pane fade">
                                 <div class="row wel">
                                   <div class="panel panel-default">
@@ -248,19 +251,22 @@ include ('php/query.php');
                                              } ?></select>
                                        </div><!-- form group --> 
                            <button type="submit" name="submit" class="btn btn-info" id="sendOne">Send Message</button>
+                        <?php if ($_SESSION['level'] == 'admin') { ?>              
                                  <a href="#" > <input type="" name=""id="sendMore" value="Send to all Employees"class="btn"> </a>
+                               <?php } ?>
                                          </div>
                                    </form>
-                                    </div><!-- compose panel body -->
-                                  </div><!-- compose panel-->
-                                </div><!-- compose row well -->
-                              </div><!-- compose tab pane -->
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
 
 
 
                             </div><!-- container -->
                           </div>
-                        </div><!-- scrol table -->
+                        </div><!-- end scrol table ------------------------------------------------------------------------------->
+
 
 
                       </div>    <!-- pan -->                                             

@@ -11,6 +11,7 @@ if($row=$emp->fetch_assoc()){
 	$array = array(
                 'staff_id' => $row["staff_id"],
                 'fname' => $row["fname"],
+                'lname' => $row["lname"],
                 'sex' => $row["sex"],
                 'birthday' => $row["birthday"],
                 'username' => $row["username"],
@@ -18,7 +19,7 @@ if($row=$emp->fetch_assoc()){
                 'id_number' => $row["id_number"],
                 'phone_number' => $row["phone_number"],
                 'level' => $row["level"],
-                'dailyWage' => $row["location"],
+                'location' => $row["location"],
                 'image' => $row["image"]
                 );
  echo json_encode($array);

@@ -1,18 +1,11 @@
   
-<?php
-include('php/connection.php');
-session_start();
-if (!isset($_SESSION['staff_id'])) 
-{
-  die(header('Location: ../index.php'));
-}
-include ('php/query.php'); $staf=$_SESSION['username']; ?>
+
 <!-- Modal -->
 <!-- Add Pages -->
 <div class="modal fade" id="feed" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form method="POST" name="">
+      <form method="POST" action="php/feed.php">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span> </button>
         <h3> <b> Leave your comment and sugestion below: </b></h3>
@@ -20,6 +13,7 @@ include ('php/query.php'); $staf=$_SESSION['username']; ?>
       <div class="modal-body">
         <div class="form-group">
           <label for="">From: </label>
+          <?php $staf=$_SESSION['name']; ?>
           <input type="" value="<?php echo $staf; ?>"  class="form-control" id="staf" disabled>
         </div>
           <textarea name="msgfeed" id="msgfeed" class="form-control"  rows="8" data-gramm="true" data-gramm_editor="true" placeholder="Write your feedback here................" required></textarea>

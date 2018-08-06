@@ -12,8 +12,6 @@
     <script src="assets/Chart.min.js"></script>
     <script src="assets/chartScript.js"></script>
 	<script src="assets/validation.js"></script>
-
-  
      <?php include 'feed.php';?>
       <?php include 'adjustVar.php';?>
 <footer id="footer">

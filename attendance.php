@@ -100,18 +100,19 @@ include ('php/query.php');
                                  $too=$con->query($t);
                                  $tool=$too->fetch_assoc();
                                  if($pr->num_rows>0) { ?>
-                                  <td style="color: lightgreen">Checked</td>
+                                  <td style="color: green">Checked</td>
                                   <td><?php if ($tool['name']=='') {
                                    echo '*** No tool ***';
                                   } echo $tool['name'];?></td>
-                                  <td style="color: lightblue">Yes</td>
+                                  <td style="color: blue">Yes</td>
                                 <?php } else { ?> <td>
                                     <div class="checkbox"><label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" class="check" value="yes" style="height: 25px;width: 25px;"></label>
                                     </div> </td>
                                   <td>
                                     <select  name="tool"  class="form-control tool">
                                       <option value="">Select tool</option>
-                                     <?php
+                                     <?php 
+                                     //$rw=$tool->fetch_all();
                                      for($i=0;$i<=count($rw[0]);$i++) { ?>
                                       <option value="<?php echo $rw[$i][0]; ?>"> <?php   echo $rw[$i][1]; ?></option>
                                     <?php } ?>

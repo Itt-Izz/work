@@ -13,8 +13,6 @@ $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 if(move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)){
     $image=$_FILES["image"]["name"];
-   // echo "<script>alert('File uploaded Successfully!') </script>";
-   // header('Location: registerStaff.php');
 
     $name = trim($_POST['fname']);
     $lname = trim($_POST['lname']);
@@ -22,10 +20,10 @@ if(move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)){
     $birthday =trim ($_POST['birthday']);
     $id = trim($_POST['id']);
     $phone = trim($_POST['phone']);
-    $grade = trim($_POST['grade']);
+    $loc = trim($_POST['location']);
     $uname = trim($_POST['username']);    
     $typ = trim($_POST['type']);
-    $depart = trim($_POST['department']);
+    $email = trim($_POST['email']);
     $upass = trim($_POST['password']);
     $cpass = trim($_POST['password2']);
     $date= date("Y/m/d");
@@ -43,8 +41,8 @@ if(move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)){
      //then register
      if( $result->num_rows== 0){
 
-        $con->query("INSERT INTO staff(fname, lname, sex, birthday, username, password, date_registered, id_number, phone_number, level, image) 
-            VALUES('$name','$lname','$sex','$birthday','$uname','$upass','$date','$id','$phone','$level','$image')");
+        $con->query("INSERT INTO staff(fname, lname, sex, birthday, username, password, date_registered, id_number, phone_number, location, email, level, image) 
+            VALUES('$name','$lname','$sex','$birthday','$uname','$upass','$date','$id','$phone','$loc','$email','$level','$image')");
         $username   = "employees";
         $apikey     = "220f4868d095452b9c0d930cd20f68abce855dff5f13fe00b948f36db942a0da";
         $recipients = $phone;

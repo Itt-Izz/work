@@ -64,7 +64,9 @@ include ('php/query.php');
                           <div id="singlePay">
                         <ol class="breadcrumb"> 
                         <button class="btn btn-default" id="allC">All Collections</button>                 
-                          <h4><?php  echo "Days worked from: <em>".$threeDaysBY.'</em> to <em>'.$today.'</em><br>'; ?></h4>
+                          <h4><?php  echo "Days worked ";
+                           // from: <em>".$threeDaysBY.'</em> to <em>'.$today.'</em><br>'; 
+                           ?></h4>
                         </ol>                
                               <table class="table table-striped table-hover pay" >
                                 <thead>
@@ -91,8 +93,8 @@ include ('php/query.php');
                                    $r="SELECT count(attendance.staff_id) as days FROM attendance where staff_id=".$row['staff_id']." AND  date BETWEEN '$frm' AND '$todate'";
                                    $day=$con->query($r);
                                    $days=$day->fetch_assoc();
-                                   $pay="SELECT employee from wage left join attendance on attendance.w_id=wage.w_id";
-                                   $py=$con->query($pay);
+                                   $pay2="SELECT employee from wage left join attendance on attendance.w_id=wage.w_id";
+                                   $py=$con->query($pay2);
                                    $rw=$py->fetch_assoc();
                                    if ($days['days']>0) {
                                  ?>  <tr>
@@ -139,7 +141,9 @@ include ('php/query.php');
                             </table>
 
                         <ol class="breadcrumb">                  
-                          <h4><?php  echo "Collections Taken from: <em>".$dayBf.'</em> to <em>'.$today.'</em><br>'; echo $frm; ?></h4>
+                          <h4><?php  echo "Collections Taken ";
+                           // from: <em>".$dayBf.'</em> to <em>'.$today.'</em><br>'; echo $frm;
+                           ?></h4>
                         </ol>                
                               <table class="table table-striped table-hover pay" >
                                 <thead>
@@ -211,11 +215,12 @@ include ('php/query.php');
                                 </tr>
                               </thead>
                               <tbody>
-                               <?php if ($pay->num_rows > 0) {
-    // output data of each row
+                               <?php 
+                               if ($pay->num_rows > 0) {
+                                 // output data of each row
                                 $i=1;
                                 while($row = $pay->fetch_assoc()) {
-                                   $r="SELECT count(attendance.staff_id) as days FROM attendance where staff_id=".$row['staff_id']."";
+                                   $r="SELECT count(*) as days FROM attendance where staff_id=".$row['staff_id']."";
                                    $day=$con->query($r);
                                    $days=$day->fetch_assoc();
                                    if ($days['days']>0) {
@@ -223,7 +228,7 @@ include ('php/query.php');
                                   <td><?php echo $i; ?></td>
                                   <td><?php echo $row["fname"]; ?></td>                        
                                   <td><?php echo $row["staff_id"]; ?></td>                   
-                                  <td><?php echo $row["dailyWage"]; ?></td> 
+                                  <td><?php echo $row["employee"]; ?></td> 
                                   
                                   <td><?php                                
                                   echo $days['days'];?> </td> 
@@ -235,10 +240,10 @@ include ('php/query.php');
                                   }
                                    echo $row['cost']; ?> </td> 
                                   <td><?php
-                                    $tt=$row["dailyWage"]*$days['days']-$row['cost'];
+                                    $tt=$row["employee"]*$days['days']-$row['cost'];
                                    echo $tt; ?></td>                       
                                   </tr><?php
-}
+                              }
                                   $i++; }
                                 } else {
                                   echo "0 results";

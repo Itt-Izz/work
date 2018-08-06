@@ -148,6 +148,61 @@ $(function() {
   });
   });
 
+//Show message detail
+$('#mes').hide();
+$('.viewMessage').click(function(){
+    var row=$(this).closest('tr')
+    var m_id=row.find('.m_id').val();
+    var sub=row.find('.subject').val();
+    var mes=row.find('.message').val();
+    var date=row.find('.date').val();
+    var nam=row.find('.name').val();
+    $.ajax({
+      url:"php/readMsg.php",
+      method:"POST",
+      data: {m_id: m_id},
+      success: function(resp){ 
+    }
+
+  });
+    $('#inBody').hide();
+    $('#mes').show();
+    $('#mes1').val(mes);
+    $('#sub1').val(sub);
+    $('#name1').val(nam);
+    $('#to').val(nam);
+    $('#date1').val(date);
+
+});
+// back to Show message detail
+$('.bac').click(function(){
+    $('#mes').hide();
+    $('#inBody').show();
+    $('#repMes').hide();
+
+});
+// back to Show message detail
+$('.del').click(function(){
+    alert('Delete?????');
+});
+// update notification
+$('#notify').click(function(){
+    $.ajax({
+      url:"php/viewNotification.php",
+      method:"POST",
+      success: function(resp){ 
+    }
+
+  });
+});
+// reply message detail
+    $('#repMes').hide();
+ $('#rep').click(function(){
+    $('#mes').hide();
+   $('#repMes').show();
+ });
+
+
 
   //Show each employees info 
   $('.employeeDetails').click(function(){
@@ -161,24 +216,38 @@ $(function() {
       success: function(resp){
         resp=JSON.parse(resp);
         $.post(resp, function(returnedData) {
-          // do something here with the returnedData
-          console.log(returnedData);
         });
 
-        console.log(resp)
         $("#emp").modal('show');
         $("#getMsg").html(`
+          <h3 align="center"><b>Employee details</b></h3>
          <form>
-         Name : <label class="form-group form-control ">${resp.fname}</label><br>
-         Registration No : <label class="form-group form-control"> ${resp.staff_id}</label><br>
-         <label class="form-group form-control">Gender : ${resp.sex}</label><br>
-         <label class="form-group form-control">Date of Birth : ${resp.birthday}</label><br>
-         <label class="form-group form-control">Username: ${resp.username}</label><br>
-         <label class="form-group form-control">Date of Birth : ${resp.birthday}</label><br>
-         <label class="form-group form-control">level: ${resp.level}</label><br>
-         <label class="form-group form-control">ID Number : ${resp.id_number}</label><br>
-         <label class="form-group form-control">Date Registered: ${resp.date_registered}</label><br>
-         <label class="form-group form-control">Image: &nbspc; ${resp.image}</label><br>
+         <div class="col-md-12">
+         <div class="col-md-2"></div>
+         <div class="col-md-4"><br>
+         First Name : <label class="form-group">${resp.fname}</label><br>
+         Last Name : <label class="form-group">${resp.lname}</label><br>
+         Registration No : <label class="form-group"> ${resp.staff_id}</label><br>
+         Gender : <label class="form-group"> ${resp.sex}</label><br>
+         Date of Birth :<label class="form-group"> ${resp.birthday}</label><br>
+         Username: <label class="form-group">${resp.username}</label><br>
+         level:<label class="form-group"> ${resp.level}</label><br>
+         ID Number :<label class="form-group"> ${resp.id_number}</label><br>
+        Location: <label class="form-group"> ${resp.location}</label><br>
+        Date Registered: <label class="form-group"> ${resp.date_registered}</label><br>
+         </div>
+         <div class="col-md-3">
+         <label class="form-group"> ${resp.image}</label><br>
+         <h5 align="center"><b> Picture</b></5>
+                              <div class="col-md-4 well" id="content">
+                                  <div class="col-md-12">
+                                  <div id='img_div'>
+                                  </div>
+                                  </div>
+                                 </div>
+         </div>
+         <div class="col-md-3"></div>
+         </div>
          </form>
 
          `);  
@@ -314,22 +383,7 @@ $(function() {
 
   //give feedback message
    $("#sendFeed").click(function(){
-    var mess=$.trim('#msgfeed').val();
-    var staff=$.trim('#staf').val();
-    alert(mess+''+staff);
-    $.ajax({
-      url:"php/feed.php",
-      method:"POST",
-      data: {msg: mess, staff:staff},
-      success: function(resp){ 
-       if(resp==1){
-        swal('Success','Your feed Sent Successful!','success');
-      }else {
-        swal('Aborted','Something went wrong','error');
-      }  
-    }
-
-  });
+    alert('Thank you for your comment.');
   });
 
   //Send one sms
@@ -360,13 +414,15 @@ $(function() {
 
   //Send sms to all employees 
   $("#sendMore").click(function(e) {
-    var message=$.trim($("textarea").val());
-    alert(message);
-    if($.trim(message) !==''){
+     e.preventDefault();
+    var msg=$.trim($("textarea").val());
+    alert(msg);
+    if($.trim(msg) !==''){
     $.ajax({
-      url: "./php/sendSms.php",
+      url: "php/sendMore.php",
       type: "POST",
-      data: {message: message},
+      data: {message: msg},
+      datatype: "text",
       success: function (msg) {
         console.log(msg)
         if(msg==1){
@@ -382,7 +438,7 @@ $(function() {
     processData: false
   });
    }else{
-         swal('Oooops','You can not sent a Blank message!','error');
+         swal('Oooops','You can not send a Blank message!','error');
    }
 
   });
@@ -465,6 +521,11 @@ $("form[name='updatePromotion']").submit(function(e) {
 
   });
 
+//edit employee details
+$('#editEmp').hide();
+$('#empEdit').click(function(){
+$('#editEmp').show();
+});
 
 
   $('#file').change(function(){
@@ -493,8 +554,13 @@ $("form[name='updatePromotion']").submit(function(e) {
 
   //File preview Load image from pc to DOM
   function filePreview(input){
+    var file=input.files[0];
+    var fileType=file["type"];
+    var validImaageType=["image/gif","image/png","image/jpg", "jpeg"]
     if(input.files && input.files[0]){
-      if((input.files[0]['type'].trim() !== 'image/jpeg') || (input.files[0]['type'].trim() !== 'image/png') || (input.files[0]['type'].trim() !== 'image/jpg')){
+      console.log(validImaageType);
+      if($.inArray(fileType, validImaageType) < 0){
+        alert('Error! Only JPG, JPEG or PNG files allowed!');
     }else{
           var reader=new FileReader();
           reader.onload=function(e){

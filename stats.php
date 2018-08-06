@@ -178,7 +178,8 @@ include ('php/query.php');
           <td><?php echo $row["fname"]; ?></td>                        
           <td><?php echo $row["sex"]; ?></td>                        
           <td><?php echo $row["employee"]; ?></td>                   
-          <td><?php echo $row["staff_id"]; ?></td>                      
+          <td><?php 
+          echo $row["staff_id"]; ?></td>                      
           <td><?php
    $em=$row["staff_id"];
  $onePresenty="SELECT count(*) FROM `attendance` LEFT JOIN staff on staff.staff_id=attendance.staff_id WHERE attendance.present='yes' AND staff.staff_id=$em";
@@ -224,6 +225,7 @@ include ('php/query.php');
 
     <script type="text/javascript">
        // Attendance implementation --------------------------------------------------------------------------------
+  
      var dat=<?php echo json_encode($dat)?>;
       var day={
         attendance:[]
@@ -247,7 +249,6 @@ include ('php/query.php');
             backgroundColor: 'lightgreen'
         }]
      };
-console.log(data);
       var options = {
         title:{
             display : true,
@@ -312,7 +313,6 @@ console.log(data);
             ]
         }]
      };
-       console.log(data);
       var chart=new Chart(mypy, {
         type:"pie",
         data:data2,

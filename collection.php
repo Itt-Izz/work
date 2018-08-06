@@ -64,7 +64,12 @@ include ('php/query.php');
                         <div id="scrolTable">
                           <ol class="breadcrumb">
                             <div class="col-md-3">
-                             Today's Rate:<label style="color: blue;"><h4>&nbsp;<b>10<b></h4></label> </div>
+                             Today's Rate:<label style="color: blue;"><h4>&nbsp;<b><?php 
+                                         $r="SELECT * FROM collectionrate";
+                                         $rate=$con->query($r);
+                                         $rrow=$rate->fetch_assoc();
+                                        echo $rrow['rate'];
+                             ?><b></h4></label> </div>
                               <div class="col-md-6"> 
                                 <h4 align="center" class="two">Daily Tea Collection &nbsp;&nbsp;&nbsp;</h4> &nbsp;&nbsp;&nbsp;
                               </div>
@@ -90,7 +95,7 @@ include ('php/query.php');
                               <?php  
                               $yesterday=date("Y-m-d", strtotime("yesterday"));
                               $dayBeforeYesterday=date("Y-m-d", strtotime("-2 day"));
-                              $twoDaysBeforeYesterday=date("Y-m-d", strtotime("-3 day"));
+                              $twoDaysBefore=date("Y-m-d", strtotime("-3 day"));
                               $threeDaysBYesterday=date("Y-m-d", strtotime("-4 day"));
                               $fourDaysBYesterday=date("Y-m-d", strtotime("-5 day"));
                               $fiveDaysBYesterday=date("Y-m-d", strtotime("-6 day"));
@@ -100,21 +105,82 @@ include ('php/query.php');
                                   <td><?php echo $row['fname']; ?></td>
                                   <?php
                                   $staf=$row['staff_id'];
-                                   $da="SELECT staff.fname, date_format(col_date, '%W') as day, collection.col_date, collection.weight FROM `collection` LEFT JOIN staff ON collection.staff_id=staff.staff_id WHERE col_date BETWEEN '2018-07-24' AND CURRENT_DATE() and collection.staff_id='$staf'";
-                                  $dayz=$con->query($da);
-                                   $rwz=$dayz->fetch_assoc();
+                                  //  $da="SELECT staff.fname, date_format(col_date, '%W') as day, collection.col_date, collection.weight FROM `collection` LEFT JOIN staff ON collection.staff_id=staff.staff_id WHERE col_date BETWEEN '2018-07-24' AND CURRENT_DATE() and collection.staff_id='$staf'";
+                                  // $dayz=$con->query($da);
+                                   // $rwz=$dayz->fetch_assoc();
+                                   $qeu="SELECT weight FROM `collection` WHERE col_date='$yesterday' AND staff_id='$staf'";
+                                  $q=$con->query($qeu);
+                                  if($q->num_rows > 0){
+                                  $row=$q->fetch_assoc();
+                                  $yWeight=$row['weight'];
+                                  }else{
+                                  $yWeight=0;
+                                  }
+                                   $qeu2="SELECT weight FROM `collection` WHERE col_date='$dayBeforeYesterday' AND staff_id='$staf'";
+                                  $q2=$con->query($qeu2);
+                                  if($q2->num_rows > 0){
+                                  $row=$q2->fetch_assoc();
+                                  $y2Weight=$row['weight'];
+                                  }else{
+                                  $y2Weight=0;
+                                  }
+                                  $qeu3="SELECT weight FROM `collection` WHERE col_date='$twoDaysBefore' AND staff_id='$staf'";
+                                  $q3=$con->query($qeu3);
+                                  if($q3->num_rows > 0){
+                                  $row=$q3->fetch_assoc();
+                                  $y3Weight=$row['weight'];
+                                  }else{
+                                  $y3Weight=0;
+                                  }
+                                   $qeu4="SELECT weight FROM `collection` WHERE col_date='$threeDaysBYesterday' AND staff_id='$staf'";
+                                  $q4=$con->query($qeu4);
+                                  if($q4->num_rows > 0){
+                                  $row=$q4->fetch_assoc();
+                                  $y4Weight=$row['weight'];
+                                  }else{
+                                  $y4Weight=0;
+                                  }
+                                   $qeu5="SELECT weight FROM `collection` WHERE col_date='$fourDaysBYesterday' AND staff_id='$staf'";
+                                  $q5=$con->query($qeu5);
+                                  if($q5->num_rows > 0){
+                                  $row=$q5->fetch_assoc();
+                                  $y5Weight=$row['weight'];
+                                  }else{
+                                  $y5Weight=0;
+                                  }
+                                   $qeu6="SELECT weight FROM `collection` WHERE col_date='$fiveDaysBYesterday' AND staff_id='$staf'";
+                                  $q6=$con->query($qeu6);
+                                  if($q6->num_rows > 0){
+                                  $row=$q6->fetch_assoc();
+                                  $y6Weight=$row['weight'];
+                                  }else{
+                                  $y6Weight=0;
+                                  }
                                    ?>
-                                  <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
-                                  <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
+                                  <td><input type="" name=""class="form-control" placeholder="<?= $y6Weight; ?>" disabled></td>
+                                  <td><input type="" name=""class="form-control" placeholder="<?= $y5Weight; ?>" disabled></td>
                                   <input type="hidden" class="staf" value="<?= $row['staff_id']?>">
-                                  <td><input type="" name=""class="form-control" placeholder="20" disabled></td>
-                                  <td><input type="" name=""class="form-control" placeholder="40" disabled></td>
-                                  <td><input type="" name="" class="form-control" placeholder="80" disabled></td>
-                                  <td><input type="" name=""class="form-control" placeholder="<?= $rwz['weight']; ?>" disabled></td>
-                                  <td><input class="form-control tea_collect" placeholder="12.5" type="number" required></td>
+                                  <td><input type="" name=""class="form-control" placeholder="<?= $y4Weight; ?>" disabled></td>
+                                  <td><input type="" name=""class="form-control" placeholder="<?= $y3Weight; ?>" disabled></td>
+                                  <td><input type="" name="" class="form-control" placeholder="<?= $y2Weight; ?>" disabled></td>
+                                  <td><input type="" name=""class="form-control" placeholder="<?= $yWeight; ?>" disabled></td>
+                                  <?php $colt="SELECT weight FROM collection WHERE staff_id='$staf' AND col_date=CURDATE()";
+                                         $col=$con->query($colt);
+                                         if($col->num_rows > 0) { 
+                                         $colRow=$col->fetch_assoc();
+                                         echo "<td align='center'>";
+                                         echo $colRow['weight'];
+                                         echo "</td>";
+                                         echo "<td style='color: green;'>";
+                                         echo "Taken";
+                                         echo "</td>";
+                                          ?>
+                                       <?php } else{ ?>
+                                  <td><input class="form-control tea_collect" placeholder="12.5" maxlength="5" type="number" required></td>
                                   <td>
                                     <input type="button" name="collectT"class="form-control col_save" value="Save">
                                   </td>
+                                        <?php  } ?>
                               </tr>
                             <?php    }  ?>
                           </tbody>

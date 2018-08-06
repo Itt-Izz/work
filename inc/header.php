@@ -18,15 +18,27 @@
           <ul class="nav navbar-nav navbar-right"> 
             <?php 
             if(isset($_SESSION['username'])){ ?>      
+            <li><?php echo $_SESSION['level'].'.....'; ?></li>
             <li> <a href="account.php" id="nam2" > Hi <span id="nam"><?php echo $_SESSION['username']; ?></span></a></li>
-            <?php if($_SESSION['level']!=='staff'){?>
-          <li><div style="margin-top: 5px;"><a href="message.php"><img src='img/notification.png' class="img-circle" id='hd'> 
+          <li><div style="margin: 5px;" id="notify">
+            <a href="notification.php"><img src='img/nit.png' class="img-circle hd"> 
            <?php           
               if ($row = $mesNo->fetch_array()) {
-                if($row['count(*)']>0){ ?>
+                if($row['count(*)'] > 0){ ?>
                   <span class="notify-badge"><?php echo $row['count(*)']; ?></span>
-            <?php }else
-             echo "0"; }    ?>
+            <?php } else { ?>
+           <span class="badg"> <?php echo "0"; } }?></span>
+           </a>            
+          </div></li> 
+
+            <?php if($_SESSION['level']!=='staff'){?>
+          <li><div style="margin: 5px;"><a href="message.php"><img src='img/notification.png' class="img-circle hd"> 
+           <?php           
+              if ($row = $mesNo2->fetch_array()) {
+                if($row['count(*)'] > 0){ ?>
+                  <span class="notify-badge"><?php echo $row['count(*)']; ?></span>
+            <?php } else { ?>
+           <span class="badg">  <?php echo "0"; } }?></span>
            </a>            
           </div></li>  
           <?php } ?> 

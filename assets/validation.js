@@ -47,7 +47,6 @@ $.validator.addMethod("phoneNo", function(value, element) {
           lettersonly:true
         },
       	email:{
-      		required:true,
       		email:true      	
         },
       	password: {
@@ -62,14 +61,19 @@ $.validator.addMethod("phoneNo", function(value, element) {
           required:true
          },
          phone:{
-          required:true,
           phoneNo: true
          },
          gender:{
            required:true
          },
-         department:{
+         birthday:{
+           required:true
+         },
+         location:{
              required:true
+         },
+         type:{
+           required:true
          },
         fname:{
           required:true,
@@ -90,8 +94,7 @@ $.validator.addMethod("phoneNo", function(value, element) {
       },
       messages:{
       	email:{
-      		required:'Please enter an email address.',
-      		email:'Please enter a <em>valid</em> email address.'
+      		email:'Please enter a <em>valid</em> email address if any.'
           // remote: $.validator.format("{0} already exist.")
         },
         phone:{

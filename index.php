@@ -33,10 +33,12 @@
                 <fieldset>
                 <!-- Form Name -->
                 <legend>
-      <?php $url = "http://" . $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+      <?php
+       $url = "http://" . $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
             if (strpos($url, 'error')) {
               echo "<span style='color: red;'> Username and password mismatch. Please Try again</span>";
-            } ?><br>Login
+            }
+             ?><br>Login
                       </legend>
                 <!-- Text input-->
                 <div class="form-group">

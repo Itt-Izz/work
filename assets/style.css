@@ -54,9 +54,10 @@ body {
     width: 30px;
     height: 30px;
 }
-#hd {
+.hd {
     width: 25px;
     height: 25px;
+    margin-left: 5px;
 }
 #hdimg2 {
     width: 50px;
@@ -153,7 +154,7 @@ body {
 }
 .notify-badge{
     position: absolute;
-    left:20px;
+    left:25px;
     top:3px;
     background:red;
     text-align: center;
@@ -198,7 +199,14 @@ body {
     background: rgb(250, 63, 30);
 }
 .badg {
+    position: absolute;
+    left:25px;
+    top:3px;
     background: lightgrey!important;
+    text-align: center;
+    border-radius: 30px 30px 30px 30px;
+    color:green;
+    padding:0px 7px;
 }
 
 .badge-change {

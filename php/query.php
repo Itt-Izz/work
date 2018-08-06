@@ -6,10 +6,12 @@
 
         $qry3 = "SELECT *, count(*) FROM staff GROUP BY sex";
         $run3 =  $con->query($qry3);
-        $query3="SELECT count(*) FROM message WHERE dest_id=1 AND Msg_read=1";
-        $mesNo=$con->query($query3);
+        $notification="SELECT count(*) FROM message WHERE dest_id='$staff_id' AND Msg_read=0 AND subject='FEEDBACK'";
+        $mesNo=$con->query($notification);
+        $query4="SELECT count(*) FROM message WHERE dest_id='$staff_id' AND Msg_read=0  AND subject!='FEEDBACK'";
+        $mesNo2=$con->query($query4);
 
-         $emp="SELECT `staff_id`, `fname`, `sex`, year(birthday), `username`, `password`, `date_registered`, `id_number`, `phone_number`, `level`, location, `image` FROM `staff` WHERE `level`!= 'admin'";
+         $emp="SELECT `staff_id`, `fname`, lname, `sex`, year(birthday), `username`, `password`, `date_registered`, `id_number`, `phone_number`, `level`, location, `image` FROM `staff` WHERE `level`!= 'admin'";
          $employe = $con->query($emp);
 
          $empW="SELECT * FROM staff WHERE `level`!= 'admin' AND `level`!= 'clerk'";
@@ -69,9 +71,7 @@
                 from staff s LEFT JOIN attendance a on a.staff_id=s.staff_id
                   LEFT JOIN tools t on t.t_id= a.t_id WHERE  date BETWEEN '$frm' AND '$todate' group by s.staff_id ";
          $empPayThisweek = $con->query($empPayNow);
-     $pa= "SELECT s.fname, s.staff_id, s.dailyWage, t.name, a.present, t.name, t.cost
-                from staff s LEFT JOIN attendance a on a.staff_id=s.staff_id
-                  LEFT JOIN tools t on t.t_id= a.t_id group by s.staff_id";
+     $pa= "SELECT * FROM attendance LEFT JOIN staff ON staff.staff_id=attendance.staff_id LEFT JOIN tools on tools.t_id=attendance.t_id LEFT JOIN wage on wage.w_id=attendance.w_id GROUP by staff.staff_id";
     $pay=$con->query($pa);
           
          
@@ -84,7 +84,7 @@
 //All staff
          $empAll="SELECT * FROM staff";
          $empA = $con->query($empAll);
-         $allEmpRow=$empA->fetch_assoc();
+         $p=$empA->fetch_assoc();
 
          $staf="SELECT * FROM staff WHERE `level`= 'clerk'";
          $empB = $con->query($staf);
@@ -96,8 +96,10 @@
          $out="SELECT * FROM message LEFT JOIN staff on staff.staff_id=message.dest_id where message.staff_id='$staff_id' order by m_id desc";
          $outbox=$con->query($out);
 
-         $in="SELECT * FROM message LEFT JOIN staff on staff.staff_id=message.staff_id where message.dest_id='$staff_id' order by m_id desc";
+         $in="SELECT * FROM message LEFT JOIN staff on staff.staff_id=message.staff_id where message.dest_id='$staff_id' AND subject='FEEDBACK' order by m_id desc";
          $inbox=$con->query($in);
+         $in2="SELECT * FROM message LEFT JOIN staff on staff.staff_id=message.staff_id where message.dest_id='$staff_id' AND subject !='FEEDBACK' order by m_id desc";
+         $inbox2=$con->query($in2);
 
          $unR="SELECT * FROM message LEFT JOIN staff on staff.staff_id=message.staff_id where Msg_read=0 AND message.staff_id!='$staff_id' order by m_id desc";
          $unRead=$con->query($unR);
@@ -105,7 +107,7 @@
         $pres="SELECT staff.fname, staff.sex, staff.staff_id, wage.employee, attendance.date,attendance.present,attendance.returned_tool FROM staff RIGHT JOIN attendance ON attendance.staff_id=staff.staff_id left join wage on attendance.w_id=wage.w_id WHERE attendance.present='yes' AND attendance.staff_id !=1 GROUP BY staff.staff_id";
          $present=$con->query($pres);
 
-         $onePresent="SELECT count(*) FROM `attendance` LEFT JOIN staff on staff.staff_id=attendance.staff_id WHERE attendance.present='yes' AND staff.staff_id=18";
+         $onePresent="SELECT count(*) FROM attendance LEFT JOIN staff on staff.staff_id=attendance.staff_id WHERE attendance.present='yes' AND staff.staff_id=18";
          $onePre=$con->query($pres);
 
          // Not returned tool
@@ -117,6 +119,9 @@
               $tools="SELECT * FROM tools";
               $tool=$con->query($tools);
               $rw=$tool->fetch_all();
+
+              $ttt="SELECT * FROM tools";
+              $tol=$con->query($ttt);
             
 //All collections
               $collection="SELECT * FROM collection INNER JOIN staff ON staff.staff_id=collection.staff_id GROUP by staff.staff_id";

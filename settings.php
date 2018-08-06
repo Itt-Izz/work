@@ -24,7 +24,7 @@ include ('php/query.php');
       <div class="col-md-2">
 
         <div class="list-group ">
-          <a href="home.php" class="list-group-item active main-color-bg">
+          <a href="home.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Home </a>
           <a href="attendance.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Attendance</a>
@@ -44,13 +44,13 @@ include ('php/query.php');
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Clerk </a>
                     <a href="stats.php" id="st" class="list-group-item"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports </a>
                     <?php }?>
-                    <a href="settings.php" class="list-group-item">
+                    <a href="settings.php" class="list-group-item main-color-bg">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Settings</a>
                     </div>
 
                     <div class="well">
                       <ul class="list-group">
-                      <a href=""></a><span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span><a href="#">Change Password</a>
+                      <a href="changePassword.php"></a><span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span><a href="#">Change Password</a>
                       </ul>
                     </div>                                      
      </div>
@@ -61,13 +61,104 @@ include ('php/query.php');
                       </div>
                       <div class="panel-body"> 
                       <div id="scrolTable">
-<div class="container col-md-12">
+                        <button id="empEdit">Edit Employee</button>
+                        <?php if ($_SESSION['level'] == 'clerk') { ?>                          
+                        <button>Edit Attendance</button>
+                        <button>Edit Collection</button>
+                         <?php } ?>
+                        <button style="color: red">Delete Collection</button>
+                        <button style="color: red">Delete Attendance</button>
+                        <?php if ($_SESSION['level'] == 'admin') { ?>                          
+                        <button>Add a new Tool</button>
+                        <button>Update Tool</button>
+                        <button style="color: red">Delete Employee</button>
+                        <br><br> <?php } ?>
+<!-- edit employee details -->
+<div id="editEmp">
+                            <form class="form-horizontal" method='POST'  enctype="multipart/form-data" id="uploadForm" name="uploadForm">
+                              <div class=" col-md-8 well">
+                                <h4 align="center">Enter Employee details</h4>
+                                <div class="col-md-12"> 
+                                  <div class="form-group col-md-5"><input class="form-control" type="text" name="fname"  placeholder="First Name"></div> 
+                                  <div class="col-md-2" ></div>
+                                  <div class="form-group col-md-5"><input class="form-control" type="text" name="lname"  placeholder="Last Name" ></div> 
+                                </div>
+                            <div class="col-md-12">
+                                    <div class="form-group col-md-5"> <input class="form-control" type="text" name="username" placeholder="Username" required></div>
+                                  <div class="col-md-2" ></div>
+                                  <div class="radio form-group col-sm-5">
+                                    <label><input type="radio" name="gender" value="Male">Male</label>
+                                    <label><input type="radio" name="gender" value="Female">Female</label>
+                                  </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group col-md-5"><input class="form-control" type="number" name="id" placeholder="ID Number" minlength="6" maxlength="9"></div> 
+                               <div class="col-md-1"></div>
+                                  <div class="form-group col-md-5">
+                                    Birthday: <input type="date" name="birthday">
+                                  </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group col-sm-5"><input class="form-control" type="text" name="phone" id="phoneNo" placeholder="Phone Number" required></div> 
+                                  <div class="form-group col-md-2" ></div>
+                                <div  class="form-group col-sm-5">
+                                  <input class="form-control" type="text" name="email" placeholder="Email">
+                                  </div>  
+                             </div>
+                           <div class="col-md-12"> 
+                                    <div class="form-group col-sm-5"><input class="form-control" type="text" name="location" placeholder="Location"></div> 
+                               <div class="col-md-2"></div>  
+                              <?php if($_SESSION['level']=='admin'){?>
+                                    <div class="form-group radio form col-sm-5">
+                                      <label><input type="radio" name="type" value="clerk">Clerk</label>
+                                      <label><input type="radio" name="type" value="employee">Employee</label>
+                                    </div>
+                         <?php  }else{ ?>
+                                    <div class="form-group radio form col-sm-5">
+                                      <label><input type="radio" name="type" value="employee">Employee</label>
+                                      <label><input type="radio" name="type" value="clerk" disabled>Other</label>
+                                    </div>
+                          <?php } ?>
+                            </div>
+                           <div class="col-md-12">
+                               <div class="col-md-2"></div>
+                            </div>
+                           <div class="col-md-12">
+                               <div class="form-group col-sm-5"><input class="form-control" type="password" name="password" id="password" placeholder="Password" required></div> 
+                               <div class="col-md-2"></div> 
+                               <div class="form-group col-sm-5"><input class="form-control" type="password" name="password2"  placeholder="Confirm Password" required></div> 
+                           </div>
+                           <div class="col-md-12">
+                                    <div class="col-md-4"></div>
+                                    <div class="col-sm-4"><button type="submit" name="codeS" class="btn btn-success form-control">Register</button></div>
+                                    <div class="col-md-4">
+
+                                  </div>
+                           </div>
+                         </div>
+                                <div class="col-md-4 well" id="content">
+                                  <div class="col-md-12">
+                                  <div id='img_div'>
+                                  </div>
+                                  <input type="hidden" name="size" value="1000000">
+                                  <h5> Select image:</h5>
+                                  <div><input class="btn" type="file" name="image" id="file"> </div>
+                                  </div>
+                                 </div>
+                                
+                            </form>
+</div> <!--edit employee end-->
+
+<!-- make changes and operations------------------------------------------------------------------------ -->
+                        <?php if ($_SESSION['level'] == 'admin') { ?>                          
+               <div class="container col-md-12">
+                <br><br>
+                <h3><b>Make changes:</b></h3>
                           <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#inb">Change collection rate</a></li>
                             <li><a data-toggle="tab" href="#unr">Increase Wage</a></li>
                                 <li><a data-toggle="tab" href="#sen" >Promote to Clerk</a></li>
                                 <li><a data-toggle="tab" href="#comp">Demote</a></li>
-                                <li><a data-toggle="tab" href="#comp2">Change Password</a></li>
                               </ul>
           <!-- Change correction rate   .............................................................................. -->    
                               <div class="tab-content">
@@ -98,7 +189,6 @@ include ('php/query.php');
                                       </div><!-- inbox panel body -->
                                     </div><!-- inbox panel-->
                                   </div><!-- inbox row well -->
-
                                 </div><!-- inbox tab pane -->
 
       <!-- Increase employee wage     .............................................................................. -->
@@ -210,44 +300,9 @@ include ('php/query.php');
                                   </div><!--  panel-->
                                 </div><!--  row well -->
                               </div><!-- tab pane -->
-           <!-- Change password .............................................................................. -->
-                              <div id="comp2" class="tab-pane fade">
-                                <div class="row wel">
-                                  <div class="panel panel-default">
-                                    <div class="panel-heading clearfix">
-                                    </div><!-- message head ->from -->
-                                    <div class="panel-body"> 
-                                        <div class="col-md-12">
-                                           <div class="col-md-2"></div>
-                                         <div class="col-md-8 well homePan">
-                                        <form class="form-group homePan" method="POST" name="updatePassword">
-                                          <label><b>Current Password:</b></label>
-                                           <?php $staf=$_SESSION['staff_id'];
-                                            $pass="SELECT password FROM staff where staff_id='$staf'";
-                                                 $pw=$con->query($pass);
-                                                $passRow=$pw->fetch_assoc(); ?>
-                              <input type="password" name="" value="<?= $passRow['password']; ?>" class="form-control" disabled><br> 
-                                                                                 
-                                <label>New Password:</label>
-                              <input type="password" name="password" id="password" class="form-control" ><br> 
-                                <label>Confirm Password:</label>
-                              <input type="password" name="password2" class="form-control" ><br> 
-                                  <button class="btn btn-info pull-right" id="promote">Change PassWord</button>    
-                                        </form>
-                                      </div>
-                                         <div class="col-md-2"></div>
-                                      </div>
-                                    </div><!-- compose panel body -->
-                                  </div><!-- compose panel-->
-                                </div><!-- compose row well -->
-                              </div><!-- compose tab pane -->
-
-
-
                             </div><!-- container -->
                           </div>
-
-
+                       <?php } ?>
                       </div> 
                   </div>
                 </div>

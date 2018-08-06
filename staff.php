@@ -124,7 +124,6 @@ include ('php/query.php');
   </div>
 </div>
 </div>                                     
-
                     </div>
                   </div>
                 </div>
@@ -133,7 +132,7 @@ include ('php/query.php');
 <div class="modal fade" id="emp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
   <div class="modal-dialog  modal-lg" role="document">
     <div class="modal-content">
-      <div class="modal-body" id="getMsg">
+      <div id="getMsg">
       </div>
       <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -141,12 +140,6 @@ include ('php/query.php');
     </div>
   </div>
 </div> 
-
-
-
-
-
-     
-            </body>
+ </body>
             <?php include 'inc/footer.php'; ?>
         </html>

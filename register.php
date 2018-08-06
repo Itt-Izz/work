@@ -71,59 +71,44 @@ include ('php/query.php');
                                   <div class="form-group col-md-5"><input class="form-control" type="text" name="lname"  placeholder="Last Name" ></div> 
                                 </div>
                             <div class="col-md-12">
+                                    <div class="form-group col-md-5"> <input class="form-control" type="text" name="username" placeholder="Username" required></div>
                                   <div class="col-md-2" ></div>
-                                  <div class="form-group col-md-5">
-                                  <div class="radio">
-                                    <label><input type="radio" name="gender" value="male">Male</label>
-                                    <label><input type="radio" name="gender" value="female">Female</label>
-                                  </div>
+                                  <div class="radio form-group col-sm-5">
+                                    <label><input type="radio" name="gender" value="Male">Male</label>
+                                    <label><input type="radio" name="gender" value="Female">Female</label>
                                   </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="form-group col-md-5"><input class="form-control" type="text" name="id" placeholder="ID Number"></div> 
-                                  <div class="col-md-5"> 
-                                  <label class="form-group control-label col-md-3">Birthday:</label>
-                               <div class="col-md-3"></div> 
-                                  <div id="datepicker" class="input-group date" data-date-format="dd-mm-yyy">
-                                    <input class="form-control col-md-6" type="text" name="birthday">
-                                   <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span> </div>
+                                <div class="form-group col-md-5"><input class="form-control" type="number" name="id" placeholder="ID Number" minlength="6" maxlength="9"></div> 
+                               <div class="col-md-1"></div>
+                                  <div class="form-group col-md-5">
+                                    Birthday: <input type="date" name="birthday">
                                   </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group col-sm-5"><input class="form-control" type="text" name="phone" id="phoneNo" placeholder="Phone Number" required></div> 
                                   <div class="form-group col-md-2" ></div>
-                                <div  class="col-sm-5">
-                                  <select name="department" class="form-control" id="department">
-                                    <option value="" selected>Select Department</option>
-                                    <option value="Mason" >Mason</option>
-                                    <option value="Operator" >Operator</option>
-                                    <option value="Electrician">Electrician</option>
-                                    <option value="Others">Others</option>
-                                  </select>  </div>  
+                                <div  class="form-group col-sm-5">
+                                  <input class="form-control" type="text" name="email" placeholder="Email">
+                                  </div>  
                              </div>
-                           <div class="col-md-12">
-                                  <div  class="form-group col-sm-5">
-                                    <select name="position"  class="form-control" id="position">
-                                      <option value="selected">Select Position</option>
-                                      <option value="Foreman">Foreman</option>
-                                      <option value="As. Foreman">As. Foreman</option>
-                                      <option value="Manager">Manager</option>
-                                      <option value="Head">Head</option>
-                                      <option value="Ass. Head">Ass. Head</option>
-                                      <option value="Clerk">Clerk</option>
-                                    </select> </div>  
-                               <div class="col-md-2"></div> 
-                                    <div class="form-group col-sm-5"><input class="form-control" type="text" name="grade" placeholder="Grade" required></div> 
-                            </div>
-                           <div class="col-md-12">
-                                    <div class="form-group col-sm-5"> <input class="form-control" type="text" name="username" placeholder="Username" required></div>
-                               <div class="col-md-2"></div> 
+                           <div class="col-md-12"> 
+                                    <div class="form-group col-sm-5"><input class="form-control" type="text" name="location" placeholder="Location"></div> 
+                               <div class="col-md-2"></div>  
                               <?php if($_SESSION['level']=='admin'){?>
                                     <div class="form-group radio form col-sm-5">
                                       <label><input type="radio" name="type" value="clerk">Clerk</label>
                                       <label><input type="radio" name="type" value="employee">Employee</label>
                                     </div>
-                         <?php  }?>
+                         <?php  }else{ ?>
+                                    <div class="form-group radio form col-sm-5">
+                                      <label><input type="radio" name="type" value="employee">Employee</label>
+                                      <label><input type="radio" name="type" value="clerk" disabled>Other</label>
+                                    </div>
+                          <?php } ?>
+                            </div>
+                           <div class="col-md-12">
+                               <div class="col-md-2"></div>
                             </div>
                            <div class="col-md-12">
                                <div class="form-group col-sm-5"><input class="form-control" type="password" name="password" id="password" placeholder="Password" required></div> 

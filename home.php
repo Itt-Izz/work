@@ -10,14 +10,15 @@ include ('php/query.php');
 ?>
 <!doctype html>
 <html lang="en">
-
 <head>
   <?php include 'inc/head.php'; ?>                   
 </head>
 <body>
   <?php include 'inc/header.php'; ?>
   <section id="main">
-    <a class="fix-me button" data-target="#feed" data-toggle="modal" href="">Feedback <span class="glyphicon glyphicon-comment"></span></a>
+    <?php if ($_SESSION['level'] != 'admin') { ?>
+   <a class="fix-me button" data-target="#feed" data-toggle="modal" href="">Feedback <span class="glyphicon glyphicon-comment"></span></a>
+   <?php } ?>
     <div class="container">
      <div class="row">
       <div class="col-md-2">
@@ -37,21 +38,26 @@ include ('php/query.php');
                   <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Payment</a>
                   <?php if($_SESSION['level']=='clerk'){  ?>
                   <a href="register.php" id="regc2" class="list-group-item  mainNav">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Employee </a>
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Employee </a>
+                    <a href="account.php" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Profile</a>
+            <a href="message.php" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Message</a>
                     <?php } else if($_SESSION['level']=='admin'){?>
+                    <a href="sms.php" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Send Bulk SMS</a>
                   <a href="register.php" id="regc2" class="list-group-item  mainNav">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Clerk </a>
                     <a href="stats.php" id="st" class="list-group-item"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports </a>
                     <?php }?>
                     <a href="settings.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Settings</a>
-                    </div>
-
+                    </div> 
                     <div class="well">
                       <ul class="list-group">
-                      <a href=""></a><span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span><a href="#">Change Password</a>
+       <a href="changePassword.php"><span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span>Change Password </a>
                       </ul>
-                    </div>                                      
+                    </div>                                     
               </div>
                   <div class="col-md-10" id="pan">
                     <div class="panel panel-default">
@@ -86,6 +92,10 @@ include ('php/query.php');
                             <td><?php echo $stfRow['lname']; ?></td>                              
                             </tr>
                             <tr>
+                            <td>Username</td>
+                            <td><?php echo $stfRow['username']; ?></td>                              
+                            </tr>
+                            <tr>
                             <td>DOB</td>
                             <td><?php echo $stfRow['birthday']; ?></td>                              
                             </tr>
@@ -96,6 +106,14 @@ include ('php/query.php');
                             <tr>
                             <td>Date</td>
                             <td><?php echo $stfRow['date_registered']; ?></td>                              
+                            </tr>
+                            <tr>
+                            <td>Location</td>
+                            <td><?php echo $stfRow['location']; ?></td>                              
+                            </tr>
+                            <tr>
+                            <td>Email</td>
+                            <td><?php echo $stfRow['email']; ?></td>                              
                             </tr>
                           </tbody>                          
                         </table>
@@ -110,67 +128,26 @@ include ('php/query.php');
                       <div class="panel-body"> 
                         <table class="table table-bordered">
                           <tbody>
-                            <?php if ($_SESSION['level']=='clerk') { ?>
+                            <?php if ($_SESSION['level']=='clerk') { 
+                              $sal="SELECT clerk FROM wage";
+                              $s=$con->query($sal);
+                              $sRow=$s->fetch_assoc();
+                              $wage=$sRow['clerk']*6; ?>
                            <tr>
                             <td>Wage (Per Week)</td>
-                            <td>Ksh. 42,000</td>                              
+                            <td>Ksh. <?= $wage ?></td>                              
                             </tr>
-                           <tr>
                          <?php } ?>
-                            <td>Last payment Id</td>
-                            <td>5</td>                              
-                            </tr>
-                            <tr> 
-                            <td>Date</td>
-                            <td>2/7/18</td>                              
-                            </tr>
-                            <tr>
-                            <td>Amount</td>
-                            <td>5000</td>                              
-                            </tr>
-                           <tr>
-                            <td>By</td>
-                            <td>Josy</td>                              
-                            </tr>
                           </tbody>                          
                         </table>
                       </div>                        
                       </div>
                     </div>              
-                </div>
-                <div class="col-md-12">
-                  <div class="col-md-2"></div>
-                      <div class="col-md-8">
-                     <div class="panel panel-default">
-                      <div class="panel-heading color-bg">
-                        <h3 class="panel-title">Totals</h3>   
-                      </div>
-                      <div class="panel-body"> 
-                        <table class="table table-bordered">
-                           <tbody>
-                            <tr>
-                            <td>Total Paid</td>
-                            <td>22,000</td>                              
-                            </tr>
-                            <tr>
-                            <td>Total Balance</td>
-                            <td>2,050</td>                              
-                            </tr>
-                            <tr>
-                            <td>Last day present</td>
-                            <td>3 out of 7</td>                              
-                            </tr>
-                          </tbody>                          
-                        </table>
-                      </div>                        
-                      </div>
-                </div>
-                      <div class="col-md-2"></div>
                 </div> 
                  
               <?php  } else { ?>
                        <div class="col-md-12">
-                         <div class="col-md-4 homePan">
+                         <div class="col-md-6 homePan">
                      <div class="panel panel-default">
                       <div class="panel-heading color-bg">
                         <h3 class="panel-title">All employees</h3>   
@@ -179,24 +156,30 @@ include ('php/query.php');
                         <table class="table table-bordered">
                            <tbody>
                             
-                  <?php while ($rows = $run2->fetch_array()) { ?>
-                      <tr>                         
+                  <?php $rows = $run2->fetch_array(); ?>
+                            <tr>                         
                            <td>Total No</td>
                             <td><?= $rows['count(*)'];?></td>                              
                             </tr>
-                   <?php } while($rowsb = $run3->fetch_array()) { ?>
+                   <?php while($rowsb = $run3->fetch_array()) { ?>
                             <tr>
                             <td><?= $rowsb['sex']; ?></td>
                             <td><?= $rowsb['count(*)']; ?></td>                              
                             </tr>
-                          <?php   }    ?>
+                          <?php }$c="SELECT count(*) FROM staff WHERE level='clerk'"; 
+                                  $cl=$con->query($c);
+                                     $rw=$cl->fetch_assoc(); ?>
+                            <tr>                         
+                               <td>Clerks</td>
+                               <td><?= $rw['count(*)']; ?></td>                              
+                            </tr>
                           </tbody>                          
                         </table>
                       </div>                        
                       </div>
 
                          </div>
-                         <div class="col-md-4 homePan">
+                         <div class="col-md-6 homePan">
                      <div class="panel panel-default">
                       <div class="panel-heading color-bg">
                         <h3 class="panel-title">Number of tools</h3>   
@@ -204,49 +187,17 @@ include ('php/query.php');
                       <div class="panel-body"> 
                         <table class="table table-bordered">
                            <tbody>
+                              <?php while ($row=$tol->fetch_assoc()) { ?>
                             <tr>
-                            <td>Total Paid</td>
-                            <td>22,000</td>                              
-                            </tr>
-                            <tr>
-                            <td>Total Balance</td>
-                            <td>2,050</td>                              
-                            </tr>
-                            <tr>
-                            <td>Last day present</td>
-                            <td>3 out of 7</td>                              
+                            <td><?= $row['name']; ?></td>
+                            <td><?= $row['namba']; ?></td>                              
+                            </tr>  
+                             <?php } ?>                            
                             </tr>
                           </tbody>                          
                         </table>
                       </div>                        
-                      </div>
-
-                         </div>
-                         <div class="col-md-4">
-                     <div class="panel panel-default">
-                      <div class="panel-heading color-bg">
-                        <h3 class="panel-title">Payments</h3>   
-                      </div>
-                      <div class="panel-body"> 
-                        <table class="table table-bordered">
-                           <tbody>
-                            <tr>
-                            <td>Total Paid</td>
-                            <td>22,000</td>                              
-                            </tr>
-                            <tr>
-                            <td>Total Balance</td>
-                            <td>2,050</td>                              
-                            </tr>
-                            <tr>
-                            <td>Last day present</td>
-                            <td>3 out of 7</td>                              
-                            </tr>
-                          </tbody>                          
-                        </table>
-                      </div>                        
-                      </div>
-
+                      </div> 
                          </div>
                        </div>
             <?php  } ?>
