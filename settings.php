@@ -65,9 +65,9 @@ include ('php/query.php');
                         <?php if ($_SESSION['level'] == 'clerk') { ?>                          
                         <button>Edit Attendance</button>
                         <button>Edit Collection</button>
-                         <?php } ?>
                         <button style="color: red">Delete Collection</button>
                         <button style="color: red">Delete Attendance</button>
+                      <?php } ?>
                         <?php if ($_SESSION['level'] == 'admin') { ?>                          
                         <button>Add a new Tool</button>
                         <button>Update Tool</button>
@@ -77,7 +77,22 @@ include ('php/query.php');
 <div id="editEmp">
                             <form class="form-horizontal" method='POST'  enctype="multipart/form-data" id="uploadForm" name="uploadForm">
                               <div class=" col-md-8 well">
-                                <h4 align="center">Enter Employee details</h4>
+                                <h4 align="center">Edit Employee details</h4>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                  <div class="col-md-4"></div>
+                                  <div class="col-md-4">
+                                            <select  name="to"  class="form-control">
+                                              <?php
+                                                 while($row=$empA->fetch_assoc()){ ?>
+                                               <option  value= "<?php echo $row['staff_id'];?>" selected> <?php   echo $row['username'];?></option>                                                  
+                                                <?php } ?>
+                                              <option>Select Employee</option>
+                                              </select>                                    
+                                  </div>
+                                  <div class="col-md-4"></div>
+                                  </div>
+                                 </div>
                                 <div class="col-md-12"> 
                                   <div class="form-group col-md-5"><input class="form-control" type="text" name="fname"  placeholder="First Name"></div> 
                                   <div class="col-md-2" ></div>

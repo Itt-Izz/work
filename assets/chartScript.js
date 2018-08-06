@@ -48,8 +48,9 @@ $(function() {
           if(responses !== null){
             if(responses==1){
               swal('Success',"Collection saved Successfully ",'success');
-              $('.tea_collect').val("");
-              $('.tea_collect').css('border-color', 'lightgrey');
+                setTimeout(function(){
+                     location.reload();
+                  }, 200);
             }else if (responses==2) {
               swal('Aborted',"Unable to save that collection",'danger');
               $('.tea_collect').val("");
@@ -85,6 +86,9 @@ $(function() {
             if(resp==1){
               swal('Success','Employee Saved Successfully!','success');
               $('.check').prop('checked',false);
+                setTimeout(function(){
+                     location.reload();
+                  }, 200); 
             }else {
               swal('Aborted','Employee already marked as present','error');
               $('.check').prop('checked',false);
@@ -396,7 +400,6 @@ $('#notify').click(function(){
       data: formData,
       async: false,
       success: function (msg) {
-        console.log(msg);
         if(msg==1){
           swal('Success','Message sent Successful!','success');
         }else {
@@ -419,14 +422,15 @@ $('#notify').click(function(){
     alert(msg);
     if($.trim(msg) !==''){
     $.ajax({
-      url: "php/sendMore.php",
+      url: "./php/sendSms.php",
       type: "POST",
-      data: {message: msg},
-      datatype: "text",
+      data: {msg: msg},
       success: function (msg) {
         console.log(msg)
         if(msg==1){
           swal('Success','Messages sent Successful!','success');
+        }else if(msg==0){
+          swal('Success','Imefika!','success');
         }else {
          swal('Oooooops','something went wrong!','error');
        }
@@ -525,6 +529,9 @@ $("form[name='updatePromotion']").submit(function(e) {
 $('#editEmp').hide();
 $('#empEdit').click(function(){
 $('#editEmp').show();
+$('#empEdit').click(function(){
+$('#editEmp').hide();
+});
 });
 
 
@@ -590,10 +597,10 @@ $('#editEmp').show();
     });
 
 
-  //Auto refresh 
+  // //Auto refresh 
   // setInterval(function(){
-      // $('#mytable2').load("./attendance.php").fadeIn("slow");
-  // }, 1000);
+  //      $('#attTable').load("./attendance.php").fadeIn("slow");
+  //   }, 1000);
 
 
 });

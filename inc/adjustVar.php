@@ -1,3 +1,6 @@
+
+<?php require_once './php/connection.php';?>
+
 <!-- Modal -->
 <!-- Add Pages -->
 <div class="modal fade" id="var" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">

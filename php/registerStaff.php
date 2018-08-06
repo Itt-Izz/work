@@ -13,7 +13,6 @@ $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 if(move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)){
     $image=$_FILES["image"]["name"];
-
     $name = trim($_POST['fname']);
     $lname = trim($_POST['lname']);
     $sex = $_POST['gender'];

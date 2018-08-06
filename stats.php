@@ -66,7 +66,7 @@ include ('php/query.php');
          $data[]=$row;
        }
        //Daily employee attendance
-      $que="SELECT date_format(date, '%W') AS day, COUNT('day') as dayCount FROM attendance GROUP BY day";
+      $que="SELECT date_format(date, '%W') AS day, COUNT('day') as dayCount FROM attendance";
        $dat=array();
        $r=$con->query($que);
        foreach ($r as $row) {
@@ -80,12 +80,8 @@ include ('php/query.php');
        foreach ($rc as $row) {
          // $dat[]=$row;
         array_push($dat2, $row);
-       }
-//Print in json
+       }//Print in json
        // print json_encode($dat2);
-          // die();
-       print json_encode($dat)
-
         ?>
 
        <div class="col-md-12">
@@ -230,10 +226,10 @@ include ('php/query.php');
       var day={
         attendance:[]
       };
+
       var leng=dat.length;
 
       for (var i=0; i<leng; i++){
-        console.log(data[i]);
               day.attendance.push(dat[i].dayCount);
       }
   var mychart = document.getElementById('mychart').getContext('2d');
