@@ -14,7 +14,8 @@ $dat=$_POST['collect'];
 $d=$con->query("SELECT col_date, count(*) FROM collection WHERE col_date='$date' AND staff_id='$staf'");
 $r=$d->fetch_assoc();
 if($r["count(*)"]<1){
-  if($con->query("INSERT INTO collection(`id`, `col_date`, `weight`, `rate`, `staff_id`, `ur_clerk`) VALUES ('','$date','$dat','$rate','$staf','$clerk')")) { 
+  if($dat > 5 && $dat < 700) { 
+  $con->query("INSERT INTO collection(`id`, `col_date`, `weight`, `rate`, `staff_id`, `ur_clerk`) VALUES ('','$date','$dat','$rate','$staf','$clerk')");
      $success=1;
 
 }else{

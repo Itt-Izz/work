@@ -15,40 +15,49 @@ include ('php/query.php');
 <body>
     <?php include 'inc/header.php'; ?>
     <section id="main">
+      <?php if($_SESSION['level']!=='admin'){?>                     
         <a class="fix-me button" data-target="#feed" data-toggle="modal" href="">Feedback <span class="glyphicon glyphicon-comment"></span></a>
+      <?php } ?> 
         <div class="container">
             <div class="row">
-                <div class="col-md-2">  
-          <div class="list-group ">
-            <a href="home.php" class="list-group-item">
-              <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Home </a>
-               <a href="collection.php" class="list-group-item" id="col">
-            <span class="glyphicon glyphicon-flag" aria-hidden="true"></span>Collections </a>
+      <div class="col-md-2">
+        <div class="list-group ">
+          <a href="home.php" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Home </a>
+            <?php if ($_SESSION['level']=='clerk') { ?>
+          <a href="attendance.php" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Attendance</a>
+            <a href="collection.php" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Collection</a>
+           <?php }  if($_SESSION['level']!=='staff'){ ?>
               <a href="staff.php" id="stuff2" class="list-group-item">
                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Employees </a>
+                    <?php }?>
                 <a href="payment.php" id="payHist" class="list-group-item">
                   <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Payment</a>
+                  <?php if($_SESSION['level']=='clerk'){  ?>
                   <a href="register.php" id="regc2" class="list-group-item  mainNav">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Employee </a>
+            <a href="message.php" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Message</a>
+                    <?php } else if($_SESSION['level']=='admin'){?>
+                    <a href="sms.php" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Send Bulk SMS</a>
+                  <a href="register.php" id="regc2" class="list-group-item ">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Clerk </a>
-                      <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle list-group-item glyphicon glyphicon-user" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> Profile
-                         <span class="caret"></span></button>
-                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                          <li><a href="contact.php"  id="con2">Contact Info</a></li>
-                          <li><a href="account.php"  id="acc2">Account Info</a></li>
-                        </ul>
-                      </div>
-                      <a href="stats.php" id="st" class="list-group-item active main-color-bg"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports </a>
-                      <a href="message.php" id="inbox" class="list-group-item">
-                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Messages </a>
-                      </div>
-                      <div class="well">
-                        <ul class="list-group">
-                          <span class="glyphicon glyphicon-flag"></span> <a href="">How to Earn more </a><br><br>
-                          <span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span><a href="#">Change Password</a>
-                        </ul>
-                      </div>                                      
-                </div>
+                    <a href="stats.php" id="st" class="list-group-item main-color-bg"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports </a>
+                    <?php } if($_SESSION['level']=='admin'){  ?>
+                    <a href="settings.php" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Settings</a>
+                    <?php }?>
+
+                    </div> 
+                    <div class="well">
+                      <ul class="list-group">
+      <a class="list-group-item" href="changePassword.php"><span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span>Change Password </a>
+                      </ul>
+                    </div>                                     
+              </div>
                 <div class="col-md-10" id="pan">
 <!-- Latest Users -->
 <div class="panel panel-default">
@@ -66,7 +75,7 @@ include ('php/query.php');
          $data[]=$row;
        }
        //Daily employee attendance
-      $que="SELECT date_format(date, '%W') AS day, COUNT('day') as dayCount FROM attendance";
+      $que="SELECT date_format(date, '%W') AS day, COUNT('day') as dayCount FROM attendance GROUP BY day";
        $dat=array();
        $r=$con->query($que);
        foreach ($r as $row) {

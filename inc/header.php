@@ -19,9 +19,9 @@
             <?php 
             if(isset($_SESSION['username'])){ ?>      
             <li><?php echo $_SESSION['level'].'.....'; ?></li>
-            <li> <a href="account.php" id="nam2" > Hi <span id="nam"><?php echo $_SESSION['username']; ?></span></a></li>
+            <li> <a href="#" id="nam2" > Hi <span id="nam"><?php echo $_SESSION['username']; ?></span></a></li>
           <li><div style="margin: 5px;" id="notify">
-            <a href="notification.php"><img src='img/nit.png' class="img-circle hd"> 
+            <a href="message.php"><img src='img/nit.png' class="hd"> 
            <?php           
               if ($row = $mesNo->fetch_array()) {
                 if($row['count(*)'] > 0){ ?>
@@ -32,7 +32,7 @@
           </div></li> 
 
             <?php if($_SESSION['level']!=='staff'){?>
-          <li><div style="margin: 5px;"><a href="message.php"><img src='img/notification.png' class="img-circle hd"> 
+          <li><div style="margin: 5px;"><a href="notification.php"><img src='img/notification.png' class="img-circle hd"> 
            <?php           
               if ($row = $mesNo2->fetch_array()) {
                 if($row['count(*)'] > 0){ ?>
@@ -57,12 +57,11 @@
                              </div>
                    </a>
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                                <li><a href="account.php" id="accc">My Profile</a></li>
-                                         <?php if($_SESSION['level']=='admin'){?>                                                   
+                                         <?php if($_SESSION['level']=='admin'){?>        
                                                 <li><a href="sms.php" id="accc">Send SMs</a></li>
-                                                <?php } ?>
                                                 <li><a href="settings.php" id="conn">Settings</a></li>
-          <li><a href="php/logout.php" >Logout <span  id="lg" class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>          
+                                            <?php } ?> 
+          <li><a href="php/logout.php" >Logout <span  id="lg" class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
                                             </ul>
                                         </div>
               </li>

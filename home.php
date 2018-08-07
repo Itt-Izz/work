@@ -26,11 +26,12 @@ include ('php/query.php');
         <div class="list-group ">
           <a href="home.php" class="list-group-item active main-color-bg">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Home </a>
+            <?php if ($_SESSION['level']=='clerk') { ?>
           <a href="attendance.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Attendance</a>
             <a href="collection.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Collection</a>
-                    <?php if($_SESSION['level']!=='staff'){?>
+           <?php }  if($_SESSION['level']!=='staff'){ ?>
               <a href="staff.php" id="stuff2" class="list-group-item">
                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Employees </a>
                     <?php }?>
@@ -39,8 +40,6 @@ include ('php/query.php');
                   <?php if($_SESSION['level']=='clerk'){  ?>
                   <a href="register.php" id="regc2" class="list-group-item  mainNav">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Employee </a>
-                    <a href="account.php" class="list-group-item">
-            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Profile</a>
             <a href="message.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Message</a>
                     <?php } else if($_SESSION['level']=='admin'){?>
@@ -49,13 +48,15 @@ include ('php/query.php');
                   <a href="register.php" id="regc2" class="list-group-item  mainNav">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Clerk </a>
                     <a href="stats.php" id="st" class="list-group-item"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports </a>
-                    <?php }?>
+                    <?php } if($_SESSION['level']=='admin'){  ?>
                     <a href="settings.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Settings</a>
+                    <?php }?>
+
                     </div> 
                     <div class="well">
                       <ul class="list-group">
-       <a href="changePassword.php"><span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span>Change Password </a>
+      <a class="list-group-item" href="changePassword.php"><span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span>Change Password </a>
                       </ul>
                     </div>                                     
               </div>

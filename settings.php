@@ -10,7 +10,6 @@ include ('php/query.php');
 ?>
 <!doctype html>
 <html lang="en">
-
 <head>
   <?php include 'inc/head.php'; ?>                   
 </head>
@@ -18,11 +17,12 @@ include ('php/query.php');
 <body>
   <?php include 'inc/header.php'; ?>
   <section id="main">
-    <a class="fix-me button" data-target="#feed" data-toggle="modal" href="">Feedback <span class="glyphicon glyphicon-comment"></span></a>
+    <?php if ($_SESSION['level']!=='admin') { ?>
+    <a class="fix-me button" data-target="#feed" data-toggle="modal" href="">Feedback <span class="glyphicon glyphicon-comment"></span></a>      
+   <?php } ?>
     <div class="container">
      <div class="row">
       <div class="col-md-2">
-
         <div class="list-group ">
           <a href="home.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Home </a>
@@ -43,14 +43,14 @@ include ('php/query.php');
                   <a href="register.php" id="regc2" class="list-group-item  mainNav">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Clerk </a>
                     <a href="stats.php" id="st" class="list-group-item"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports </a>
-                    <?php }?>
                     <a href="settings.php" class="list-group-item main-color-bg">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Settings</a>
+                    <?php }?>
                     </div>
 
                     <div class="well">
                       <ul class="list-group">
-                      <a href="changePassword.php"></a><span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span><a href="#">Change Password</a>
+      <a class="list-group-item" href="changePassword.php"><span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span>Change Password </a>
                       </ul>
                     </div>                                      
      </div>
@@ -60,115 +60,23 @@ include ('php/query.php');
                         <h3 class="panel-title">Operations</h3>   
                       </div>
                       <div class="panel-body"> 
-                      <div id="scrolTable">
-                        <button id="empEdit">Edit Employee</button>
-                        <?php if ($_SESSION['level'] == 'clerk') { ?>                          
-                        <button>Edit Attendance</button>
-                        <button>Edit Collection</button>
-                        <button style="color: red">Delete Collection</button>
-                        <button style="color: red">Delete Attendance</button>
+<div id="scrolTable">
+                        <div class="col-md-12">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-8">
+                        <?php if ($_SESSION['level'] == 'admin') { ?> 
+                        <button class="btn btn-default" id="editMore">Actions</button> 
                       <?php } ?>
-                        <?php if ($_SESSION['level'] == 'admin') { ?>                          
-                        <button>Add a new Tool</button>
-                        <button>Update Tool</button>
-                        <button style="color: red">Delete Employee</button>
-                        <br><br> <?php } ?>
-<!-- edit employee details -->
-<div id="editEmp">
-                            <form class="form-horizontal" method='POST'  enctype="multipart/form-data" id="uploadForm" name="uploadForm">
-                              <div class=" col-md-8 well">
-                                <h4 align="center">Edit Employee details</h4>
-                                <div class="form-group">
-                                  <div class="col-md-12">
-                                  <div class="col-md-4"></div>
-                                  <div class="col-md-4">
-                                            <select  name="to"  class="form-control">
-                                              <?php
-                                                 while($row=$empA->fetch_assoc()){ ?>
-                                               <option  value= "<?php echo $row['staff_id'];?>" selected> <?php   echo $row['username'];?></option>                                                  
-                                                <?php } ?>
-                                              <option>Select Employee</option>
-                                              </select>                                    
-                                  </div>
-                                  <div class="col-md-4"></div>
-                                  </div>
-                                 </div>
-                                <div class="col-md-12"> 
-                                  <div class="form-group col-md-5"><input class="form-control" type="text" name="fname"  placeholder="First Name"></div> 
-                                  <div class="col-md-2" ></div>
-                                  <div class="form-group col-md-5"><input class="form-control" type="text" name="lname"  placeholder="Last Name" ></div> 
-                                </div>
-                            <div class="col-md-12">
-                                    <div class="form-group col-md-5"> <input class="form-control" type="text" name="username" placeholder="Username" required></div>
-                                  <div class="col-md-2" ></div>
-                                  <div class="radio form-group col-sm-5">
-                                    <label><input type="radio" name="gender" value="Male">Male</label>
-                                    <label><input type="radio" name="gender" value="Female">Female</label>
-                                  </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group col-md-5"><input class="form-control" type="number" name="id" placeholder="ID Number" minlength="6" maxlength="9"></div> 
-                               <div class="col-md-1"></div>
-                                  <div class="form-group col-md-5">
-                                    Birthday: <input type="date" name="birthday">
-                                  </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group col-sm-5"><input class="form-control" type="text" name="phone" id="phoneNo" placeholder="Phone Number" required></div> 
-                                  <div class="form-group col-md-2" ></div>
-                                <div  class="form-group col-sm-5">
-                                  <input class="form-control" type="text" name="email" placeholder="Email">
-                                  </div>  
-                             </div>
-                           <div class="col-md-12"> 
-                                    <div class="form-group col-sm-5"><input class="form-control" type="text" name="location" placeholder="Location"></div> 
-                               <div class="col-md-2"></div>  
-                              <?php if($_SESSION['level']=='admin'){?>
-                                    <div class="form-group radio form col-sm-5">
-                                      <label><input type="radio" name="type" value="clerk">Clerk</label>
-                                      <label><input type="radio" name="type" value="employee">Employee</label>
-                                    </div>
-                         <?php  }else{ ?>
-                                    <div class="form-group radio form col-sm-5">
-                                      <label><input type="radio" name="type" value="employee">Employee</label>
-                                      <label><input type="radio" name="type" value="clerk" disabled>Other</label>
-                                    </div>
-                          <?php } ?>
-                            </div>
-                           <div class="col-md-12">
-                               <div class="col-md-2"></div>
-                            </div>
-                           <div class="col-md-12">
-                               <div class="form-group col-sm-5"><input class="form-control" type="password" name="password" id="password" placeholder="Password" required></div> 
-                               <div class="col-md-2"></div> 
-                               <div class="form-group col-sm-5"><input class="form-control" type="password" name="password2"  placeholder="Confirm Password" required></div> 
-                           </div>
-                           <div class="col-md-12">
-                                    <div class="col-md-4"></div>
-                                    <div class="col-sm-4"><button type="submit" name="codeS" class="btn btn-success form-control">Register</button></div>
-                                    <div class="col-md-4">
-
-                                  </div>
-                           </div>
-                         </div>
-                                <div class="col-md-4 well" id="content">
-                                  <div class="col-md-12">
-                                  <div id='img_div'>
-                                  </div>
-                                  <input type="hidden" name="size" value="1000000">
-                                  <h5> Select image:</h5>
-                                  <div><input class="btn" type="file" name="image" id="file"> </div>
-                                  </div>
-                                 </div>
-                                
-                            </form>
-</div> <!--edit employee end-->
-
-<!-- make changes and operations------------------------------------------------------------------------ -->
-                        <?php if ($_SESSION['level'] == 'admin') { ?>                          
-               <div class="container col-md-12">
-                <br><br>
-                <h3><b>Make changes:</b></h3>
+                        <!-- <button class="btn btn-default" id="empEdit">Edit Employee</button> -->                        
+                        <?php if ($_SESSION['level'] == 'admin') { ?>                         
+                        <button class="btn btn-default" id="addTool">Add a new Tool</button>
+                        <button class="btn btn-default" id="updateTool">Update Tool cost</button>
+                        <br> <?php } ?>
+                        </div>
+                        <div class="col-md-2"></div>
+                        </div><!-- make changes and operations------------------------------------------------------------------------ -->
+                        <?php if ($_SESSION['level'] =='admin') { ?>                          
+               <div class="container col-md-12" id="moreEdit">
                           <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#inb">Change collection rate</a></li>
                             <li><a data-toggle="tab" href="#unr">Increase Wage</a></li>
@@ -265,13 +173,13 @@ include ('php/query.php');
                                      <input type="" name="" value="<?= $clerkRow['username']; ?>" class="form-control" disabled><br> 
                                                <?php  } ?>                                          
                                           <label>Sellect employee you want to be a clerk:</label>
-                                            <select  name="emp"  class="form-control" id="emp">
+                                            <select  name="emp"  class="form-control" id="emp2">
                                               <?php
                                                   do{?>
                                           <option  value= "<?php echo $row['staff_id'];?>" selected> <?php   echo $row['username'];?></option> <?php } while($row=$employ->fetch_assoc());
                                                 ?>
                                               <option value="" selected>Select Employee.....</option></select><br>
-                                          <button class="btn btn-info pull-right" id="promote">Promote</button>
+                                          <button class="btn btn-info pull-right" id="promote2">Promote</button>
                                                
                                         </form>
                                       </div>
@@ -302,8 +210,7 @@ include ('php/query.php');
                                             <select  name="emp"  class="form-control" id="emp">
                                               <?php
                                                   do{?>
-                                          <option  value= "<?php echo $row['staff_id'];?>" selected> <?php   echo $row['username'];?></option> <?php } while($row=$employ->fetch_assoc());
-                                                ?>
+                                          <option  value= "<?php echo $row['staff_id'];?>" selected> <?php   echo $row['username'];?></option> <?php } while($row=$employ->fetch_assoc()); ?>
                                               <option value="" selected>Select Employee.....</option></select><br>
                                           <button class="btn btn-info pull-right" id="promote">Demote</button>
                                                
@@ -318,12 +225,151 @@ include ('php/query.php');
                             </div><!-- container -->
                           </div>
                        <?php } ?>
+<!-- edit employee details -->
+         <div id="editEmp">
+                            <form class="form-horizontal" method='POST'  enctype="multipart/form-data" id="uploadForm" name="uploadForm">
+                              <div class=" col-md-8 well">
+                                <h4 align="center">Edit Employee details</h4>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                  <div class="col-md-4"></div>
+                                  <div class="col-md-4">
+                                            <select  name="to"  class="form-control">
+                                              <?php
+                                                 while($row=$empA->fetch_assoc()){ ?>
+                                               <option  value= "<?php echo $row['staff_id'];?>" selected> <?php   echo $row['username'];?></option>                                                  
+                                                <?php } ?>
+                                              <option>Select Employee</option>
+                                              </select>                                    
+                                  </div>
+                                  <div class="col-md-4"></div>
+                                  </div>
+                                 </div>
+                                <div class="col-md-12"> 
+                                  <div class="form-group col-md-5"><input class="form-control" type="text" name="fname"  placeholder="First Name"></div> 
+                                  <div class="col-md-2" ></div>
+                                  <div class="form-group col-md-5"><input class="form-control" type="text" name="lname"  placeholder="Last Name" ></div> 
+                                </div>
+                            <div class="col-md-12">
+                                    <div class="form-group col-md-5"> <input class="form-control" type="text" name="username" placeholder="Username" required></div>
+                                  <div class="col-md-2" ></div>
+                                  <div class="radio form-group col-sm-5">
+                                    <label><input type="radio" name="gender" value="Male">Male</label>
+                                    <label><input type="radio" name="gender" value="Female">Female</label>
+                                  </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group col-md-5"><input class="form-control" type="number" name="id" placeholder="ID Number" minlength="6" maxlength="9"></div> 
+                               <div class="col-md-1"></div>
+                                  <div class="form-group col-md-5">
+                                    Birthday: <input type="date" name="birthday">
+                                  </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group col-sm-5"><input class="form-control" type="text" name="phone" id="phoneNo" placeholder="Phone Number" required></div> 
+                                  <div class="form-group col-md-2" ></div>
+                                <div  class="form-group col-sm-5">
+                                  <input class="form-control" type="text" name="email" placeholder="Email">
+                                  </div>  
+                             </div>
+                           <div class="col-md-12"> 
+                                    <div class="form-group col-sm-5"><input class="form-control" type="text" name="location" placeholder="Location"></div> 
+                               <div class="col-md-2"></div>  
+                              <?php if($_SESSION['level']=='admin'){?>
+                                    <div class="form-group radio form col-sm-5">
+                                      <label><input type="radio" name="type" value="clerk">Clerk</label>
+                                      <label><input type="radio" name="type" value="employee">Employee</label>
+                                    </div>
+                         <?php  }else{ ?>
+                                    <div class="form-group radio form col-sm-5">
+                                      <label><input type="radio" name="type" value="employee">Employee</label>
+                                      <label><input type="radio" name="type" value="clerk" disabled>Other</label>
+                                    </div>
+                          <?php } ?>
+                            </div>
+                           <div class="col-md-12">
+                               <div class="col-md-2"></div>
+                            </div>
+                           <div class="col-md-12">
+                               <div class="form-group col-sm-5"><input class="form-control" type="password" name="password" id="password" placeholder="Password" required></div> 
+                               <div class="col-md-2"></div> 
+                               <div class="form-group col-sm-5"><input class="form-control" type="password" name="password2"  placeholder="Confirm Password" required></div> 
+                           </div>
+                           <div class="col-md-12">
+                                    <div class="col-md-4"></div>
+                                    <div class="col-sm-4"><button type="submit" name="codeS" class="btn btn-success form-control">Register</button></div>
+                                    <div class="col-md-4">
+
+                                  </div>
+                           </div>
+                         </div>
+                                <div class="col-md-4 well" id="content">
+                                  <div class="col-md-12">
+                                  <div id='img_div'>
+                                  </div>
+                                  <input type="hidden" name="size" value="1000000">
+                                  <h5> Select image:</h5>
+                                  <div><input class="btn" type="file" name="image" id="file"> </div>
+                                  </div>
+                                 </div>
+                                
+                            </form>
+                          </div>
+<!--edit employee end--><br>
+<!-- Add tools -->
+  <div id="toolAdd" class="col-md-12">
+  <div class="col-md-1" ></div>
+  <div class="col-md-8 well">
+    <form method="POST">
+      <div class="form-group">
+        <label>Name:</label>
+        <input type="" name="" class="form-control" id="nam" required>
+      </div>
+      <div class="form-group">
+        <label>Cost:</label>
+        <input type="number" name="" class="form-control" id="cost" required>
+      </div>
+      <div class="form-group">
+        <label>Number:</label>
+        <input type="number" name="" class="form-control" id="namba" required>
+      </div>
+     <button class="btn btn-success pull-right" id="addT">Add</button>
+    </form>
+  </div>
+  <div class="col-md-3"></div>
+  </div>
+<!-- update tools -->
+  <div id="toolUpdate" class="col-md-12">
+  <div class="col-md-1"></div>
+  <div class="col-md-8 well">
+    <table class="table">  
+    <tr>
+      <td align="center"><b>Tool</b></td>
+      <td align="center"><b>Cost</b></td>
+      <td align="center"><b>Change</b></td>
+    </tr>    
+        <?php $too="SELECT * FROM tools";
+               $tool=$con->query($too);
+                while($toolRow=$tool->fetch_assoc()) { ?>
+          <tr>
+       <td  align="center"><?= $toolRow['name'].':'; ?></td>
+       <td><input type="number" name="" class="form-control tool" minlength="2" maxlength="5" required></td>
+       <input type="hidden" name="" value="<?= $toolRow['name'];?>" class="tname">
+       <td align="center"><button class="btn btn-info updateCost"" >Update</button></td>
+            </tr>   
+             <?php } ?>
+      
+   </table>
+  </div>
+  <div class="col-md-3"></div>
+</div>
+
+</div>
                       </div> 
                   </div>
                 </div>
               </div>                                   
-            </div>                                                                 
-          </div>
+            </div> 
         </section>
       </body>
       <?php include 'inc/footer.php';  ?>

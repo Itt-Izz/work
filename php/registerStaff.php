@@ -52,7 +52,7 @@ if(move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)){
           $results = $gateway->sendMessage($recipients, $message);
           // message sent successfully
       }catch ( AfricasTalkingGatewayException $e ) {
-        echo "An error occured while sending message, please check your internet connection";
+        echo 0;
     }
     echo 1;
 }else{

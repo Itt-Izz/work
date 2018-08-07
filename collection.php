@@ -18,19 +18,21 @@ include ('php/query.php');
 <body>
   <?php include 'inc/header.php'; ?>
   <section id="main">
-    <a class="fix-me button" data-target="#feed" data-toggle="modal" href="">Feedback <span class="glyphicon glyphicon-comment"></span></a>
+    <?php if($_SESSION['level']!=='admin'){?>                     
+        <a class="fix-me button" data-target="#feed" data-toggle="modal" href="">Feedback <span class="glyphicon glyphicon-comment"></span></a>
+      <?php } ?> 
     <div class="container">
      <div class="row">
       <div class="col-md-2">
-
         <div class="list-group ">
           <a href="home.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Home </a>
+            <?php if ($_SESSION['level']=='clerk') { ?>
           <a href="attendance.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Attendance</a>
-            <a href="collection.php" class="list-group-item active main-color-bg">
+            <a href="collection.php" class="list-group-item main-color-bg">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Collection</a>
-                    <?php if($_SESSION['level']!=='staff'){?>
+           <?php }  if($_SESSION['level']!=='staff'){ ?>
               <a href="staff.php" id="stuff2" class="list-group-item">
                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Employees </a>
                     <?php }?>
@@ -38,23 +40,27 @@ include ('php/query.php');
                   <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Payment</a>
                   <?php if($_SESSION['level']=='clerk'){  ?>
                   <a href="register.php" id="regc2" class="list-group-item  mainNav">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Employee </a>
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Employee </a>
+            <a href="message.php" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Message</a>
                     <?php } else if($_SESSION['level']=='admin'){?>
+                    <a href="sms.php" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Send Bulk SMS</a>
                   <a href="register.php" id="regc2" class="list-group-item  mainNav">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Clerk </a>
                     <a href="stats.php" id="st" class="list-group-item"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports </a>
-                    <?php }?>
+                    <?php } if($_SESSION['level']=='admin'){  ?>
                     <a href="settings.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Settings</a>
-                    </div>
+                    <?php }?>
 
+                    </div> 
                     <div class="well">
                       <ul class="list-group">
-                     <a href=""><span class="glyphicon glyphicon-flag"></span><a href="">Inquery</a><br>
-                      <a href=""></a><span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span><a href="#">Change Password</a>
+      <a class="list-group-item" href="changePassword.php"><span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span>Change Password </a>
                       </ul>
-                    </div>                                       
-                  </div>
+                    </div>                                     
+              </div>
                   <div class="col-md-10" id="pan">
                     <div class="panel panel-default">
                       <div class="panel-heading main-color-bg">
@@ -105,9 +111,6 @@ include ('php/query.php');
                                   <td><?php echo $row['fname']; ?></td>
                                   <?php
                                   $staf=$row['staff_id'];
-                                  //  $da="SELECT staff.fname, date_format(col_date, '%W') as day, collection.col_date, collection.weight FROM `collection` LEFT JOIN staff ON collection.staff_id=staff.staff_id WHERE col_date BETWEEN '2018-07-24' AND CURRENT_DATE() and collection.staff_id='$staf'";
-                                  // $dayz=$con->query($da);
-                                   // $rwz=$dayz->fetch_assoc();
                                    $qeu="SELECT weight FROM `collection` WHERE col_date='$yesterday' AND staff_id='$staf'";
                                   $q=$con->query($qeu);
                                   if($q->num_rows > 0){
@@ -155,11 +158,10 @@ include ('php/query.php');
                                   $y6Weight=$row['weight'];
                                   }else{
                                   $y6Weight=0;
-                                  }
-                                   ?>
+                                  } ?>
                                   <td><input type="" name=""class="form-control" placeholder="<?= $y6Weight; ?>" disabled></td>
                                   <td><input type="" name=""class="form-control" placeholder="<?= $y5Weight; ?>" disabled></td>
-                                  <input type="hidden" class="staf" value="<?= $row['staff_id']?>">
+                                  <input type="hidden" class="staf" value="<?= $staf;?>">
                                   <td><input type="" name=""class="form-control" placeholder="<?= $y4Weight; ?>" disabled></td>
                                   <td><input type="" name=""class="form-control" placeholder="<?= $y3Weight; ?>" disabled></td>
                                   <td><input type="" name="" class="form-control" placeholder="<?= $y2Weight; ?>" disabled></td>
@@ -173,9 +175,7 @@ include ('php/query.php');
                                          echo "</td>";
                                          echo "<td style='color: green;'>";
                                          echo "Taken";
-                                         echo "</td>";
-                                          ?>
-                                       <?php } else{ ?>
+                                         echo "</td>"; } else{ ?>
                                   <td><input class="form-control tea_collect" placeholder="12.5" maxlength="5" type="number" required></td>
                                   <td>
                                     <input type="button" name="collectT"class="form-control col_save" value="Save">

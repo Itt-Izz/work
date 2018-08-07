@@ -12,3 +12,4 @@
 	<link rel="stylesheet" type="text/css" href="assets/sweetalert.css">
 	<link rel="stylesheet" type="text/css" href="assets/bootstrap-datepicker.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/js/jquery-ui.css">
+     <link rel="icon" href="logo.png" type="image/x-icon">

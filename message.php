@@ -18,41 +18,49 @@ include ('php/query.php');
 <body>
   <?php include 'inc/header.php'; ?>
   <section id="main">
-    <a class="fix-me button" data-target="#feed" data-toggle="modal" href="">Feedback <span class="glyphicon glyphicon-comment"></span></a>
+  <?php if($_SESSION['level']!=='admin'){?>                     
+        <a class="fix-me button" data-target="#feed" data-toggle="modal" href="">Feedback <span class="glyphicon glyphicon-comment"></span></a>
+      <?php } ?> 
     <div class="container">
       <div class="row">
-        <div class="col-md-2">
-
-          <div class="list-group ">
-            <a href="home.php" class="list-group-item">
-              <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Home </a>
-               <a href="collection.php" class="list-group-item" id="col">
-            <span class="glyphicon glyphicon-flag" aria-hidden="true"></span>Collections </a>
+      <div class="col-md-2">
+        <div class="list-group ">
+          <a href="home.php" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Home </a>
+            <?php if ($_SESSION['level']=='clerk') { ?>
+          <a href="attendance.php" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Attendance</a>
+            <a href="collection.php" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Collection</a>
+           <?php }  if($_SESSION['level']!=='staff'){ ?>
               <a href="staff.php" id="stuff2" class="list-group-item">
                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Employees </a>
+                    <?php }?>
                 <a href="payment.php" id="payHist" class="list-group-item">
                   <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Payment</a>
                   <?php if($_SESSION['level']=='clerk'){  ?>
                   <a href="register.php" id="regc2" class="list-group-item  mainNav">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Employee </a>
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Employee </a>
+            <a href="message.php" class="list-group-item main-color-bg">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Message</a>
                     <?php } else if($_SESSION['level']=='admin'){?>
+                    <a href="sms.php" class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Send Bulk SMS</a>
                   <a href="register.php" id="regc2" class="list-group-item  mainNav">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Clerk </a>
                     <a href="stats.php" id="st" class="list-group-item"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports </a>
-                    <?php }?>
+                    <?php } if($_SESSION['level']=='admin'){  ?>
                     <a href="settings.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Settings</a>
-                  <a href="message.php" id="inbox" class="list-group-item main-color-bg">
-                      <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Messages </a>
-                    </div>
+                    <?php }?>
 
+                    </div> 
                     <div class="well">
                       <ul class="list-group">
-                     <a href=""><span class="glyphicon glyphicon-flag"></span><a href="">Inquery</a><br>
-                      <a href=""></a><span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span><a href="#">Change Password</a>
+      <a class="list-group-item" href="changePassword.php"><span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span>Change Password </a>
                       </ul>
-                    </div>                                       
-                  </div>
+                    </div>                                     
+              </div>
                   <div class="col-md-10" id="pan">
                     <div class="panel panel-default" id="pan2">
                       <div class="panel-heading main-color-bg">
@@ -83,7 +91,7 @@ include ('php/query.php');
                                             <th>subject</th>                   
                                             <th>Date</th>  
                                             <th>Status</th>     
-                                            <th>Delete</th>     
+                                            <!-- <th>Delete</th>      -->
                                           </tr>
                                           <?php
                                           if($inbox2->num_rows > 0) {
@@ -94,12 +102,16 @@ include ('php/query.php');
                                               <td><?php echo $row["fname"]; ?></td>                   
                                               <td><?php echo $row["subject"]; ?></td> 
                                               <td><?php echo $row["sent_date"]; ?> </td>                   
-                                              <td><?php if ($row["Msg_read"]>0) {
+                                              <td>
+                                                <?php 
+                                                if ($row["Msg_read"]>0) {
                                                        echo "Read";
                                                      }else{
                                                       echo "<b> Unread </b>";
-                                                     } ?> </td> 
-                                              <td><button><img src="img/delete.png" class='hd del'> </button></td>                
+                                                     } 
+                                                     ?> 
+                                              </td> 
+                                              <!-- <td><button><img src="img/delete.png" class='hd del'> </button></td>                 -->
                                       <input type="hidden" class="m_id" value="<?= $row['m_id']?>" >                          
                                       <input type="hidden" class="name" value="<?= $row['fname']?>" >                          
                                       <input type="hidden" class="subject" value="<?= $row['subject']?>" >                        
@@ -179,7 +191,7 @@ include ('php/query.php');
                                           <th>subject</th>                   
                                           <th>Date</th>                   
                                           <th>Message</th> 
-                                          <th>Remove</th>     
+                                          <!-- <th>Remove</th>      -->
                                         </tr>
                                         <?php
                                         if($outbox->num_rows > 0) {
@@ -191,7 +203,7 @@ include ('php/query.php');
                                             <td><?php echo $row["subject"]; ?></td>                   
                                             <td><?php echo $row["sent_date"]; ?> </td>                   
                                             <td><?php echo $row["msg"]; ?></td>                   
-                                              <td><button><img src="img/delete.png" class='hd del'> </button></td>           
+                                              <!-- <td><button><img src="img/delete.png" class='hd del'> </button></td>            -->
                                           </tr>
                                           <?php
                                           $i++; }
@@ -251,8 +263,8 @@ include ('php/query.php');
                                              } ?></select>
                                        </div><!-- form group --> 
                            <button type="submit" name="submit" class="btn btn-info" id="sendOne">Send Message</button>
-                        <?php if ($_SESSION['level'] == 'admin') { ?>              
-                                 <a href="#" > <input type="" name=""id="sendMore" value="Send to all Employees"class="btn"> </a>
+                        <?php if($_SESSION['level']=='admin'){ ?>              
+                           <a href="#" > <input type="" name=""id="sendMore" value="Send to all Employees"class="btn"> </a>
                                <?php } ?>
                                          </div>
                                    </form>

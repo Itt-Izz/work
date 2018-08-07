@@ -16,11 +16,11 @@ $(function() {
       data: formData,
       async: false,
       success: function (msg) {
-        console.log(msg);
         if(msg==1){
           swal('Success',"Registration done Successfully ",'success');
         }else if (msg==2) {
          swal('Oooooops','Username already taken!','error');
+         $('.form-control').val();
        }else{
          alert('An error occured when registering new staff!')
        }
@@ -39,7 +39,8 @@ $(function() {
     var row=$(this).closest('tr')
     var save=row.find('.tea_collect').val();
     var staf=row.find('.staf').val();
-    if($.trim(save) != ''){//trim---remove spaces
+    alert(staf);
+    if($.trim(save) != '' || $.trim(save) < 5){//trim---remove spaces
       $.ajax({
         url:"php/collect.php",
         method:"POST",
@@ -52,7 +53,7 @@ $(function() {
                      location.reload();
                   }, 200);
             }else if (responses==2) {
-              swal('Aborted',"Unable to save that collection",'danger');
+              swal('Aborted',"Unable to save that collection, please check your values before submitting",'danger');
               $('.tea_collect').val("");
               $('.tea_collect').css('border-color', 'lightgrey');
             }else{
@@ -119,8 +120,10 @@ $(function() {
           if(resp !==null){
             if(resp==1){
               swal('Success','Update Successful!','success');
+     $('.tool').val('')
             }else {
-              swal('Aborted','Something wennt wrong','error');
+        alert('Please check your values before submitting!');
+     $('.tool').val('')
             }          
           } else {
             swal('Error','An Error occured while saving','danger');
@@ -129,6 +132,40 @@ $(function() {
       });
     }else{
      $(this).closest('tr').find('.tool').css('border-color', 'red');
+   }
+ });
+
+   //Add a new tool
+  $('#addT').click(function(){
+    var cost=$('#cost').val();
+    var namba=$('#namba').val();
+    var tname=$('#nam').val();
+    alert(tname+''+cost+' '+namba)
+    if($.trim(namba) != '' && $.trim(cost) != ''){
+      $.ajax({
+        url:"php/addTool.php",
+        method:"POST",
+        data: {cost: cost, tname: tname, namba: namba},
+        success: function(resp){
+          if(resp !==null){
+            if(resp==1){
+              swal('Success','Tool saved Successfully!','success');
+     $('.cost').val('')
+     $('.namba').val('')
+            }else {
+        alert('Please check your values before submitting!');
+         $('.cost').val('')
+         $('.namba').val('')
+            }          
+          } else {
+            swal('Error','An Error occured while saving','danger');
+          }
+        }
+      });
+    }else{
+     $('#namba').css('border-color', 'red');
+     $('#cost').css('border-color', 'red');
+     $('#nam').css('border-color', 'red');
    }
  });
 
@@ -285,14 +322,6 @@ $('#notify').click(function(){
 
 
 
-  $("#phoneNo").on({
-    mouseleave: function(){
-      var bla = $('#phoneNo').val();
-      $('#inp[type=text]').val(bla);
-    }
-
-  });
-
   //Datepicker
   $("#datepicker").datepicker({
     autoclose:true,
@@ -321,14 +350,6 @@ $('#notify').click(function(){
 
 
 
-  $("#sendCode").click(function(){
-    var no = $('#inp').val();
-    if(no != ''){
-      $("#code").show();
-    }else{
-      alert("No Number please")
-    }
-  });
 
   //More info on payments
   $(".show").click(function(){
@@ -358,6 +379,9 @@ $('#notify').click(function(){
       success: function(resp){ 
        if(resp==1){
         swal('Success','Update Successful!','success');
+                setTimeout(function(){
+                     location.reload();
+                  }, 200);
       }else {
         swal('Aborted','Something wennt wrong','error');
       }  
@@ -377,6 +401,9 @@ $('#notify').click(function(){
       success: function(resp){ 
        if(resp==1){
         swal('Success','Update Successful!','success');
+                setTimeout(function(){
+                     location.reload();
+                  }, 200);
       }else {
         swal('Aborted','Something went wrong','error');
       }  
@@ -419,28 +446,38 @@ $('#notify').click(function(){
   $("#sendMore").click(function(e) {
      e.preventDefault();
     var msg=$.trim($("textarea").val());
-    alert(msg);
     if($.trim(msg) !==''){
-    $.ajax({
-      url: "./php/sendSms.php",
-      type: "POST",
-      data: {msg: msg},
-      success: function (msg) {
-        console.log(msg)
-        if(msg==1){
-          swal('Success','Messages sent Successful!','success');
-        }else if(msg==0){
-          swal('Success','Imefika!','success');
-        }else {
-         swal('Oooooops','something went wrong!','error');
-       }
-     },
-     error: function(data){
-    },
-    cache: false,
-    contentType: false,
-    processData: false
-  });
+  //   $.ajax({
+  //     url: "./php/sendSms.php",
+  //     type: "POST",
+  //     data: {msg: msg},
+  //     success: function (msg) {
+  //       console.log(msg)
+  //       if(msg==1){
+  //         swal('Success','Messages sent Successful!','success');
+  //       }else if(msg==0){
+  //         swal('Success','Imefika!','success');
+  //       }else {
+  //        swal('Oooooops','something went wrong!','error');
+  //      }
+  //    },
+  //    error: function(data){
+  //   },
+  //   cache: false,
+  //   contentType: false,
+  //   processData: false
+  // });
+  $.post('./php/sendSms.php', {msg: msg}, function(response){
+    if(response==1){
+         swal('Success','SMSs sent successfully!','success');
+         $("textarea").val('')
+    }else if (response==0) {
+         swal('Oooops','You can not send a Blank message!','error');
+         $("textarea").val('')
+    }else{
+         swal('Oooops','You can not send a Blank message!','error');
+    }
+  })
    }else{
          swal('Oooops','You can not send a Blank message!','error');
    }
@@ -526,14 +563,38 @@ $("form[name='updatePromotion']").submit(function(e) {
   });
 
 //edit employee details
+$('#toolUpdate').hide();
+$('#toolAdd').hide();
 $('#editEmp').hide();
+
 $('#empEdit').click(function(){
-$('#editEmp').show();
-$('#empEdit').click(function(){
-$('#editEmp').hide();
-});
+    $('#editEmp').show();
+     $('#toolUpdate').hide();
+      $('#moreEdit').hide();
+      $('#toolAdd').hide();
 });
 
+$('#addTool').click(function(){
+     $('#toolAdd').show();
+     $('#toolUpdate').hide();
+      $('#moreEdit').hide();
+      $('#editEmp').hide();
+
+});
+$('#updateTool').click(function(){
+      $('#toolUpdate').show();
+      $('#toolAdd').hide();
+      $('#moreEdit').hide();
+      $('#editEmp').hide();
+    });
+
+$('#editMore').click(function(){
+      $('#moreEdit').show();
+      $('#toolUpdate').hide();
+      $('#toolAdd').hide();
+      $('#editEmp').hide();
+
+});
 
   $('#file').change(function(){
     filePreview(this);
