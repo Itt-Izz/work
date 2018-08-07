@@ -1,7 +1,9 @@
  <?php
-$con = mysqli_connect("localhost", "root", "","newsalary");
+$con = mysqli_connect("us-cdbr-iron-east-05.cleardb.net", "b41b196e8e6fa9", "d3494e6987b4f0e","newsalary");
 
 if(mysqli_connect_errno()){
     echo 'Failed to connect to MYSQL: '.mysqli_connect_error();
 }
 ?> 
+<!-- mysql -u b41b196e8e6fa9 -h us-cdbr-iron-east-05.cleardb.net -p d3494e6987b4f0e -->
+

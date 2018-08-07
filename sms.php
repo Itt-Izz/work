@@ -44,7 +44,7 @@ include ('php/query.php');
             <a href="message.php" class="list-group-item main-color-bg">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Message</a>
                     <?php } else if($_SESSION['level']=='admin'){?>
-                    <a href="sms.php" class="list-group-item">
+                    <a href="sms.php" class="list-group-item main-color-bg">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Send Bulk SMS</a>
                   <a href="register.php" id="regc2" class="list-group-item ">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Clerk </a>

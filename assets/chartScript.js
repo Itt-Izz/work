@@ -472,7 +472,7 @@ $('#notify').click(function(){
          swal('Success','SMSs sent successfully!','success');
          $("textarea").val('')
     }else if (response==0) {
-         swal('Oooops','You can not send a Blank message!','error');
+         swal('Oops','Check your internet connection Please!','error');
          $("textarea").val('')
     }else{
          swal('Oooops','You can not send a Blank message!','error');

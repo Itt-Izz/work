@@ -25,7 +25,7 @@ while ($row=$result->fetch_assoc()) {
 	}
 	catch ( AfricasTalkingGatewayException $e ) 
 	{
-  echo 0;
+  echo "Something went wrong1";
 	}
 }
 $con->query("INSERT INTO sms(s_id, msg, date) VALUES ('', '$mess', '$date')");

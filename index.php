@@ -8,6 +8,7 @@
     <title>Work Online </title>
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+     <link rel="icon" href="logo.png" type="image/x-icon">
     <link href="assets/style.css" rel="stylesheet">
   </head>
   <body>
