@@ -15,8 +15,6 @@ if($result->num_rows>0)
 	$_SESSION['username'] =$row['username'];
 	$_SESSION['name'] =$row['fname'];
 	$_SESSION['level'] =$row['level'];
-	
-	$_SESSION['level']=$row['level'];
 	header('location: home.php');
 } else
         { 

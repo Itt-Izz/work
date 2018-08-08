@@ -41,8 +41,6 @@ include ('php/query.php');
                   <?php if($_SESSION['level']=='clerk'){  ?>
                   <a href="register.php" id="regc2" class="list-group-item  mainNav">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Employee </a>
-            <a href="message.php" class="list-group-item">
-            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Message</a>
                     <?php } else if($_SESSION['level']=='admin'){?>
                     <a href="sms.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Send Bulk SMS</a>
@@ -89,7 +87,9 @@ include ('php/query.php');
                 <a href="register.php">Add New</a>
          </ol><br>
        <div id="view">
-       <button class="btn btn-default pull-right form-groups" id="printEmp" style="margin: 10px;">Print All Employees</button> 
+        <?php if ($_SESSION['level']=='admin') { ?>
+       <button class="btn btn-default pull-right form-groups" id="printEmp" style="margin: 10px;">Print All Employees</button>
+       <?php } ?> 
       <table class="table table-striped table-bordered table-hover" id="mytable3">
        <thead> <tr>
         <th>#</th>

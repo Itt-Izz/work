@@ -39,8 +39,6 @@ include ('php/query.php');
                   <?php if($_SESSION['level']=='clerk'){  ?>
                   <a href="register.php" id="regc2" class="list-group-item  mainNav">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Employee </a>
-            <a href="message.php" class="list-group-item">
-            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Message</a>
                     <?php } else if($_SESSION['level']=='admin'){?>
                     <a href="sms.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Send Bulk SMS</a>
@@ -68,19 +66,20 @@ include ('php/query.php');
                                         <div class="col-md-12">
                                            <div class="col-md-1"></div>
                                          <div class="col-md-10 well homePan">
-                                        <form class="form-group homePan" method="POST" name="updatePassword">
+                                        <form class="form-group homePan" method="POST" id="updatePassword">
                                           <label><b>Current Password:</b></label>
                                            <?php $staf=$_SESSION['staff_id'];
                                             $pass="SELECT password FROM staff where staff_id='$staf'";
                                                  $pw=$con->query($pass);
                                                 $passRow=$pw->fetch_assoc(); ?>
-                              <input type="password" name="" value="<?= $passRow['password']; ?>" class="form-control" disabled><br> 
+                              <input type="password" name="pass" class="form-control"><br> 
+                              <input type="hidden" name="pass2" id="pass2" value="<?= $passRow['password'] ?>" class="form-control"><br> 
                                                                                  
                                 <label>New Password:</label>
                               <input type="password" name="password" id="password" class="form-control" ><br> 
                                 <label>Confirm Password:</label>
                               <input type="password" name="password2" class="form-control" ><br> 
-                                  <button class="btn btn-info pull-right" id="promote">Change PassWord</button>    
+                                  <button class="btn btn-info pull-right" id="changepass">Change PassWord</button>    
                                         </form>
                                       </div>
                                          <div class="col-md-1"></div>

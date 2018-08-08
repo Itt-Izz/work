@@ -26,11 +26,12 @@ include ('php/query.php');
         <div class="list-group ">
           <a href="home.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Home </a>
-          <a href="attendance.php" class="list-group-item">
+                    <?php if($_SESSION['level']=='clerk'){?> 
+          <a href="attendance.php" class="list-group-item">           
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Attendance</a>
             <a href="collection.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Collection</a>
-                    <?php if($_SESSION['level']!=='staff'){?>
+                    <?php } if($_SESSION['level']!=='staff'){?>
               <a href="staff.php" id="stuff2" class="list-group-item">
                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Employees </a>
                     <?php }?>
@@ -82,8 +83,9 @@ include ('php/query.php');
                             <li><a data-toggle="tab" href="#unr">Increase Wage</a></li>
                                 <li><a data-toggle="tab" href="#sen" >Promote to Clerk</a></li>
                                 <li><a data-toggle="tab" href="#comp">Demote</a></li>
+
                               </ul>
-          <!-- Change correction rate   .............................................................................. -->    
+          <!-- Change collection rate   .............................................................................. -->    
                               <div class="tab-content">
                                 <div id="inb" class="tab-pane fade in active">
                                   <div class="row wel">
@@ -129,7 +131,7 @@ include ('php/query.php');
                                         <form class="form-group homePan" method="POST" name="updateWage">
                                           <?php $wag="SELECT * FROM wage";
                                                  $wage=$con->query($wag);
-                                                 $rw=$wage->fetch_assoc(); ?>
+                                                 $rw=$wage->fetch_assoc(); echo $frm; ?>
                                           <label> Current Clerk Wage:</label>
                                           <input type="" name="" value="<?= $rw['clerk']; ?>" class="form-control" disabled>
                                           <label>Current Casuals' Wage:</label>
@@ -139,9 +141,9 @@ include ('php/query.php');
 
                                             <div style="border:white">
                                           <label> New Clerk Wage:</label>
-                                          <input type="Number" name="clerkWage"  class="form-control" required>
+                                          <input type="Number" name="clerkWage" class="form-control" id="wag1" required>
                                           <label>New Casuals' Wage:</label>
-                                          <input type="Number" name="empWage" class="form-control" required><br>
+                                          <input type="Number" name="empWage" class="form-control" id="wag2" required><br>
                                           <button class="btn btn-info pull-right">Submit</button>
                                                </div>
                                         </form>
@@ -173,14 +175,14 @@ include ('php/query.php');
                                      <input type="" name="" value="<?= $clerkRow['username']; ?>" class="form-control" disabled><br> 
                                                <?php  } ?>                                          
                                           <label>Sellect employee you want to be a clerk:</label>
-                                            <select  name="emp"  class="form-control" id="emp2">
+                                            <select  name="emp"  class="form-control">
                                               <?php
                                                   do{?>
-                                          <option  value= "<?php echo $row['staff_id'];?>" selected> <?php   echo $row['username'];?></option> <?php } while($row=$employ->fetch_assoc());
+                                          <option value= "<?php echo $row['staff_id'];?>" selected> <?php   echo $row['username'];?></option> <?php } while($row=$employ->fetch_assoc());
                                                 ?>
-                                              <option value="" selected>Select Employee.....</option></select><br>
-                                          <button class="btn btn-info pull-right" id="promote2">Promote</button>
-                                               
+                                              <option value="" selected>Select Employee.....</option>
+                                            </select><br>
+                                          <button class="btn btn-info pull-right" id="promote2">Promote</button>               
                                         </form>
                                       </div>
                                          <div class="col-md-2"></div>
@@ -207,10 +209,10 @@ include ('php/query.php');
                                      <input type="" name="" value="<?= $clerkRow['username']; ?>" class="form-control" disabled><br> 
                                                <?php  } ?>                                          
                                           <label>Sellect employee you want to be a clerk:</label>
-                                            <select  name="emp"  class="form-control" id="emp">
+                                            <select  name="emp2"  class="form-control">
                                               <?php
-                                                  do{?>
-                                          <option  value= "<?php echo $row['staff_id'];?>" selected> <?php   echo $row['username'];?></option> <?php } while($row=$employ->fetch_assoc()); ?>
+                                                  do{ ?>
+                                          <option  value= "<?php echo $ro['staff_id'];?>" selected> <?php   echo $ro['username'];?></option> <?php } while($ro=$employ->fetch_assoc()); ?>
                                               <option value="" selected>Select Employee.....</option></select><br>
                                           <button class="btn btn-info pull-right" id="promote">Demote</button>
                                                

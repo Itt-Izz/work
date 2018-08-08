@@ -103,7 +103,28 @@ $.validator.addMethod("phoneNo", function(value, element) {
       }
 
   });
-
+//validate change of password
+$('#updatePassword').validate({
+       rules:{
+        password: {
+          required: true,
+          strongPassword:true
+        },
+        password2: {
+          required: true,
+          equalTo:"#password"
+        },
+        pass:{
+          required:true,
+          equalTo: "#pass2"
+        }
+      },
+      message:{
+        pass:{
+          equalTo: 'Please enter your old password'
+        }
+      }
+  });
 function validatePhone(phone){
   phone=phone.replace(/[^0-9]/g,'');
   $("#phonefield").val(phone);

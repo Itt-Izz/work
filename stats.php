@@ -38,8 +38,6 @@ include ('php/query.php');
                   <?php if($_SESSION['level']=='clerk'){  ?>
                   <a href="register.php" id="regc2" class="list-group-item  mainNav">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Employee </a>
-            <a href="message.php" class="list-group-item">
-            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Message</a>
                     <?php } else if($_SESSION['level']=='admin'){?>
                     <a href="sms.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Send Bulk SMS</a>
@@ -119,9 +117,9 @@ include ('php/query.php');
          </div>
          <div class="col-md-1""></div>
          <div class="col-md-3" style="height: 150px; background-color: lightgreen;">
-            <h4>Total collection</h4>
+            <h4>Total collection today</h4>
            <div class="col-md-5">
-            <?php $tc="SELECT COUNT(weight) as weight FROM collection";
+            <?php $tc="SELECT COUNT(weight) as weight FROM collection WHERE col_date=CURDATE()";
                   $t=$con->query($tc);
                   $row=$t->fetch_assoc(); 
                   $rat="SELECT rate FROM collectionrate";

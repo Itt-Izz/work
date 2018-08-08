@@ -89,9 +89,10 @@ include ('php/query.php');
                                             <th >#</th>
                                             <th >From</th>                   
                                             <th>subject</th>                   
-                                            <th>Date</th>  
-                                            <th>Status</th>     
-                                            <!-- <th>Delete</th>      -->
+                                            <th>Date</th>       
+                                            <th>View</th> 
+                                            <th>Status</th>    
+                                            <th>Delete</th>     
                                           </tr>
                                           <?php
                                           if($inbox2->num_rows > 0) {
@@ -102,6 +103,7 @@ include ('php/query.php');
                                               <td><?php echo $row["fname"]; ?></td>                   
                                               <td><?php echo $row["subject"]; ?></td> 
                                               <td><?php echo $row["sent_date"]; ?> </td>                   
+                                              <td><a href="#" class="viu">View</a> </td>                   
                                               <td>
                                                 <?php 
                                                 if ($row["Msg_read"]>0) {
@@ -116,7 +118,8 @@ include ('php/query.php');
                                       <input type="hidden" class="name" value="<?= $row['fname']?>" >                          
                                       <input type="hidden" class="subject" value="<?= $row['subject']?>" >                        
                                       <input type="hidden" class="date" value="<?= $row['sent_date']?>" >                      
-                                      <input type="hidden" class="message" value="<?= $row['msg']?>" >                               
+                                      <input type="hidden" class="message" value="<?= $row['msg']?>" >  
+                                        <td><button class="btn btn-danger pull-right delMsg">Delete</button><br></td>                             
                                             </tr>
                                             <?php
                                             $i++; }
@@ -127,8 +130,8 @@ include ('php/query.php');
                                       </div>
                                       <div class="panel-body" id="mes">
                                               <div class="col-md-12">
-                                                   <div class="col-sm-2">
-                                                <button class="btn btn-info pull-left bac">Back</button></div>
+                                     <a href="#"> <img src="img/back.png" class="pull-left hd bac"> </a>                            
+                                                   <div class="col-sm-2"></div>
                                                <div class="col-sm-8 form-group">
                                                      <label>Subject:</label>
                                                      <input class="form-control" id="sub1" type="" value="" disabled>
@@ -139,31 +142,29 @@ include ('php/query.php');
                                               <label>Date:</label>
                                             <input class="form-control" id="date1" type="" value="" disabled><br>
                                                           
-                                                          <a href="#" id="rep">Reply</a>
-                                                          <button class="btn btn-danger pull-right">Delete</button><br>
+                                                          <!-- <a href="#" id="rep">Reply</a> -->
                                                    </div>
                                                    <div class="col-sm-2"></div>                          
                                                             </div>
                                        
                                       </div>
                                       <div class="panel-body" id="repMes">
-                                      <form method='POST' class="form-horizontal" name="smsForm"> 
-                                      <button class="btn bac">back</button>                               
+                                      <form method='POST' class="form-horizontal"> 
+                                      <button class="btn bac"><img src="img/back.png"></button>                               
                                        <div class="form-group"> 
-                                          <label class="control-label">Reply this message</label>
                                           <label class="control-label col-sm-1">To</label>
                                           <div  class="col-sm-4"><input type="text" id="to" name="to" value="" class="form-control"  placeholder="subject" disabled></div>
                                      </div>
                                      <div class="form-group">
                                         <label class="col-sm-1" for="inputSubject">Subject</label>
-                                        <div class="col-sm-7"><input type="text" name="subject" class="form-control"  placeholder="subject" required></div>
+                                        <div class="col-sm-7"><input type="text" name="subject" value="" class="form-control"  placeholder="subject" required></div>
                                      </div>
                                       <div class="form-group">
                                           <div class="col-sm-8">
                                         <label for="inputBody">Message</label>
                                           <textarea class="form-control"
                                           id="inputBody" rows="8" data-gramm="true" data-gramm_editor="true"placeholder="Type your message here ................................." name="message" required></textarea><br>
-                           <button  name="submit" class="btn btn-info pull-right" id="sendOne">Send Message</button>
+                           <button  name="submit" class="btn btn-info pull-right" id="sendO">Send Message</button>
                          </div>
                                           <div class="col-sm-4"></div>
                                         </div>
@@ -191,7 +192,7 @@ include ('php/query.php');
                                           <th>subject</th>                   
                                           <th>Date</th>                   
                                           <th>Message</th> 
-                                          <!-- <th>Remove</th>      -->
+                                          <th>Remove</th>     
                                         </tr>
                                         <?php
                                         if($outbox->num_rows > 0) {
@@ -203,7 +204,9 @@ include ('php/query.php');
                                             <td><?php echo $row["subject"]; ?></td>                   
                                             <td><?php echo $row["sent_date"]; ?> </td>                   
                                             <td><?php echo $row["msg"]; ?></td>                   
-                                              <!-- <td><button><img src="img/delete.png" class='hd del'> </button></td>            -->
+                                              <td><button><img src="img/delete.png" class='hd del'> </button></td>   
+                                      <input type="hidden" class="m_id" value="<?= $row['m_id']?>" >                          
+
                                           </tr>
                                           <?php
                                           $i++; }
@@ -254,11 +257,10 @@ include ('php/query.php');
                                           <div  class="col-sm-4">
                                             <select  name="to"  class="form-control">
                                               <?php
-                                              if($_SESSION['level']='admin') {
+                                              if($_SESSION['level']='clerk') {
                                                   do{?>
                                                <option  value= "<?php echo $row['staff_id'];?>" selected> <?php   echo $row['username'];?></option> <?php } while($row=$empB->fetch_assoc());
-                                               }
-                                                else{
+                                               }                       else{
                                                 echo "Manager";
                                              } ?></select>
                                        </div><!-- form group --> 

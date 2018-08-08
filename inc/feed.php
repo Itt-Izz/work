@@ -16,7 +16,7 @@
           <?php $staf=$_SESSION['name']; ?>
           <input type="" value="<?php echo $staf; ?>"  class="form-control" id="staf" disabled>
         </div>
-          <textarea name="msgfeed" id="msgfeed" class="form-control"  rows="8" data-gramm="true" data-gramm_editor="true" placeholder="Write your feedback here................" required></textarea>
+          <textarea name="msgfeed" id="msgfeed" class="form-control" maxlength="20" minlength="5"  rows="8" data-gramm="true" data-gramm_editor="true" placeholder="Write your feedback here................" required></textarea>
         </div>
       <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

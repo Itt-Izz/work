@@ -40,8 +40,6 @@ include ('php/query.php');
                   <?php if($_SESSION['level']=='clerk'){  ?>
                   <a href="register.php" id="regc2" class="list-group-item  mainNav">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Employee </a>
-            <a href="message.php" class="list-group-item">
-            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Message</a>
                     <?php } else if($_SESSION['level']=='admin'){?>
                     <a href="sms.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Send Bulk SMS</a>
@@ -137,6 +135,47 @@ include ('php/query.php');
                            <tr>
                             <td>Wage (Per Week)</td>
                             <td>Ksh. <?= $wage ?></td>                              
+                            </tr>
+                         <?php } if ($_SESSION['level']=='staff') { 
+                              $sal="SELECT sum(weight) FROM collection WHERE staff_id='$staff_id' AND  status=1";
+                              $sal2="SELECT sum(weight) FROM collection WHERE staff_id='$staff_id' AND status=0";
+                              $rat="SELECT * FROM collectionrate";
+                                 $rate=$con->query($rat);
+                                  $rrow=$rate->fetch_assoc();
+                              $s=$con->query($sal);
+                              $s2=$con->query($sal2);
+                              $row=$s->fetch_assoc();
+                              $row2=$s2->fetch_assoc();
+                              $co=$rrow['rate']*$row['sum(weight)'];
+                              $co2=$rrow['rate']*$row2['sum(weight)'];
+                              
+                              $att="SELECT count(*) FROM attendance WHERE staff_id='$staff_id' AND status=1";
+                              $att2="SELECT count(*) FROM attendance WHERE staff_id='$staff_id' AND status=0";
+                              $w="SELECT * FROM wage";
+                               $wage=$con->query($w);
+                               $wg=$wage->fetch_assoc();
+                              $a=$con->query($att);
+                              $a2=$con->query($att2);
+                              $r=$a->fetch_assoc();
+                              $r2=$a2->fetch_assoc();
+                                $d=$r['count(*)']*$wg['employee'];
+                                $d2=$r2['count(*)']*$wg['employee'];
+                               ?>
+                           <tr>
+                            <td>Total collection paid</td>
+                            <td>Ksh. <?= $co; ?></td>                              
+                            </tr>
+                            <tr>
+                            <td>Unpaid collection</td>
+                            <td>Ksh. <?= $co2; ?></td>                              
+                            </tr>
+                           <tr>
+                            <td>Attendance Paid</td>
+                            <td>Ksh. <?= $d; ?></td>                              
+                            </tr>
+                            <tr>
+                            <td>Unpaid Attendance</td>
+                            <td>Ksh. <?= $d2; ?></td>                              
                             </tr>
                          <?php } ?>
                           </tbody>                          

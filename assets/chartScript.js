@@ -26,7 +26,6 @@ $(function() {
        }
      },
      error: function(data){
-      console.log(data);
     },
     cache: false,
     contentType: false,
@@ -39,7 +38,6 @@ $(function() {
     var row=$(this).closest('tr')
     var save=row.find('.tea_collect').val();
     var staf=row.find('.staf').val();
-    alert(staf);
     if($.trim(save) != '' || $.trim(save) < 5){//trim---remove spaces
       $.ajax({
         url:"php/collect.php",
@@ -116,7 +114,6 @@ $(function() {
         method:"POST",
         data: {tool: tool, tname: tname},
         success: function(resp){
-          console.log(resp);
           if(resp !==null){
             if(resp==1){
               swal('Success','Update Successful!','success');
@@ -140,7 +137,6 @@ $(function() {
     var cost=$('#cost').val();
     var namba=$('#namba').val();
     var tname=$('#nam').val();
-    alert(tname+''+cost+' '+namba)
     if($.trim(namba) != '' && $.trim(cost) != ''){
       $.ajax({
         url:"php/addTool.php",
@@ -222,9 +218,28 @@ $('.bac').click(function(){
     $('#repMes').hide();
 
 });
-// back to Show message detail
+// delete sent
 $('.del').click(function(){
-    alert('Delete?????');
+  var del=$('.m_id').val();
+    alert(del);
+});// back to Show message detail
+$('.delMsg').click(function(){
+  var row=$(this).closest('tr')
+  var del=row.find$('.m_id').val();
+  alert(del)
+    $.ajax({
+      url:"php/deleteIn.php",
+      method:"POST",
+      data: {del: del},
+      success: function(resp){ 
+        if(resp==1){
+          alert('Meassage deleted')
+        }else{
+          alert('Deletion failed!!!')
+        }
+    }
+
+  });
 });
 // update notification
 $('#notify').click(function(){
@@ -367,6 +382,22 @@ $('#notify').click(function(){
     $('#pay').hide();
     $('#singlePay').show();
   });
+    $('#viewC').hide();
+    $('#A').hide();
+
+  $("#A").click(function(){
+    $('#viewC').hide();
+    $('#viewA').show();
+    $('#A').hide();
+    $('#C').show();
+  });$("#C").click(function(){
+    $('#viewA').hide();
+    $('#C').hide();
+    $('#A').show();
+    $('#viewC').show();
+  });
+
+
   $(".payWage").click(function(){
     var row=$(this).closest('tr')
     var stafId=row.find('.staf').val();
@@ -494,11 +525,12 @@ $('#notify').click(function(){
       data: formData,
       async: false,
       success: function (msg) {
-        console.log(msg);
         if(msg==1){
           swal('Success','Collection rate Updated Successful!','success');
+          $('#rate').val('');
         }else {
          swal('Oooooops','Something went wrong! Please check your value before submiting','error');
+         $('#rate').val('');
        }
      },
      error: function(data){
@@ -523,8 +555,12 @@ $("form[name='updateWage']").submit(function(e) {
       success: function (msg) {
         if(msg==1){
           swal('Success','Wage Updated Successful!','success');
+          $('#wag1').val('');
+          $('#wag2').val('');
         }else {
          swal('Oooooops','Something went wrong! Please check your values before submiting','error');
+          $('#wag1').val('');
+          $('#wag2').val('');
        }
      },
      error: function(data){
@@ -539,14 +575,12 @@ $("form[name='updateWage']").submit(function(e) {
 $("form[name='updatePromotion']").submit(function(e) {
     e.preventDefault();
     var formData = new FormData(this);
-    console.log(formData);
     $.ajax({
       url: "./php/updatePromotion.php",
       type: "POST",
       data: formData,
       async: false,
       success: function (msg) {
-        console.log(msg);
         if(msg==1){
           swal('Success','Updated Successful!','success');
         }else {
@@ -626,7 +660,6 @@ $('#editMore').click(function(){
     var fileType=file["type"];
     var validImaageType=["image/gif","image/png","image/jpg", "jpeg"]
     if(input.files && input.files[0]){
-      console.log(validImaageType);
       if($.inArray(fileType, validImaageType) < 0){
         alert('Error! Only JPG, JPEG or PNG files allowed!');
     }else{

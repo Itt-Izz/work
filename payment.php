@@ -35,8 +35,6 @@ include ('php/query.php');
               <a href="staff.php" id="stuff2" class="list-group-item">
                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Employees </a>
                     <?php }?>
-                <a href="payment.php" id="payHist" class="list-group-item main-color-bg">
-                  <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Payment</a>
                   <?php if($_SESSION['level']=='clerk'){  ?>
                   <a href="register.php" id="regc2" class="list-group-item  mainNav">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Employee </a>
@@ -70,11 +68,17 @@ include ('php/query.php');
                         <div id="scrolTable"> 
                           <div id="singlePay">
                         <ol class="breadcrumb"> 
-                        <button class="btn btn-default" id="allC">All Collections</button>                 
-                          <h4><?php  echo "Days worked ";
-                           // from: <em>".$threeDaysBY.'</em> to <em>'.$today.'</em><br>'; 
+                          <?php if ($_SESSION['level']!=='staff') { ?>                      
+                        <button class="btn pull-right" id="allC">All Collections</button> <br>
+                      <?php } ?>
+                        <button class="btn btn-default" id="C">Collections</button> 
+                        <button class="btn btn-default" id="A">Attendance</button> 
+                              </ol>   
+                        <div id="viewA">
+                        <ol class="breadcrumb">            
+                          <h4><?php  echo "Attendance payment details ";
                            ?></h4>
-                        </ol>                
+                        </ol>            
                               <table class="table table-striped table-hover pay" >
                                 <thead>
                                  <tr>
@@ -83,18 +87,20 @@ include ('php/query.php');
                                   <th>Name</th>
                                   <th>RegNo</th>
                                   <th>Wage/day</th>
-                                  <th>Days Present</th>  
+                                  <!-- <th>Days Present</th>   -->
+                                  <th>Date</th>  
                                   <th>Tool</th>
                                   <th>Total Deduction</th>
                                   <th>Total Wage</th>
                                   <th>Status</th>
-                                  <th>Pay</th>
+                                  <?php if ($_SESSION['level']=='admin') { ?>
+                                  <th>Pay</th>                                   
+                                 <?php } ?>
                                 </tr>
                               </thead>
                               <tbody><br>
-                               <?php 
-                               if ($empPayThisweek->num_rows > 0) {
-    // output data of each row
+                               <?php if ($_SESSION['level']!=='staff') {
+                               if ($empPayThisweek->num_rows > 0) {    // output data of each row
                                 $i=1;
                                 while($row = $empPayThisweek->fetch_assoc()) {
                                    $r="SELECT count(attendance.staff_id) as days FROM attendance where staff_id=".$row['staff_id']." AND  date BETWEEN '$frm' AND '$todate'";
@@ -111,7 +117,10 @@ include ('php/query.php');
                                   <td><?php echo $rw["employee"]; ?></td> 
                                   <input type="hidden" class="staf" value="<?= $row['staff_id']?>">
                                   <td><?php                                
-                                  echo $days['days'];?> </td> 
+                                  $day=$row['date'];
+                                $d=date("D", strtotime($day));
+                                echo $day." (".$d.")";
+                                  ?> </td> 
                                   <td><?php if ($row["name"]=='') {
                                     echo 'None';
                                   } echo $row["name"] ;?> </td> 
@@ -132,24 +141,73 @@ include ('php/query.php');
                                      <label style="color: green;">Paid</label>
                                  <?php } ?>
                                    </td>                      
-                                   <?php if ($row['status']==0) { ?>
+                                  <?php if ($_SESSION['level']=='admin') { 
+                                    if ($row['status']==0) { ?>
                                  <td><button class="btn btn-success payWage">Pay</button></td> 
                                   <?php } else { ?>
                                      <td><label style="color: green;">Done</label></td>
-                                 <?php } ?>                     
+                                 <?php } }?>                     
                                   </tr><?php
 }
                                   $i++; }
                                 } else {
-                                  echo "0 results";
+                                  echo "0 results found";
+                                }
+                              } else{
+                               if ($empPay1->num_rows > 0) {    // output data of each row
+                                $i=1;
+                                while($row = $empPay1->fetch_assoc()) {
+                                   $r="SELECT count(attendance.staff_id) as days FROM attendance where staff_id=".$row['staff_id']." AND  date BETWEEN '$frm' AND '$todate'";
+                                   $day=$con->query($r);
+                                   $days=$day->fetch_assoc();
+                                   $pay2="SELECT employee from wage left join attendance on attendance.w_id=wage.w_id";
+                                   $py=$con->query($pay2);
+                                   $rw=$py->fetch_assoc();
+                                   if ($days['days']>0) {
+                                 ?>  <tr>
+                                  <td><?php echo $i; ?></td>
+                                  <td><?php echo $row["fname"]; ?></td>                        
+                                  <td><?php echo $row["staff_id"]; ?></td>                   
+                                  <td><?php echo $rw["employee"]; ?></td> 
+                                  <input type="hidden" class="staf" value="<?= $row['staff_id']?>">
+                                  <td><?php                                
+                                  $day=$row['date'];
+                                $d=date("D", strtotime($day));
+                                echo $day." (".$d.")";
+                                  ?> </td> 
+                                  <td><?php if ($row["name"]=='') {
+                                    echo 'None';
+                                  } echo $row["name"] ;?> </td> 
+                                  <td><?php if ($row["name"]=='') {
+                                    echo 0;
+                                  }
+                                   echo $row['cost']; ?> </td> 
+                                  <input type="hidden" class="ded" value="<?= $row['cost']?>">
+                                  <td><?php
+                                    $tt=$rw["employee"]*$days['days']-$row['cost'];
+                                   echo $tt; ?></td> 
+                                   <td>
+                                   <?php 
+                                   if ($row['status']==0) { ?>
+                                     <label style="color: #660000;">Pending</label>
+                                  <?php } else { ?>
+                                     <label style="color: green;">Paid</label>
+                                 <?php } ?>
+                                   </td>                      
+                                  </tr><?php
+}
+                                  $i++; }
+                                } else {
+                                  echo "0 results found";
+                                }
                                 } 
                                 ?> 
                               </tbody>
                             </table>
-
+                          </div>
+               <div id="viewC">
                         <ol class="breadcrumb">                  
-                          <h4><?php  echo "Collections Taken ";
-                           // from: <em>".$dayBf.'</em> to <em>'.$today.'</em><br>'; echo $frm;
+                          <h4><?php  echo "Collections payment";
                            ?></h4>
                         </ol>                
                               <table class="table table-striped table-hover pay" >
@@ -159,12 +217,17 @@ include ('php/query.php');
                                   <th>Name</th>
                                   <th>Total</th>
                                   <th>Amount</th>
+                                  <th>day</th>
                                   <th>Status</th>
-                                  <th>Pay</th>
+                                  <?php if ($_SESSION['level']=='admin') { ?>
+                                  <th>Pay</th>                                   
+                                 <?php } ?>
                                 </tr>
                               </thead>
                               <tbody>
                                <?php 
+                               if ($_SESSION['level']!=='staff') {
+                                if ($colWk->num_rows > 0) { 
                              while($row=$colWk->fetch_assoc()){ 
                               $c=$row['col_date'];
                              $day=date('D',strtotime($c));
@@ -172,11 +235,16 @@ include ('php/query.php');
                               <tr>
                                   <td><?php echo $row['staff_id']; ?></td>
                                   <td><?php echo $row['fname']; ?></td>  
-                                  <td><?php echo $row['total']; ?></td> 
+                                  <td><?php echo 20; ?></td> 
                                   <input type="hidden" class="staff" value="<?= $row['staff_id']?>">
                                   <td><?php
-                                  $amt= $row['total']*10; 
+                                  $amt= 5*10; 
                                     echo $amt;
+                                  ?></td>                                  
+                                    <td><?php                                
+                                  $day2=$row['col_date'];
+                                $d2=date("D", strtotime($day));
+                                echo $day2." (".$d2.")";
                                   ?></td> 
                                   <input type="hidden" class="amount" value="<?= $amt?>">
                                   <td>
@@ -187,22 +255,69 @@ include ('php/query.php');
                                      <label style="color: green;">Paid</label>
                                  <?php } ?>
                                    </td>                      
-                                   <?php if ($row['status']==0) { ?>
+                                  <?php if ($_SESSION['level']=='admin') { 
+                                    if ($row['status']==0) { ?>
                                  <td><button class="btn btn-success payCol">Pay</button></td> 
                                   <?php } else { ?>
                                      <td><label style="color: green;">Done</label></td>
-                                 <?php } ?>                       
+                                 <?php } }?>                       
                                   </tr>
-                            <?php    }  ?>
+                            <?php    }
+                                         }else{
+                                          echo "No record";
+                                         }
+                             }else{
+                              if ($colW2->num_rows > 0) { 
+                               while($row=$colW2->fetch_assoc()){ 
+                              $c=$row['col_date'];
+                             $day=date('D',strtotime($c));
+                              ?>
+                              <tr>
+                                  <td><?php echo $row['staff_id']; ?></td>
+                                  <td><?php echo $row['fname']; ?></td>  
+                                  <td><?php echo 20; ?></td> 
+                                  <input type="hidden" class="staff" value="<?= $row['staff_id']?>">
+                                  <td><?php
+                                  $amt= 5*10; 
+                                    echo $amt;
+                                  ?></td>                                  
+                                    <td><?php                                
+                                  $day2=$row['col_date'];
+                                $d2=date("D", strtotime($day));
+                                echo $day2." (".$d2.")";
+                                  ?></td> 
+                                  <input type="hidden" class="amount" value="<?= $amt?>">
+                                  <td>
+                                   <?php 
+                                   if ($row['status']==0) { ?>
+                                     <label style="color: #660000;">Pending</label>
+                                  <?php } else { ?>
+                                     <label style="color: green;">Paid</label>
+                                 <?php } ?>
+                                   </td>                      
+                                  <?php if ($_SESSION['level']=='admin') { 
+                                    if ($row['status']==0) { ?>
+                                 <td><button class="btn btn-success payCol">Pay</button></td> 
+                                  <?php } else { ?>
+                                     <td><label style="color: green;">Done</label></td>
+                                 <?php } }?>                       
+                                  </tr>
+                            <?php    }  }else{
+                                           echo "No record Found";
+                            }
+                            }  ?>
                               </tbody>
                             </table>
-                            </div>
+                          </div>
+                        </div>
                           <div id="pay">
                           <?php if($_SESSION['level']=='clerk' || $_SESSION['level']=='admin'){?>
                           <ol class="breadcrumb">
-                        <button class="btn btn-default" id="allS">Back</button>                 
-                         <h4><label>Farm Labour </label> </h4>
+                        <button class="btn btn-default" id="allS">Back</button>               
+                         <h4><label>Labour </label> </h4>
+                                  <?php if ($_SESSION['level']=='admin') { ?>
                            <button class="btn btn-default pull-right form-groups" id="printPay" style="margin: 10px;">Print</button> 
+                         <?php } ?>
                           <!--  <button class="btn btn-info pull-right" data-target="#var" data-toggle="modal" href="">Change Tool cost</button> -->
                           </ol>                       
 <!-- -----------------------Casual labourers-------------------------------------------------------- -->
@@ -261,11 +376,14 @@ include ('php/query.php');
                             <?php    }  ?>
                             <br><br>
 
-                          <?php if($_SESSION['level']=='clerk' || $_SESSION['level']=='admin'){?>
- <!-- ------------------Daily Tea collection-------------------------------------------------- -->
+                         
+ <!-- ------------------Daily Tea collection-------------------------------------------------- --> 
+                  <?php if($_SESSION['level']=='clerk' || $_SESSION['level']=='admin'){?>
                         <ol class="breadcrumb">
-                         <h3> <label align="center" >Tea Collection per Labourer</label></h3>
-                           <button class="btn btn-default pull-right form-groups" id="printCol" style="margin-left: 20px;">Print</button> 
+                         <h3> <label align="center" >Tea Collection</label></h3>
+                         <?php if ($_SESSION['level']=='admin') { ?>
+                           <button class="btn btn-default pull-right form-groups" id="printCol" style="margin-left: 20px;">Print</button>                            
+                        <?php } ?>
                           </ol> 
                            <table class="table table-striped table-hover" id="print_collection">
                             <thead>

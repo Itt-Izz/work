@@ -57,7 +57,7 @@
           $dayBf=date("D", strtotime($frm));
           
          //All days present this week
-      $empo2="SELECT count(*) FROM attendance LEFT JOIN staff on attendance.staff_id=staff.staff_id WHERE attendance.staff_id='$staff_id' AND date BETWEEN '$frm' AND '$todate'";
+      $empo2="SELECT count(*) FROM attendance LEFT JOIN staff on attendance.staff_id=staff.staff_id WHERE attendance.staff_id='$staff_id' AND date BETWEEN '$frm' AND CURDATE()";
          $employeeC = $con->query($empo2);
          $r2=$employeeC->fetch_assoc();
       $empt="SELECT * FROM attendance LEFT JOIN staff on attendance.staff_id=staff.staff_id LEFT JOIN wage on wage.w_id=attendance.w_id WHERE attendance.staff_id='$staff_id' AND attendance.date BETWEEN '$frm' AND CURDATE()";
@@ -67,10 +67,14 @@
          $empo2="SELECT count(*) FROM attendance LEFT JOIN staff on attendance.staff_id=staff.staff_id WHERE attendance.staff_id='$staff_id' AND date BETWEEN '$frm' AND '$todate'";
          $employeeC = $con->query($empo2);
          $r2=$employeeC->fetch_assoc();
-      $empPayNow="SELECT s.fname, s.staff_id, t.name, a.present, t.name, t.cost, a.status
+      $empPayNow="SELECT s.fname, s.staff_id, t.name, a.present, t.name, t.cost, a.status, a.date
                 from staff s LEFT JOIN attendance a on a.staff_id=s.staff_id
-                  LEFT JOIN tools t on t.t_id= a.t_id WHERE  date BETWEEN '$frm' AND '$todate' group by s.staff_id ";
+                  LEFT JOIN tools t on t.t_id= a.t_id WHERE  date BETWEEN '$frm' AND CURDATE() ORDER BY a.date DESC";
          $empPayThisweek = $con->query($empPayNow);
+         $empPa1="SELECT s.fname, s.staff_id, t.name, a.present, t.name, t.cost, a.status, a.date
+                from staff s LEFT JOIN attendance a on a.staff_id=s.staff_id
+                  LEFT JOIN tools t on t.t_id= a.t_id WHERE a.staff_id='$staff_id' AND date BETWEEN '$frm' AND CURDATE() ORDER BY a.date DESC";
+         $empPay1 = $con->query($empPa1);
      $pa= "SELECT * FROM attendance LEFT JOIN staff ON staff.staff_id=attendance.staff_id LEFT JOIN tools on tools.t_id=attendance.t_id LEFT JOIN wage on wage.w_id=attendance.w_id GROUP by staff.staff_id";
     $pay=$con->query($pa);
           
@@ -86,7 +90,7 @@
          $empA = $con->query($empAll);
          $p=$empA->fetch_assoc();
 
-         $staf="SELECT * FROM staff WHERE `level`= 'clerk'";
+         $staf="SELECT * FROM staff WHERE `level`!= 'staff'";
          $empB = $con->query($staf);
 
         
@@ -129,8 +133,10 @@
               $collectW="SELECT sum(weight) as weight FROM collection LEFT JOIN staff ON staff.staff_id=collection.staff_id";
               $sumWeight=$con->query($collectW);
       //collection per week  
-        $colW="SELECT *, sum(weight) as total FROM collection LEFT JOIN staff on collection.staff_id=staff.staff_id WHERE col_date BETWEEN '$frm' AND '$todate' group by staff.staff_id";
+        $colW="SELECT * FROM collection LEFT JOIN staff on collection.staff_id=staff.staff_id ORDER BY collection.col_date desc";
          $colWk=$con->query($colW);
+         $colW2="SELECT * FROM collection LEFT JOIN staff on collection.staff_id=staff.staff_id WHERE collection.staff_id='$staff_id' ORDER BY collection.col_date desc";
+         $colW2=$con->query($colW2);
 
 //chart
               //three tables

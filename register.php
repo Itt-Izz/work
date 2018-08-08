@@ -40,8 +40,6 @@ include ('php/query.php');
                   <?php if($_SESSION['level']=='clerk'){  ?>
                   <a href="register.php" id="regc2" class="list-group-item  main-color-bg">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Employee </a>
-            <a href="message.php" class="list-group-item">
-            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Message</a>
                     <?php } else if($_SESSION['level']=='admin'){?>
                     <a href="sms.php" class="list-group-item">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Send Bulk SMS</a>
@@ -71,12 +69,12 @@ include ('php/query.php');
                               <div class=" col-md-8 well">
                                 <h4 align="center">Enter Employee details</h4>
                                 <div class="col-md-12"> 
-                                  <div class="form-group col-md-5"><input class="form-control" type="text" name="fname"  placeholder="First Name"></div> 
+                                  <div class="form-group col-md-5"><input class="form-control fname" type="text" name="fname"  placeholder="First Name"></div> 
                                   <div class="col-md-2" ></div>
-                                  <div class="form-group col-md-5"><input class="form-control" type="text" name="lname"  placeholder="Last Name" ></div> 
+                                  <div class="form-group col-md-5"><input class="form-control lname" type="text" name="lname"  placeholder="Last Name" ></div> 
                                 </div>
                             <div class="col-md-12">
-                                    <div class="form-group col-md-5"> <input class="form-control" type="text" name="username" placeholder="Username" required></div>
+                                    <div class="form-group col-md-5"> <input class="form-control username" type="text" name="username" placeholder="Username" required></div>
                                   <div class="col-md-2" ></div>
                                   <div class="radio form-group col-sm-5">
                                     <label><input type="radio" name="gender" value="Male">Male</label>
@@ -84,10 +82,10 @@ include ('php/query.php');
                                   </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="form-group col-md-5"><input class="form-control" type="number" name="id" placeholder="ID Number" minlength="6" maxlength="9"></div> 
+                                <div class="form-group col-md-5"><input class="form-control id" type="number" name="id" placeholder="ID Number" minlength="6" maxlength="9"></div> 
                                <div class="col-md-1"></div>
                                   <div class="form-group col-md-5">
-                                    Birthday: <input type="date" name="birthday">
+                                    Birthday: <input type="date" name="birthday" class="datepicker" data-date-format="yyyy-mm-dd" min="1960-01-02" max="2001-12-31">
                                   </div>
                             </div>
                             <div class="col-md-12">
