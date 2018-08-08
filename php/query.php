@@ -16,6 +16,10 @@
 
          $empW="SELECT * FROM staff WHERE `level`!= 'admin' AND `level`!= 'clerk'";
          $employ = $con->query($empW);
+
+         $empW2="SELECT * FROM staff WHERE `level`= 'clerk'";
+         $employ2 = $con->query($empW2);
+
         //All days present
          $empo="SELECT count(*) FROM attendance WHERE staff_id='$staff_id'";
          $empone = $con->query($empo);

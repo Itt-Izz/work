@@ -7,7 +7,7 @@ if (!isset($_SESSION['staff_id']))
 }
 require_once 'connection.php';
 $emp =$_POST['emp'];
-if($con->query("UPDATE staff SET level='clerk'  WHERE staff_id='$emp")) {
+if($con->query("UPDATE staff SET level='clerk'  WHERE staff_id='$emp'")) {
   $success=1;
 }else {
      $success=2;

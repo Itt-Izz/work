@@ -176,13 +176,12 @@ include ('php/query.php');
                                                <?php  } ?>                                          
                                           <label>Sellect employee you want to be a clerk:</label>
                                             <select  name="emp"  class="form-control">
-                                              <?php
-                                                  do{?>
-                                          <option value= "<?php echo $row['staff_id'];?>" selected> <?php   echo $row['username'];?></option> <?php } while($row=$employ->fetch_assoc());
-                                                ?>
+                                              <?php while($r=$employ->fetch_assoc()){ ?>
+                                             <option value= "<?php echo $r['staff_id'];?>" selected> <?php   echo $r['username'];?></option> ?>
+                                         <?php } ?>
                                               <option value="" selected>Select Employee.....</option>
                                             </select><br>
-                                          <button class="btn btn-info pull-right" id="promote2">Promote</button>               
+                                          <button class="btn btn-info pull-right" id="promote">Promote</button>               
                                         </form>
                                       </div>
                                          <div class="col-md-2"></div>
@@ -208,13 +207,14 @@ include ('php/query.php');
                                                 while ($clerkRow=$clerk->fetch_assoc() ){ ?>
                                      <input type="" name="" value="<?= $clerkRow['username']; ?>" class="form-control" disabled><br> 
                                                <?php  } ?>                                          
-                                          <label>Sellect employee you want to be a clerk:</label>
-                                            <select  name="emp2"  class="form-control">
-                                              <?php
-                                                  do{ ?>
-                                          <option  value= "<?php echo $ro['staff_id'];?>" selected> <?php   echo $ro['username'];?></option> <?php } while($ro=$employ->fetch_assoc()); ?>
-                                              <option value="" selected>Select Employee.....</option></select><br>
-                                          <button class="btn btn-info pull-right" id="promote">Demote</button>
+                                          <label>Sellect clerk you want to demote:</label>
+                                            <select  name="emp"  class="form-control">
+                                              <?php while($r2=$employ2->fetch_assoc()){ ?>
+                                   <option value= "<?php echo $r2['staff_id'];?>" selected> <?php   echo $r2['username']; ?></option> 
+                                         <?php } ?>
+                                              <option value="" selected>Select Employee.....</option>
+                                            </select><br>
+                                          <button class="btn btn-info pull-right" id="demote">Demote</button>
                                                
                                         </form>
                                       </div>

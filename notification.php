@@ -81,7 +81,7 @@ include ('php/query.php');
                                           if($inbox->num_rows > 0) {
                                             $i=1;
                                             while($row=$inbox->fetch_assoc()){ ?>
-                                             <tr class="viewMessage" > 
+                                             <tr> 
                                               <td><?php echo $i; ?></td>                   
                                               <td><?php echo $row["fname"]; ?></td>                   
                                               <td><?php echo $row["subject"]; ?></td> 
@@ -91,7 +91,7 @@ include ('php/query.php');
                                       <input type="hidden" class="name" value="<?= $row['fname']?>" >                          
                                       <input type="hidden" class="subject" value="<?= $row['subject']?>" >                        
                                       <input type="hidden" class="date" value="<?= $row['sent_date']?>" >                      
-                                      <input type="hidden" class="message" value="<?= $row['msg']?>" >                               
+                                      <input type="hidden" class="message" value="<?= $row['msg']?>" >                             
                                             </tr>
                                             <?php
                                             $i++; }

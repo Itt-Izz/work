@@ -10,6 +10,7 @@ $(function() {
   $("form[name='uploadForm']").submit(function(e) {
     e.preventDefault();
     var formData = new FormData(this);
+    var doo=$('').val();
     $.ajax({
       url: "./php/registerStaff.php",
       type: "POST",
@@ -218,29 +219,7 @@ $('.bac').click(function(){
     $('#repMes').hide();
 
 });
-// delete sent
-$('.del').click(function(){
-  var del=$('.m_id').val();
-    alert(del);
-});// back to Show message detail
-$('.delMsg').click(function(){
-  var row=$(this).closest('tr')
-  var del=row.find$('.m_id').val();
-  alert(del)
-    $.ajax({
-      url:"php/deleteIn.php",
-      method:"POST",
-      data: {del: del},
-      success: function(resp){ 
-        if(resp==1){
-          alert('Meassage deleted')
-        }else{
-          alert('Deletion failed!!!')
-        }
-    }
 
-  });
-});
 // update notification
 $('#notify').click(function(){
     $.ajax({
@@ -282,6 +261,7 @@ $('#notify').click(function(){
          <div class="col-md-2"></div>
          <div class="col-md-4"><br>
          First Name : <label class="form-group">${resp.fname}</label><br>
+         <input type="hidden" value="${resp.staff_id}" id="staf2">
          Last Name : <label class="form-group">${resp.lname}</label><br>
          Registration No : <label class="form-group"> ${resp.staff_id}</label><br>
          Gender : <label class="form-group"> ${resp.sex}</label><br>
@@ -294,21 +274,29 @@ $('#notify').click(function(){
          </div>
          <div class="col-md-3">
          <label class="form-group"> ${resp.image}</label><br>
-         <h5 align="center"><b> Picture</b></5>
+         <h5 align="center"><b> Picture ${resp.image}</b></5>
                               <div class="col-md-4 well" id="content">
                                   <div class="col-md-12">
                                   <div id='img_div'>
+                                  <img src="img/itt.jpg">
                                   </div>
                                   </div>
                                  </div>
          </div>
          <div class="col-md-3"></div>
+         <button class="btn btn-danger pull-right" id="delEmp">Delete - ${resp.staff_id}</button>
          </div>
          </form>
 
          `);  
       }
     });
+  });
+
+  $('#delEmp').click(function(){
+    console.log('#delEmp')
+      var stId=$('#staf2').val();
+      alert(stId)
   });
 
   $('#printPay').click(function(){
@@ -478,26 +466,6 @@ $('#notify').click(function(){
      e.preventDefault();
     var msg=$.trim($("textarea").val());
     if($.trim(msg) !==''){
-  //   $.ajax({
-  //     url: "./php/sendSms.php",
-  //     type: "POST",
-  //     data: {msg: msg},
-  //     success: function (msg) {
-  //       console.log(msg)
-  //       if(msg==1){
-  //         swal('Success','Messages sent Successful!','success');
-  //       }else if(msg==0){
-  //         swal('Success','Imefika!','success');
-  //       }else {
-  //        swal('Oooooops','something went wrong!','error');
-  //      }
-  //    },
-  //    error: function(data){
-  //   },
-  //   cache: false,
-  //   contentType: false,
-  //   processData: false
-  // });
   $.post('./php/sendSms.php', {msg: msg}, function(response){
     if(response==1){
          swal('Success','SMSs sent successfully!','success');
@@ -575,6 +543,8 @@ $("form[name='updateWage']").submit(function(e) {
 $("form[name='updatePromotion']").submit(function(e) {
     e.preventDefault();
     var formData = new FormData(this);
+    var r=confirm("Are you sure to promote this clerk?");
+    if(r==true){
     $.ajax({
       url: "./php/updatePromotion.php",
       type: "POST",
@@ -593,7 +563,33 @@ $("form[name='updatePromotion']").submit(function(e) {
     contentType: false,
     processData: false
   });
-
+  }
+  });
+//Demote Employee 
+$("form[name='updateDemotion']").submit(function(e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+    var r=confirm("Are you sure to demote this clerk?");
+    if(r==true){
+    $.ajax({
+      url: "./php/updateDemotion.php",
+      type: "POST",
+      data: formData,
+      async: false,
+      success: function (msg) {
+        if(msg==1){
+          swal('Success','Updated Successful!','success');
+        }else {
+         swal('Oooooops','Something went wrong! Please check your values before submiting','error');
+       }
+     },
+     error: function(data){
+    },
+    cache: false,
+    contentType: false,
+    processData: false
+  });
+  }
   });
 
 //edit employee details
@@ -696,5 +692,29 @@ $('#editMore').click(function(){
   //      $('#attTable').load("./attendance.php").fadeIn("slow");
   //   }, 1000);
 
+
+//Notification delete
+$('.del').click(function(){
+    var row=$(this).closest('tr')
+    var del=row.find('.m_id').val();
+    var r=confirm("Are you sure to delete this message?");
+    if(r==true){
+    $.ajax({
+      url:"php/deleteIn.php",
+      method:"POST",
+      data: {del: del},
+      success: function(resp){
+      console.log(resp) 
+       if(resp==1){
+        swal('Success','Notification deleted','success');
+      }else {
+        swal('Aborted','Something went wrong','error');
+      }  
+    }
+
+  });
+  }
+
+});
 
 });
