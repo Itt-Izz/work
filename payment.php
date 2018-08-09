@@ -91,7 +91,7 @@ include ('php/query.php');
                                   <th>Date</th>  
                                   <th>Tool</th>
                                   <th>Total Deduction</th>
-                                  <th>Total Wage</th>
+                                  <!-- <th>Total Wage</th> -->
                                   <th>Status</th>
                                   <?php if ($_SESSION['level']=='admin') { ?>
                                   <th>Pay</th>                                   
@@ -129,9 +129,12 @@ include ('php/query.php');
                                   }
                                    echo $row['cost']; ?> </td> 
                                   <input type="hidden" class="ded" value="<?= $row['cost']?>">
-                                  <td><?php
+                                  <!-- <td> -->
+                                    <?php
                                     $tt=$rw["employee"]*$days['days']-$row['cost'];
-                                   echo $tt; ?></td> 
+                                   // echo $tt; 
+                                   ?>
+                                  <!-- </td>  -->
                                   <input type="hidden" class="total" value="<?= $tt?>">
                                    <td>
                                    <?php 
@@ -183,9 +186,13 @@ include ('php/query.php');
                                   }
                                    echo $row['cost']; ?> </td> 
                                   <input type="hidden" class="ded" value="<?= $row['cost']?>">
-                                  <td><?php
-                                    $tt=$rw["employee"]*$days['days']-$row['cost'];
-                                   echo $tt; ?></td> 
+                                  <!-- <td> -->
+                                    <?php
+                                    // $tt=$rw["employee"]*$days['days']-$row['cost'];
+                                   // echo $tt; 
+                                   ?>
+                                     
+                                   <!-- </td>  -->
                                    <td>
                                    <?php 
                                    if ($row['status']==0) { ?>

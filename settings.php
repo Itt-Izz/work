@@ -325,7 +325,7 @@ include ('php/query.php');
     <form method="POST">
       <div class="form-group">
         <label>Name:</label>
-        <input type="" name="" class="form-control" id="nam" required>
+        <input type="text" name="" class="form-control" id="nam3" placeholder="Tool name" required>
       </div>
       <div class="form-group">
         <label>Cost:</label>

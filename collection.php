@@ -68,7 +68,8 @@ include ('php/query.php');
                         <div id="scrolTable">
                           <ol class="breadcrumb">
                             <div class="col-md-3">
-                             Today's Rate:<label style="color: blue;"><h4>&nbsp;<b><?php 
+                              <!-- <button class="btn" id="tCol">Todays</button> -->
+                              Rate:<label style="color: blue;"><h4>&nbsp;<b><?php 
                                          $r="SELECT * FROM collectionrate";
                                          $rate=$con->query($r);
                                          $rrow=$rate->fetch_assoc();
@@ -82,6 +83,7 @@ include ('php/query.php');
                             </div>
                           </ol>
                           <?php if($_SESSION['level']=='clerk' || $_SESSION['level']=='admin'){?>
+                            <div id="col5">
                           <table class="table" id="mytable4">
                             <thead>
                               <th>RegNo</th>
@@ -183,39 +185,26 @@ include ('php/query.php');
                             <?php    }  ?>
                           </tbody>
                         </table>
-                           <?php  } else{ ?>
-                            <table class="table">
-                              <th>#</th>
-                              <th>Day</th>
-                              <th>Date</th>
-                              <th>Present</th>
-                              <th>Work Done</th>
-                              <th>Amount</th>
-                              <th>Status</th>
-                                <?php $k=1;
-                                while ($roow=$employeeCounted->fetch_assoc()){ 
-                              $y=$k-1;
-                              $dayy=date("D", strtotime("-$y day"));
-                              $dates=date("Y-m-d", strtotime("-$y day"));       ?>
-                              <tr>
-                          <form method="POST">
-                                  <td><?php echo $k; ?></td>
-                                  <td><?php echo $dayy; ?></td>
-                                  <td><?php echo $dates; ?></td>
-                                  <td><?php echo 'yes'; ?></td>
-                                  <td><?php echo $r2['count(*)']; ?></td>
-                                  <td><?php echo $roow['employee'];?></td>
-                                  <?php if($dayy=='Tue'){ ?>
-                                  <td><h4 style="color: green">Paid</h4></td>
-                               <?php }else { ?>
-                                  <td><h4 style="color: blue">Pending</h4></td>
-                              <?php } ?>
-                                  <td>   <?php   date('Y-m-d', strtotime(' +1 day')) ?> </td>
-                               </form>
-                              </tr>
-                            <?php $k++; } ?>
-                            </table>
-                            <?php } ?>
+                      </div>
+                      <div id="colTable">
+                        <table class="table">
+                          <thead>
+                            <th>Reg-Id</th>
+                            <th>Name</th>
+                            <th>Collection</th>
+                            <th>Remove</th>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td><button class="btn btn-danger">Delete</button></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                           <?php  } ?>
                         <div class="col-md-5"></div>
                         <div class="col-md-5"></div>
                       </div>

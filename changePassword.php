@@ -72,6 +72,7 @@ include ('php/query.php');
                                             $pass="SELECT password FROM staff where staff_id='$staf'";
                                                  $pw=$con->query($pass);
                                                 $passRow=$pw->fetch_assoc(); ?>
+                              <input type="hidden" name="pas" id="empl" value="<?= $staf; ?>" class="form-control"><br> 
                               <input type="password" name="pass" class="form-control"><br> 
                               <input type="hidden" name="pass2" id="pass2" value="<?= $passRow['password'] ?>" class="form-control"><br> 
                                                                                  

@@ -170,7 +170,7 @@ include ('php/query.php');
                       <div class="col-md-5"></div>
                     <div id="PresentToday">
                           <ol class="breadcrumb">
-                            <div class="col-md-3"><a href="#" style="color: blue;" class="bac">Back</a> </div>
+                            <div class="col-md-3"><a href="#" style="color: blue;" class="bac"><img src="img/back.png" class="hd"> </a> </div>
                             <div class="col-md-6"> 
                               <h4 align="center" class="two">Employees Present today &nbsp;&nbsp;&nbsp;</h4> &nbsp;&nbsp;&nbsp;
                             </div>
@@ -186,9 +186,9 @@ include ('php/query.php');
                               <th>Tool</th>
                               <th>Status</th>
                               <th>Check</th>
-                              <?php if ($_SESSION['level']=='admin') { ?>
-                              <th>Served By</th>                               
-                            <?php  } ?>
+                              <th>Served By</th> 
+                              <th>Changes</th> 
+                              <th>Remove</th> 
                             </thead>
                             <tbody>
                           <?php
@@ -225,14 +225,15 @@ include ('php/query.php');
                                 <?php } ?>
                            </td>
                            
-                              <?php if ($_SESSION['level']=='admin') { 
+                              <?php 
                                 $clerkId=$rows['ur_clerk'];
                                $sq="SELECT fname FROM staff where staff_id='$clerkId'";
                                $cl=$con->query($sq);
                                $row=$cl->fetch_assoc();
                                 ?>
-                               <td><?php echo $row['fname']; ?> </td>                            
-                            <?php  } ?>
+                               <td><?php echo $row['fname']; ?> </td> 
+                               <td><button class="btn btn-warning btn-sml editAtt">Edit</button> </td> 
+                               <td><button class="btn btn-danger btn-sml delAtt">Delete</button> </td> 
                           
                               </tr>
                             <?php    }?>

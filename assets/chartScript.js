@@ -137,13 +137,14 @@ $(function() {
   $('#addT').click(function(){
     var cost=$('#cost').val();
     var namba=$('#namba').val();
-    var tname=$('#nam').val();
+    var tname=$('#nam3').val();
     if($.trim(namba) != '' && $.trim(cost) != ''){
       $.ajax({
         url:"php/addTool.php",
         method:"POST",
         data: {cost: cost, tname: tname, namba: namba},
         success: function(resp){
+          console.log(resp)
           if(resp !==null){
             if(resp==1){
               swal('Success','Tool saved Successfully!','success');
@@ -180,7 +181,6 @@ $(function() {
       }else {
         swal('Aborted','Something wennt wrong','error');
       }  
-      swal('Failure','Encountered an error!','error');
     }
 
   });
@@ -240,7 +240,7 @@ $('#notify').click(function(){
 
 
   //Show each employees info 
-  $('.employeeDetails').click(function(){
+  $('.employeeDetail').click(function(){
     var row=$(this).closest('tr')
     var empId=row.find('.staff_id').val();
     $.ajax({
@@ -716,5 +716,76 @@ $('.del').click(function(){
   }
 
 });
+
+//delete present
+$('.delAtt').click(function(){   
+    var row=$(this).closest('tr')
+    var stafId=row.find('.stafT').val();
+    var r=confirm("Are you sure you want to delete this?")
+    if(r==true){
+      $.ajax({
+      url:"./php/deleteAtt.php",
+      method:"POST",
+      data: {stafId: stafId},
+      success: function(resp){ 
+       if(resp==1){
+        swal('Success','Deleted Successful!','success');
+      }else {
+        swal('Aborted','Something wennt wrong','error');
+      }  
+    }
+
+  });
+    }
+});
+//edit present
+$('.editAtt').click(function(){   
+    var row=$(this).closest('tr')
+    var stafId=row.find('.stafT').val();
+    var r=confirm("Are you sure you want to Edit this?")
+    if(r==true){
+      alert(ok)
+  //     $.ajax({
+  //     url:"./php/editAtt.php",
+  //     method:"POST",
+  //     data: {stafId: stafId},
+  //     success: function(resp){ 
+  //      if(resp==1){
+  //       swal('Success','Update Successful!','success');
+  //     }else {
+  //       swal('Aborted','Something wennt wrong','error');
+  //     }  
+  //   }
+
+  // });
+    }
+});
+
+$('#colTable').hide();
+// $('tCol').click(function(){
+// $('#colTable').show();
+// $('#Col5').hide();
+// });
+//Promote Employee 
+$('#changepass').click(function() {
+    var pass =$('#password').val();
+    var emp =$('#empl').val();
+    var r=confirm("Are you sure to promote this clerk?");
+    if(r==true){
+    $.ajax({
+      url: "./php/changePass.php",
+      type: "POST",
+      data: {pass: pass, emp: emp},
+      success: function (msg) {
+        console.log(msg)
+        if(msg==1){
+          swal('Success','Password Changed!','success');
+        }else {
+         swal('Oooooops','Something went wrong!','error');
+       }
+     }
+  });
+  }
+  });
 
 });
