@@ -19,6 +19,9 @@ $(function() {
       success: function (msg) {
         if(msg==1){
           swal('Success',"Registration done Successfully ",'success');
+                setTimeout(function(){
+                     location.reload();
+                  }, 200);
         }else if (msg==2) {
          swal('Oooooops','Username already taken!','error');
          $('.form-control').val();
@@ -477,6 +480,30 @@ $('#notify').click(function(){
          swal('Oooops','You can not send a Blank message!','error');
     }
   })
+   }else{
+         swal('Oooops','You can not send a Blank message!','error');
+   }
+
+  });
+
+   //Send sms to all one employee 
+  $("#sendOne").click(function(e) {
+     e.preventDefault();
+    var msg=$.trim($("textarea").val());
+    var staf=$.trim($("#emplo").val());
+    if($.trim(msg) !==''){
+  $.post('./php/sendOne.php', {msg: msg, staf:staf}, function(response){
+    if(response==1){
+         swal('Success','SMS sent successfully!','success');
+         $("textarea").val('')
+    }else if (response==0) {
+         swal('Oops','Check your internet connection Please!','error');
+         $("textarea").val('')
+    }else{
+         swal('Oops','Please check, something is wrong!','error');
+    }
+  })
+
    }else{
          swal('Oooops','You can not send a Blank message!','error');
    }

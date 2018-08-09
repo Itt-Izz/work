@@ -175,7 +175,7 @@ include ('php/query.php');
                                      <input type="" name="" value="<?= $clerkRow['username']; ?>" class="form-control" disabled><br> 
                                                <?php  } ?>                                          
                                           <label>Sellect employee you want to be a clerk:</label>
-                                            <select  name="emp"  class="form-control">
+                                            <select  name="emp" class="form-control">
                                               <?php while($r=$employ->fetch_assoc()){ ?>
                                              <option value= "<?php echo $r['staff_id'];?>" selected> <?php   echo $r['username'];?></option> ?>
                                          <?php } ?>

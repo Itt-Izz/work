@@ -81,11 +81,21 @@ include ('php/query.php');
                                           <textarea class="form-control"
                                           id="inputBody" rows="8" data-gramm="true" data-gramm_editor="true"placeholder="Type your message here ................................." name="message" ></textarea><br> </div>
                                         <div class="col-md-12">
-                                          <div class="col-md-4"></div>
-                                   <div class="form-group col-md-4"> 
-                                 <button id="sendMore" class="btn btn-info pull-right">Send SMS to all Employees</button>
+                                          <div class="col-md-4">
+                                   <label>To : </label>  
+                                    <select  name="emp" id="emplo">
+                                              <?php while($r=$employ->fetch_assoc()){ ?>
+                                             <option value= "<?php echo $r['staff_id'];?>" selected> <?php   echo $r['username'];?></option> ?>
+                                         <?php } ?>
+                                              <option value="" selected>Select Employee.....</option>
+                                            </select>
+                                          </div>
+                                   <div class="form-group col-md-4">                                  
+                                 <button id="sendOne" class="btn btn-info">Send</button>
                                          </div>
-                                          <div class="col-md-4"></div>
+                                          <div class="col-md-4">
+                                 <button id="sendMore" class="btn btn-default pull-right form-control">Send SMS to All Employees</button>
+                               </div>
                                         </div>
                                           <div class="col-sm-4"></div> 
                                    </form>        

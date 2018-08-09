@@ -96,6 +96,7 @@ include ('php/query.php');
            <h4>Present Today</h4>
 
            <div class="col-md-4">
+            <img src="img/employee.png" class="hd2">
             <?php $preNo="SELECT COUNT(*) FROM attendance LEFT JOIN staff on attendance.staff_id=staff.staff_id WHERE attendance.present='yes' AND attendance.date=CURDATE() ";
                $resultPresent=$con->query($preNo);
                $row=$resultPresent->fetch_assoc();
@@ -126,7 +127,8 @@ include ('php/query.php');
                   $rate=$con->query($rat);
                   $rowRate=$rate->fetch_assoc();
            ?>
-             <h1><?php echo $row['weight']; ?></h1>
+             <h1><img src="img/weight.png" class="hd2" >
+              <?php echo $row['weight']; ?></h1>
            </div>
            <div class="col-md-7">
           <p> <h5>Rate:</h5><h6><b><?php echo $rowRate['rate']." per Kg"; ?></b></h6></p>
@@ -140,7 +142,7 @@ include ('php/query.php');
             <?php $tl="SELECT COUNT(*)as no, sum(cost)as cost FROM `attendance` LEFT JOIN tools on attendance.t_id=tools.t_id WHERE attendance.returned_tool='No'";
                 $tq=$con->query($tl);
                 $toolRows=$tq->fetch_assoc();
-             ?>
+             ?><img src="img/tools.png" class="hd2" >
              <h1><?php echo $toolRows['no']; ?></h1>
            </div>
            <div class="col-md-8">
@@ -156,55 +158,19 @@ include ('php/query.php');
             <div class="container col-md-6">
                 <canvas id="mypy"></canvas>
             </div> 
-       </div><br><br><br><br>
-       <div class="col-md-12">
-         <h3 align="center" class="breadcrumb">Employee Attendance</h3>
-    <table class="table table-striped table-bordered table-hover" id="mytable4">
-       <thead>
-     <tr>
-        <th>#</th>
-        <th>Name</th>                       
-        <th>Sex</th>                         
-        <th>Wage/Day</th>                  
-        <th>RegNo</th>                   
-        <th>Days Present</th>                   
-        <th>Amount</th> 
-      </tr>
-    </thead>
-    <tbody>
-      <?php if ($present->num_rows > 0) {
-    // output data of each row
-        $i=1;
-        while($row = $present->fetch_assoc()) {
-         ?>  <tr>
-          <td><?php echo $i; ?></td>
-          <td><?php echo $row["fname"]; ?></td>                        
-          <td><?php echo $row["sex"]; ?></td>                        
-          <td><?php echo $row["employee"]; ?></td>                   
-          <td><?php 
-          echo $row["staff_id"]; ?></td>                      
-          <td><?php
-   $em=$row["staff_id"];
- $onePresenty="SELECT count(*) FROM `attendance` LEFT JOIN staff on staff.staff_id=attendance.staff_id WHERE attendance.present='yes' AND staff.staff_id=$em";
-         $onePrey=$con->query($onePresenty);
-           $rw=$onePrey->fetch_assoc();
-           echo $rw['count(*)']; ?>
-            </td> 
-          <td>
-            <?php $am=$row["employee"]*$rw["count(*)"];
-                     echo $am;
-            ?>                
-          </tr><?php
-          $i++;
-           }
-        } else {
-          echo "0 results";
-        }
-        $con->close();
-        ?> 
-      </tbody>            
-    </table>
-       </div>
+       </div><br>
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
                </div>                                                 
             </div>
