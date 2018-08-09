@@ -147,9 +147,32 @@
             $t3= " SELECT name id wage present tool cost TTdeduction TTwage FROM attendance INNER JOIN `staff` ON staff.staff_id=attendance.staff_id INNER JOIN tools ON tools.t_id=attendance.t_id";
            $payy= "SELECT s.fname, s.staff_id, s.dailyWage, t.name, t.cost, p.deduction, p.amt from staff s inner join pay_staff ps on s.staff_id = ps.staff_id inner join pay p on p.p_id = ps.p_id INNER JOIN attendance a on a.staff_id=s.staff_id INNER JOIN tools t on t.t_id= a.t_id where s.staff_id = 18 ";
 
+
+
+
 //THIS WEEK ONLY
            // SELECT *, date_format(date, '%W') AS day FROM attendance WHERE date BETWEEN DATE_ADD(CURDATE(), INTERVAL(-2 + MOD(8-DAYOFWEEK(CURDATE()),7)) DAY) AND DATE_ADD(CURDATE(), INTERVAL(MOD(8-DAYOFWEEK(CURDATE()),7)) DAY)
 
+//present this week
+           // SELECT * FROM attendance WHERE YEARWEEK(`date`, 1) = YEARWEEK(CURDATE(), 1)
+           // SELECT * FROM collection WHERE YEARWEEK(`date`, 1) = YEARWEEK(CURDATE(), 1)
+//present last week   for more weeks back change interval
+           // SELECT * FROM attendance WHERE YEARWEEK(`date`, 1) = YEARWEEK( CURDATE() - INTERVAL 1 WEEK, 1)
+           // SELECT * FROM collection WHERE YEARWEEK(`date`, 1) = YEARWEEK( CURDATE() - INTERVAL 1 WEEK, 1)
+// lAST MONTH
+      // SELECT  
+        //    DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-01') as from_date, 
+      //      DATE_FORMAT(NOW() ,'%Y-%m-01') as to_date
+        //   FROM attendance
+        //     WHERE date >= DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-01') 
+        // AND date < DATE_FORMAT(NOW() ,'%Y-%m-01')
+
+//THIS monnth
+  // SELECT * FROM attendance WHERE MONTH(date) = MONTH(CURRENT_DATE()) AND YEAR(date) = YEAR(CURRENT_DATE())
+  // SELECT * FROM collection WHERE MONTH(col-date) = MONTH(CURRENT_DATE()) AND YEAR(date) = YEAR(CURRENT_DATE())
 
 
+// all payents this week, last wk
+// all payents this month, last month
+// per employee
         ?>

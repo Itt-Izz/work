@@ -10,7 +10,7 @@ $name =$_POST['tname'];
 $cost =$_POST['cost'];
 $name =$_POST['tname'];
 $namba =$_POST['namba'];
-if($cost>0 $$ $cost < 2000 && $namba>0 && $namba < 500) {
+if($cost>10 && $cost < 2000 && $namba>0 && $namba < 500) {
 $con->query("INSERT INTO tools(t_id, name, cost, namba) VALUES ('','$name','$cost','$namba')");
   $success=1;
 }else {
