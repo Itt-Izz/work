@@ -12,8 +12,8 @@ $day =date('Y-m-d');
 
 if ($con->query("UPDATE attendance SET status=1 WHERE staff_id='$stafId'")) {
 	
-$con->query("INSERT INTO pay(p_id,pay_date,amt,deduction) 
-	VALUES('','$day','$amt','$deduct')");
+$con->query("INSERT INTO pay(p_id,pay_date,amt,deduction,staff_id,att_col) 
+	VALUES('','$day','$amt','$deduct','$stafId','1')");
 $success=1;
 }else{
 $success=2;

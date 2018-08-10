@@ -815,4 +815,19 @@ $('#changepass').click(function() {
   }
   });
 
+$('#reports').hide();
+$('#showGraph').hide();
+$('#hideGraph').click(function(){
+     $('#graphs').fadeOut();
+     $('#reports').fadeIn();
+     $('#showGraph').show();
+     $('#hideGraph').hide();
+})
+$('#showGraph').click(function(){
+     $('#reports').fadeOut();
+     $('#graphs').fadeIn();
+     $('#showGraph').hide();
+     $('#hideGraph').show();
+})
+
 });

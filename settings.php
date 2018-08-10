@@ -24,37 +24,26 @@ include ('php/query.php');
      <div class="row">
       <div class="col-md-2">
         <div class="list-group ">
-          <a href="home.php" class="list-group-item">
-            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Home </a>
-                    <?php if($_SESSION['level']=='clerk'){?> 
-          <a href="attendance.php" class="list-group-item">           
-            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Attendance</a>
-            <a href="collection.php" class="list-group-item">
-            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Collection</a>
-                    <?php } if($_SESSION['level']!=='staff'){?>
-              <a href="staff.php" id="stuff2" class="list-group-item">
-                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Employees </a>
+          <a href="home.php" class="list-group-item"><img src="img/home.png" class="hd3"> Home </a>
+            <?php if ($_SESSION['level']=='clerk') { ?>
+          <a href="attendance.php" class="list-group-item"><img src="img/employee.png" class="hd3"> Attendance</a>
+            <a href="collection.php" class="list-group-item"><img src="img/weight.png" class="hd3"> Collection</a>
+           <?php }  if($_SESSION['level']!=='staff'){ ?>
+              <a href="staff.php" id="stuff2" class="list-group-item"><img src="img/worker.png" class="hd3">  Employees </a>
                     <?php }?>
-                <a href="payment.php" id="payHist" class="list-group-item">
-                  <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Payment</a>
+                <a href="payment.php" id="payHist" class="list-group-item"><img src="img/pay.png" class="hd3">  Payment</a>
                   <?php if($_SESSION['level']=='clerk'){  ?>
-                  <a href="register.php" id="regc2" class="list-group-item  mainNav">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Employee </a>
+                  <a href="register.php" id="regc2" class="list-group-item"><img src="img/addP.png" class="hd3">  Add Employee </a>
                     <?php } else if($_SESSION['level']=='admin'){?>
-                  <a href="register.php" id="regc2" class="list-group-item  mainNav">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Register Clerk </a>
-                    <a href="stats.php" id="st" class="list-group-item"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports </a>
-                    <a href="settings.php" class="list-group-item main-color-bg">
-            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Settings</a>
+                    <a href="sms.php" class="list-group-item"><img src="img/nit.png" class="hd3">Send SMS</a>
+                  <a href="register.php" id="regc2" class="list-group-item "><img src="img/pple2.png" class="hd3"> Register Clerk </a>
+                    <a href="stats.php" id="st" class="list-group-item"><img src="img/reports.png" class="hd3"> Reports </a>
+                    <?php } if($_SESSION['level']=='admin'){  ?>
+                    <a href="settings.php" class="list-group-item main-color-bg"><img src="img/settings.png" class="hd3"> Settings</a>
                     <?php }?>
-                    </div>
-
-                    <div class="well">
-                      <ul class="list-group">
-      <a class="list-group-item" href="changePassword.php"><span id="lg" class="glyphicon glyphicon-flag" aria-hidden="true"></span>Change Password </a>
-                      </ul>
+                   <a href="changePassword.php" class="list-group-item"><img src="img/pass.png" class="hd3" align="center"> Password</a>
                     </div>                                      
-     </div>
+      </div>
                   <div class="col-md-10" id="pan">
                     <div class="panel panel-default">
                       <div class="panel-heading main-color-bg">

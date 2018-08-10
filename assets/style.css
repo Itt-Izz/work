@@ -4,8 +4,6 @@ body {
     background-position: center;
     background-repeat: no-repeat;
 }
-
-
 /* Navbar */
 
 .navbar-default {
@@ -60,9 +58,14 @@ body {
     margin-left: 5px;
 }
 .hd2 {
-    width: 30px;
-    height: 40px;
+    width: 40px;
+    height: 50px;
     margin-left: 5px;
+}
+.hd3 {
+    width: 20px;
+    height: 20px;
+    margin-top: 0px;
 }
 #hdimg2 {
     width: 50px;
@@ -97,7 +100,9 @@ body {
 #btn {
     margin-top: 20px;
 }
-
+.nav-tabs li a {
+    font-size:12px;
+}
 .navbar-default .navbar-brand {
     color: rgb(40, 17, 63);
 }

@@ -81,12 +81,7 @@
          $empPay1 = $con->query($empPa1);
      $pa= "SELECT * FROM attendance LEFT JOIN staff ON staff.staff_id=attendance.staff_id LEFT JOIN tools on tools.t_id=attendance.t_id LEFT JOIN wage on wage.w_id=attendance.w_id GROUP by staff.staff_id";
     $pay=$con->query($pa);
-          
-         
-
-         //Present today
-         $empopre="SELECT * FROM staff RIGHT JOIN attendance ON attendance.staff_id=staff.staff_id LEFT JOIN tools on attendance.t_id=tools.t_id WHERE attendance.date=CURDATE()";
-         $emponPre = $con->query($empopre);
+        
 
 
 //All staff
@@ -121,8 +116,6 @@
          // Not returned tool
          $lostT="SELECT * FROM attendance LEFT JOIN staff ON attendance.staff_id= staff.staff_id WHERE attendance.returned_tool='no'";
 
-         $allPay="SELECT pay.p_id, staff.fname, staff.staff_id, pay.amt, pay.deduction,pay.bal, pay.pay_date FROM staff left join pay_staff ON staff.staff_id=pay_staff.staff_id INNER JOIN pay ON pay.p_id=pay_staff.p_id";
-              $allPayment=$con->query($allPay);
 
               $tools="SELECT * FROM tools";
               $tool=$con->query($tools);
@@ -145,27 +138,83 @@
 //chart
               //three tables
             $t3= " SELECT name id wage present tool cost TTdeduction TTwage FROM attendance INNER JOIN `staff` ON staff.staff_id=attendance.staff_id INNER JOIN tools ON tools.t_id=attendance.t_id";
-           $payy= "SELECT s.fname, s.staff_id, s.dailyWage, t.name, t.cost, p.deduction, p.amt from staff s inner join pay_staff ps on s.staff_id = ps.staff_id inner join pay p on p.p_id = ps.p_id INNER JOIN attendance a on a.staff_id=s.staff_id INNER JOIN tools t on t.t_id= a.t_id where s.staff_id = 18 ";
+           // $payy= "SELECT s.fname, s.staff_id, s.dailyWage, t.name, t.cost, p.deduction, p.amt from staff s inner join pay_staff ps on s.staff_id = ps.staff_id inner join pay p on p.p_id = ps.p_id INNER JOIN attendance a on a.staff_id=s.staff_id INNER JOIN tools t on t.t_id= a.t_id where s.staff_id = 18 ";
 
-
-
-
+ //Present today
+         $empopre="SELECT * FROM staff RIGHT JOIN attendance ON attendance.staff_id=staff.staff_id LEFT JOIN tools on attendance.t_id=tools.t_id WHERE attendance.date=CURDATE()";
+         $emponPre = $con->query($empopre);
+    //Present Yesterday
+         $empopre2="SELECT * FROM staff RIGHT JOIN attendance ON attendance.staff_id=staff.staff_id LEFT JOIN tools on attendance.t_id=tools.t_id WHERE attendance.date >= Date(NOW()) - INTERVAL 1 DAY AND attendance.date  < Date(NOW())";
+         $emponPre2 = $con->query($empopre2);
 //THIS WEEK ONLY
-           // SELECT *, date_format(date, '%W') AS day FROM attendance WHERE date BETWEEN DATE_ADD(CURDATE(), INTERVAL(-2 + MOD(8-DAYOFWEEK(CURDATE()),7)) DAY) AND DATE_ADD(CURDATE(), INTERVAL(MOD(8-DAYOFWEEK(CURDATE()),7)) DAY)
+           $wkAtt= "SELECT * FROM attendance LEFT JOIN staff ON staff.staff_id=attendance.staff_id LEFT JOIN tools on tools.t_id=attendance.t_id WHERE YEARWEEK(`date`, 1) = YEARWEEK(CURDATE(), 1)";
+           $wkA=$con->query($wkAtt);
+//Last WEEK
+           $wkAtt2= "SELECT * FROM attendance LEFT JOIN staff ON staff.staff_id=attendance.staff_id LEFT JOIN tools on tools.t_id=attendance.t_id WHERE YEARWEEK(`date`, 1) = YEARWEEK( CURDATE() - INTERVAL 1 WEEK, 1)";
+           $wkB=$con->query($wkAtt2);
+//This Month
+           $wkAtt3= "SELECT * FROM attendance LEFT JOIN staff ON staff.staff_id=attendance.staff_id LEFT JOIN tools on tools.t_id=attendance.t_id WHERE MONTH(date) = MONTH(CURRENT_DATE()) AND YEAR(date) = YEAR(CURRENT_DATE())";
+           $mtA=$con->query($wkAtt3);
+//Last Month
+           $wkAtt4= "SELECT * FROM attendance LEFT JOIN staff ON staff.staff_id=attendance.staff_id LEFT JOIN tools on tools.t_id=attendance.t_id WHERE date >= DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-01') 
+         AND date < DATE_FORMAT(NOW() ,'%Y-%m-01')";
+           $mtB=$con->query($wkAtt4);
 
+//---------------------------------------------------------------------------------------------------------------------------------------
+    //Collection today
+         $empopreC="SELECT * FROM staff RIGHT JOIN collection ON collection.staff_id=staff.staff_id WHERE collection.col_date=CURDATE()";
+         $emponPreC = $con->query($empopreC);
+    //Collection Yesterday
+         $empopre2C="SELECT * FROM staff RIGHT JOIN collection ON collection.staff_id=staff.staff_id WHERE collection.col_date >= Date(NOW()) - INTERVAL 1 DAY AND collection.col_date  < Date(NOW())";
+         $emponPre2C = $con->query($empopre2C);
+//THIS WEEK ONLY
+           $wkAttC= "SELECT * FROM collection LEFT JOIN staff ON staff.staff_id=collection.staff_id WHERE YEARWEEK(`col_date`, 1) = YEARWEEK(CURDATE(), 1)";
+           $wkAC=$con->query($wkAttC);
+//Last WEEK
+           $wkAtt2C= "SELECT * FROM collection LEFT JOIN staff ON staff.staff_id=collection.staff_id WHERE YEARWEEK(`col_date`, 1) = YEARWEEK( CURDATE() - INTERVAL 1 WEEK, 1)";
+           $wkBC=$con->query($wkAtt2C);
+//This Month
+          $wkAtt3C= "SELECT * FROM collection LEFT JOIN staff ON staff.staff_id=collection.staff_id WHERE MONTH(col_date) = MONTH(CURRENT_DATE()) AND YEAR(col_date) = YEAR(CURRENT_DATE())";
+           $mtAC=$con->query($wkAtt3C);
+//Last Month
+           $wkAtt4C= "SELECT * FROM collection LEFT JOIN staff ON staff.staff_id=collection.staff_id WHERE col_date >= DATE_FORMAT(NOW() -    INTERVAL 1 MONTH, '%Y-%m-01') 
+         AND col_date < DATE_FORMAT(NOW() ,'%Y-%m-01')";
+           $mtBC=$con->query($wkAtt4C);
+
+//Paid today
+    $pd="SELECT * FROM staff RIGHT JOIN pay ON staff.staff_id=pay.staff_id WHERE pay.pay_date=CURDATE()";
+    $p2d=$con->query($pd);
+//Yesterday paid
+    $pdy="SELECT * FROM staff RIGHT JOIN pay ON staff.staff_id=pay.staff_id WHERE pay.pay_date >= Date(NOW()) - INTERVAL 1 DAY AND pay.pay_date < Date(NOW())";
+    $p2dy=$con->query($pdy);
+//Payment this week
+    $wkpy="SELECT * FROM staff RIGHT JOIN pay ON staff.staff_id=pay.staff_id WHERE YEARWEEK(`pay_date`, 1) = YEARWEEK(CURDATE(), 1)";
+    $pyW=$con->query($wkpy);
+//Payment last week
+    $lastpy="SELECT * FROM staff RIGHT JOIN pay ON staff.staff_id=pay.staff_id WHERE  YEARWEEK(`pay_date`, 1) = YEARWEEK( CURDATE() - INTERVAL 1 WEEK, 1)";
+    $lpy=$con->query($lastpy);
+
+//Pay this month
+      $tMth="SELECT * FROM staff RIGHT JOIN pay ON staff.staff_id=pay.staff_id WHERE  MONTH(pay_date) = MONTH(CURRENT_DATE()) AND YEAR(pay_date) = YEAR(CURRENT_DATE())";
+    $mpy=$con->query($tMth);
+//pay last month
+      $tMthB="SELECT * FROM staff RIGHT JOIN pay ON staff.staff_id=pay.staff_id WHERE  pay_date >= DATE_FORMAT(NOW() -    INTERVAL 1 MONTH, '%Y-%m-01') 
+         AND pay_date < DATE_FORMAT(NOW() ,'%Y-%m-01')";
+    $mpyB=$con->query($tMthB);
 //present this week
-           // SELECT * FROM attendance WHERE YEARWEEK(`date`, 1) = YEARWEEK(CURDATE(), 1)
+            // SELECT * FROM attendance WHERE YEARWEEK(`date`, 1) = YEARWEEK(CURDATE(), 1)
            // SELECT * FROM collection WHERE YEARWEEK(`date`, 1) = YEARWEEK(CURDATE(), 1)
 //present last week   for more weeks back change interval
            // SELECT * FROM attendance WHERE YEARWEEK(`date`, 1) = YEARWEEK( CURDATE() - INTERVAL 1 WEEK, 1)
            // SELECT * FROM collection WHERE YEARWEEK(`date`, 1) = YEARWEEK( CURDATE() - INTERVAL 1 WEEK, 1)
+           
 // lAST MONTH
-      // SELECT  
-        //    DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-01') as from_date, 
-      //      DATE_FORMAT(NOW() ,'%Y-%m-01') as to_date
-        //   FROM attendance
-        //     WHERE date >= DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-01') 
-        // AND date < DATE_FORMAT(NOW() ,'%Y-%m-01')
+       // SELECT  
+       //     DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-01') as from_date, 
+       //     DATE_FORMAT(NOW() ,'%Y-%m-01') as to_date
+       //    FROM attendance
+       //      WHERE date >= DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-01') 
+       //  AND date < DATE_FORMAT(NOW() ,'%Y-%m-01')
 
 //THIS monnth
   // SELECT * FROM attendance WHERE MONTH(date) = MONTH(CURRENT_DATE()) AND YEAR(date) = YEAR(CURRENT_DATE())
