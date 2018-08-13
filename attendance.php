@@ -27,7 +27,7 @@ include ('php/query.php');
         <div class="list-group ">
           <a href="home.php" class="list-group-item"><img src="img/home.png" class="hd3"> Home </a>
             <?php if ($_SESSION['level']=='clerk') { ?>
-          <a href="attendance.php" class="list-group-item"><img src="img/employee.png" class="hd3"> Attendance</a>
+          <a href="attendance.php" class="list-group-item main-color-bg"><img src="img/employee.png" class="hd3"> Attendance</a>
             <a href="collection.php" class="list-group-item"><img src="img/weight.png" class="hd3"> Collection</a>
            <?php }  if($_SESSION['level']!=='staff'){ ?>
               <a href="staff.php" id="stuff2" class="list-group-item"><img src="img/worker.png" class="hd3">  Employees </a>
@@ -155,7 +155,9 @@ include ('php/query.php');
                       <div class="col-md-5"></div>
                     <div id="PresentToday">
                           <ol class="breadcrumb">
-                            <div class="col-md-3"><a href="#" style="color: blue;" class="bac"><img src="img/back.png" class="hd"> </a> </div>
+                            <div class="col-md-3"><a href="#" style="color: blue;" class="bac"><img src="img/back.png" class="hd"> </a>
+                            <a href="#" style="color: blue;" class="bac2"><img src="img/back.png" class="hd"> </a>
+                             </div>
                             <div class="col-md-6"> 
                               <h4 align="center" class="two">Employees Present today &nbsp;&nbsp;&nbsp;</h4> &nbsp;&nbsp;&nbsp;
                             </div>
@@ -164,6 +166,7 @@ include ('php/query.php');
                           </ol>
                            <table class="table" id="presentTable">
                             <thead>
+                              <th>#</th>
                               <th>RegNo</th>
                               <th>Name</th>
                               <th>Username</th>
@@ -176,14 +179,17 @@ include ('php/query.php');
                               <th>Remove</th> 
                             </thead>
                             <tbody>
-                          <?php
+                          <?php if ($emponPre->num_rows > 0) {
+                            $i=1;
                            while($rows=$emponPre->fetch_assoc()){ ?>
                                 <tr>
+                                  <td><?php echo $i; ?></td>
                                   <td><?php echo $rows['staff_id']; ?></td>
                                   <td><?php echo $rows['fname']; ?></td>
                                   <td><?php echo $rows['username']; ?></td>
                                   <td><?php echo $rows['sex']; ?></td>
                         <input type="hidden" class="stafT" value="<?= $rows['staff_id']?>">                             
+                        <input type="hidden" class="stafN" value="<?= $rows['fname']?>">                             
 
                                   <td><?php 
                                   if ($rows['t_id']=='') {
@@ -221,7 +227,38 @@ include ('php/query.php');
                                <td><button class="btn btn-danger btn-sml delAtt">Delete</button> </td> 
                           
                               </tr>
-                            <?php    }?>
+                            <?php    } 
+                          }else{
+                         echo "No record found";
+                          } ?>
+                          </tbody>
+                        </table> 
+                        <table class="table" id="editThis">
+                            <thead>
+                              <th>Name</th>
+                              <th>Present</th>
+                              <th>Tool</th>
+                              <th>Save</th>  
+                            </thead>
+                            <tbody>   
+                              <tr> <input type="hidden" id="eStaf" value="">
+                               <td><input type="" class="form-control st" value="" disabled> </td> 
+                               <td><select  name="pre"  class="form-control" id="pre">
+                                      <option value="1">Present</option>
+                                      <option value="0">Absent</option>
+                                  </select></td> <td>
+                                    <select  name="tool"  class="form-control" id="t">
+                                      <option value="">Select tool</option>
+                                     <?php 
+                                     //$rw=$tool->fetch_all();
+                                     for($i=0;$i<=count($rw[0]);$i++) { ?>
+                                      <option value="<?php echo $rw[$i][0]; ?>"> <?php   echo $rw[$i][1]; ?></option>
+                                    <?php } ?>
+                                  </select>
+                                </td> 
+                               <td><button class="btn btn-warning btn-sml saveE">Save</button> </td>  
+                          
+                              </tr>
                           </tbody>
                         </table>
                       

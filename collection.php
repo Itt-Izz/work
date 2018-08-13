@@ -54,7 +54,8 @@ include ('php/query.php');
                         <div id="scrolTable">
                           <ol class="breadcrumb">
                             <div class="col-md-3">
-                              <!-- <button class="btn" id="tCol">Todays</button> -->
+                              <button class="btn" id="tCol">Todays</button>
+                              <button class="btn" id="colT">Back</button>
                               Rate:<label style="color: blue;"><h4>&nbsp;<b><?php 
                                          $r="SELECT * FROM collectionrate";
                                          $rate=$con->query($r);
@@ -175,19 +176,30 @@ include ('php/query.php');
                       <div id="colTable">
                         <table class="table">
                           <thead>
+                            <th>#</th>
                             <th>Reg-Id</th>
                             <th>Name</th>
                             <th>Collection</th>
+                            <th>Change</th>
                             <th>Remove</th>
                           </thead>
                           <tbody>
-                            <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td><button class="btn btn-danger">Delete</button></td>
+                            <?php if ($emponPreC->num_rows>0) {
+                              $i=1;
+                              while ($row=$emponPreC->fetch_assoc()) {  
+                               $staf=$row['staff_id']; ?>
+                               <tr>
+                              <td><?php echo $i; ?></td>
+                              <td><?php echo $row['staff_id']; ?></td>
+                                  <input type="hidden" class="staf" value="<?= $staf;?>">
+                              <td><?php echo $row['fname']; ?></td>
+                              <td><input type="number" name="" class="form-control col-xs-2 weight" value="<?= $row['weight'];?>" required></td>
+                              <td><button class="btn btn-warning editCol">Edit</button></td>
+                              <td><button class="btn btn-danger delCol">Delete</button></td>
                             </tr>
-                          </tbody>
+                             <?php $i++; }
+                            } else { echo "No Record Found"; } ?>
+                           </tbody>
                         </table>
                       </div>
                            <?php  } ?>

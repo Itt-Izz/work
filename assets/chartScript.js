@@ -42,7 +42,7 @@ $(function() {
     var row=$(this).closest('tr')
     var save=row.find('.tea_collect').val();
     var staf=row.find('.staf').val();
-    if($.trim(save) != '' || $.trim(save) < 5){//trim---remove spaces
+    if($.trim(save) != ''){//trim---remove spaces
       $.ajax({
         url:"php/collect.php",
         method:"POST",
@@ -71,6 +71,7 @@ $(function() {
       }
     });
     }else {
+    alert(staf)
      $(this).closest('tr').find('.tea_collect').css('border-color', 'red');
    }
  });
@@ -112,6 +113,7 @@ $(function() {
     var row=$(this).closest('tr')
     var tool=row.find('.tool').val();
     var tname=row.find('.tname').val();
+
     if($.trim(tool) != ''){
       $.ajax({
         url:"php/updateTools.php",
@@ -123,7 +125,7 @@ $(function() {
               swal('Success','Update Successful!','success');
      $('.tool').val('')
             }else {
-        alert('Please check your values before submitting!');
+        alert('Please check your values before submitting! Must be between 50 and 2000');
      $('.tool').val('')
             }          
           } else {
@@ -134,6 +136,7 @@ $(function() {
     }else{
      $(this).closest('tr').find('.tool').css('border-color', 'red');
    }
+
  });
 
    //Add a new tool
@@ -181,6 +184,9 @@ $(function() {
       success: function(resp){ 
        if(resp==1){
         swal('Success','Update Successful!','success');
+                setTimeout(function(){
+                     location.reload();
+                  }, 200);
       }else {
         swal('Aborted','Something wennt wrong','error');
       }  
@@ -243,7 +249,7 @@ $('#notify').click(function(){
 
 
   //Show each employees info 
-  $('.employeeDetail').click(function(){
+  $('.employeeDetail1').click(function(){
     var row=$(this).closest('tr')
     var empId=row.find('.staff_id').val();
     $.ajax({
@@ -361,10 +367,14 @@ $('#notify').click(function(){
   $(".show").click(function(){
     $('#attTable').hide();
     $('#PresentToday').show();
+    $('#editThis').hide();
+    $('.bac2').hide();
+
   }); $(".bac").click(function(){
     $('#PresentToday').hide();
     $("#attTable").show();
   });
+
   $("#allC").click(function(){
     $('#singlePay').hide();
     $('#pay').show();
@@ -624,7 +634,7 @@ $('#toolUpdate').hide();
 $('#toolAdd').hide();
 $('#editEmp').hide();
 
-$('#empEdit').click(function(){
+$('.empAtt').click(function(){
     $('#editEmp').show();
      $('#toolUpdate').hide();
       $('#moreEdit').hide();
@@ -757,6 +767,9 @@ $('.delAtt').click(function(){
       success: function(resp){ 
        if(resp==1){
         swal('Success','Deleted Successful!','success');
+                setTimeout(function(){
+                     location.reload();
+                  }, 200);
       }else {
         swal('Aborted','Something wennt wrong','error');
       }  
@@ -765,13 +778,32 @@ $('.delAtt').click(function(){
   });
     }
 });
+
+
+ $('.bac2').click(function(){  
+     $('#presentTable').show();
+     $('.bac').show();
+     $('#editThis').hide();
+    $('.bac2').hide();
+  })
 //edit present
-$('.editAtt').click(function(){   
-    var row=$(this).closest('tr')
-    var stafId=row.find('.stafT').val();
-    var r=confirm("Are you sure you want to Edit this?")
-    if(r==true){
-      alert(ok)
+$('.editAtt').click(function(){  
+   var row=$(this).closest('tr')
+   var nam=row.find('.stafN').val();
+   var id=row.find('.stafT').val();
+       $('.st').val(nam);
+       $('#eStaf').val(id);
+     $('#presentTable').hide();
+     $('.bac').hide();
+     $('#editThis').show();
+    $('.bac2').show();
+
+
+    // var row=$(this).closest('tr')
+    // var stafId=row.find('.stafT').val();
+    // var r=confirm("Are you sure you want to Edit this?")
+    // if(r==true){
+    //   alert(ok)
   //     $.ajax({
   //     url:"./php/editAtt.php",
   //     method:"POST",
@@ -785,14 +817,26 @@ $('.editAtt').click(function(){
   //   }
 
   // });
-    }
+    // }
 });
 
 $('#colTable').hide();
-// $('tCol').click(function(){
-// $('#colTable').show();
-// $('#Col5').hide();
-// });
+$('#colT').hide();
+
+
+$('#tCol').click(function(){
+      $('#col5').hide();
+      $('#tCol').hide();
+      $('#colT').show();
+      $('#colTable').show();
+});
+
+$('#colT').click(function(){
+      $('#col5').show();
+      $('#tCol').show();
+      $('#colT').hide();
+      $('#colTable').hide();
+});
 //Promote Employee 
 $('#changepass').click(function() {
     var pass =$('#password').val();
@@ -804,11 +848,10 @@ $('#changepass').click(function() {
       type: "POST",
       data: {pass: pass, emp: emp},
       success: function (msg) {
-        console.log(msg)
         if(msg==1){
           swal('Success','Password Changed!','success');
         }else {
-         swal('Oooooops','Something went wrong!','error');
+    --     swal('Oooooops','Something went wrong!','error');
        }
      }
   });
@@ -829,5 +872,209 @@ $('#showGraph').click(function(){
      $('#showGraph').hide();
      $('#hideGraph').show();
 })
+$('.saveE').click(function(){
+     var stafId=$('#eStaf').val();
+     var nam=$('.st').val();
+     var present=$('#pre').val();
+     var tool=$('#t').val();
+    var r=confirm("Are you sure to edit this Attendance?");
+    if(r==true){
+      $.ajax({
+      url:"./php/editAtt.php",
+      method:"POST",
+      data: {stafId: stafId, present:present, tool:tool},
+      success: function(resp){ 
+        console.log(resp)
+       if(resp==1){
+        swal('Success','Attendance edited!','success');
+                setTimeout(function(){
+                     location.reload();
+                  }, 200);
+      }else if(resp==3){           
+        swal('Success','Attendance Deleted!','success');
+                setTimeout(function(){
+                     location.reload();
+                  }, 200);
+      }else {
+        swal('Aborted','Something wennt wrong','error');
+      }  
+    }
+
+  });
+    }else{      
+    }
 
 });
+
+
+//delete collection
+$('.delCol').click(function(){   
+    var row=$(this).closest('tr')
+    var stafId=row.find('.staf').val();
+    var r=confirm("Are you sure you want to delete this?")
+    if(r==true){
+      $.ajax({
+      url:"./php/deleteCol.php",
+      method:"POST",
+      data: {stafId: stafId},
+      success: function(resp){ 
+       if(resp==1){
+        swal('Success','Deleted Successful!','success');
+                setTimeout(function(){
+                     location.reload();
+                  }, 200);
+      }else {
+        swal('Aborted','Something went wrong','error');
+      }  
+    }
+
+  });
+    } else{
+    }
+});
+
+//edit collection
+$('.editCol').click(function(){  
+   var row=$(this).closest('tr')
+   var weight=row.find('.weight').val();
+   var stafId=row.find('.staf').val();
+    var r=confirm("Are you sure you want to delete this?")
+    if(r==true){
+      if($.trim(weight) < 10 || $.trim(weight) > 1000 ){
+        alert('Your Value should range from 10 to 1000');
+      }else{
+      $.ajax({
+      url:"./php/editCol.php",
+      method:"POST",
+      data: {weight:weight, stafId: stafId},
+      success: function(resp){ 
+        console.log(resp)
+       if(resp==1){
+        swal('Success','Collection Edited!','success');
+                setTimeout(function(){
+                     location.reload();
+                  }, 200);
+      }else if(resp==0) {
+            alert("Collection up to date")
+      }else if(resp==3) {
+            alert("Your values should range from 5 to 1000")
+      } else{
+        swal('Aborted','Something went wrong','error');
+      }  
+    }
+
+  }); }
+    }
+});
+
+$('#bacEmp').hide();
+//Edit employee form
+$('#edit').hide();
+$('#bacEmp').click(function(){
+  $('#view').show();
+  $('#edit').hide();
+  $('#bacEmp').hide();
+})
+
+//Edit employee form
+$('.employeeDetail').click(function(){
+  $('#view').hide();
+  $('#edit').show();
+  $('#bacEmp').show();
+  var row=$(this).closest('tr')
+    var empId=row.find('.staff_id').val();
+    var fname=row.find('.fname').val();
+    var lname=row.find('.lname').val();
+    var sex=row.find('.sex').val();
+    var birth=row.find('.birthday').val();
+    var id=row.find('.id').val();
+    var username=row.find('.username').val();
+    var phone=row.find('.phone_number').val();
+    var loc=row.find('.location').val();
+    var level=row.find('.level').val();
+    var email=row.find('.email').val();
+    var image=row.find('.image').val();
+  $('#empId2').val(empId);
+  $('#lname').val(lname);
+  $('#fname').val(fname);
+  $('#sex').val(sex);
+  $('#username').val(username);
+  $('#birthday').val(birth);
+  $('#location').val(loc);
+  $('#phoneNo').val(phone);
+  $('#id').val(id);
+  $('#level').val(level);
+  $('#email').val(email);
+
+});                               
+
+
+ //Alter Registration form submission
+  $("form[name='altEmp']").submit(function(e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+    $.ajax({
+      url: "./php/editEmp.php",
+      type: "POST",
+      data: formData,
+      async: false,
+      success: function (msg) {
+        if(msg==1){
+          swal('Success',"Employee edited ",'success');
+                setTimeout(function(){
+                     location.reload();
+                  }, 200);
+        }else if (msg==0) {
+         alert('Ensure Gender is either Male or Female');
+       }else if(msg==3){
+         alert('Enter Correct date format e.g. 2012-09-24');
+       }else{
+         alert('An error occured when saving changes!')
+       }
+     },
+     error: function(data){
+    }, 
+    cache: false,
+    contentType: false,
+    processData: false
+  });
+})
+
+//Delete employee
+$('#deleteEmp').click(function(){
+  var emp=$('#empId2').val();
+  var pass=$('#pass').val();
+    var r=confirm("Are you sure you want to delete this?")
+    if(r==true){
+     var c=confirm('You need your password  to delete an employee, Do you steel want to delete the employee?')
+        if(c==true){
+
+     var p=prompt('Please enter your password');
+     if (p == pass) {
+      $.ajax({
+      url:"./php/deleteEmployee.php",
+      method:"POST",
+      data: { stafId: emp},
+      success: function(resp){ 
+        console.log(resp)
+       if(resp==1){
+        swal('Success','Employee deleted!','success');
+                setTimeout(function(){
+                     location.reload();
+                  }, 200);
+      } else{
+        swal('Aborted','Something went wrong','error');
+      }  
+    }
+  });
+    } else {
+        alert('Invalid password!')
+    }        }
+    }
+})
+
+
+
+
+
+});//End of jquery file ................................................................................................................................

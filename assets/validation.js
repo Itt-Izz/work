@@ -19,6 +19,12 @@ $(function(){
       }
      }
    });
+//lettersonly
+$.validator.addMethod("lettersonly", function(value, element) {
+  return this.optional(element) || /^[a-z]+$/i.test(value);
+}, "Letters only please"); 
+
+
 //Phone number 11 digits and start with 07
 $.validator.addMethod("phoneNo", function(value, element) { 
   return this.optional(element) || /^07\d{8}$/.test(value); 
@@ -70,7 +76,9 @@ $.validator.addMethod("phoneNo", function(value, element) {
            required:true
          },
          location:{
-             required:true
+             required:true,
+           lettersonly:true
+
          },
          type:{
            required:true
@@ -98,7 +106,7 @@ $.validator.addMethod("phoneNo", function(value, element) {
           // remote: $.validator.format("{0} already exist.")
         },
         phone:{
-          phoneNo: "Anza na 07...Na iwe 10digits pekee!"
+          phoneNo: "Start with 07... and ensure a max of 10 digits!"
         }
       }
 
@@ -125,6 +133,16 @@ $('#updatePassword').validate({
         }
       }
   });
+//validate tool update
+$('.tname').validate({
+     rules:{
+      tul:{
+        required:true,
+        nowhitespace:true
+      }
+     }
+});
+
 function validatePhone(phone){
   phone=phone.replace(/[^0-9]/g,'');
   $("#phonefield").val(phone);
@@ -132,4 +150,64 @@ function validatePhone(phone){
     $()
   }
 }
+
+
+
+// Edit Form validation
+   $('#altEmp').validate({
+       rules:{
+        collect:{
+          required:true,
+          nowhitespace:true,
+          lettersonly:true
+        },
+        email:{
+          email:true        
+        },
+        id:{
+          required:true
+         },
+         phone:{
+          phoneNo: true
+         },
+         gender:{
+           required:true
+         },
+         birthday:{
+           required:true
+         },
+         location:{
+             required:true,
+           lettersonly:true
+
+         },
+        fname:{
+          required:true,
+          nowhitespace:true,
+          lettersonly:true
+        },
+        uname:{
+          required:true,
+          nowhitespace:true,
+          lettersonly:true
+        },
+        lname:{
+          required:true,
+          nowhitespace:true,
+          lettersonly:true
+
+        }
+      },
+      messages:{
+        email:{
+          email:'Please enter a <em>valid</em> email address if any.'
+          // remote: $.validator.format("{0} already exist.")
+        },
+        phone:{
+          phoneNo: "Start with 07... and ensure a max of 10 digits!"
+        }
+      }
+  });
+
+
 });

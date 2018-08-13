@@ -70,7 +70,8 @@ include ('php/query.php');
                         echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                     }    ?>
                 </h5>
-                <a href="register.php">Add New</a>
+               <a href="#"><img src="img/back.png" class="hd pull-left" id="bacEmp"></a> 
+                <a href="register.php" id="addNew" class="pull-right">Add New</a>
          </ol><br>
        <div id="view">
         <?php if ($_SESSION['level']=='admin') { ?>
@@ -94,7 +95,7 @@ include ('php/query.php');
         $i=1;
         while($row = $employe->fetch_assoc()) {?>
           
-          <tr class="employeeDetails">
+          <tr class="employeeDetail">
             <form method="POST" action="staff.php">
           <td><?php echo $i; ?></td>
           <td><?php echo $row["fname"]; ?></td> 
@@ -108,8 +109,18 @@ include ('php/query.php');
           <td><?php echo $row["location"]; ?></td> 
           <td><?php echo $row["date_registered"]; ?></td>
            </form> 
-              <input type="hidden" class="fname" value="<?= $row['fname']?>">                                
-              <input type="hidden" class="staff_id" value="<?= $row['staff_id']?>" >                               
+              <input type="hidden" class="staff_id" value="<?= $row['staff_id']?>" > 
+              <input type="hidden" class="fname" value="<?= $row['fname']?>">                               
+              <input type="hidden" class="lname" value="<?= $row['lname']?>">                                
+              <input type="hidden" class="sex" value="<?= $row['sex']?>">                                
+              <input type="hidden" class="id" value="<?= $row['id_number']?>">                                
+              <input type="hidden" class="birthday" value="<?= $row['birthday']?>">                                
+              <input type="hidden" class="username" value="<?= $row['username']?>">                                
+              <input type="hidden" class="phone_number" value="<?= $row['phone_number']?>" >
+              <input type="hidden" class="location" value="<?= $row['location']?>">                                                              
+              <input type="hidden" class="level" value="<?= $row['level']?>">                                                              
+              <input type="hidden" class="email" value="<?= $row['email']?>">                                                              
+              <input type="hidden" class="image" value="<?= $row['image']?>">                                                              
           </tr><?php
           $i++; }
         } else {
@@ -118,6 +129,64 @@ include ('php/query.php');
       </tbody>
     </table>
   </div>
+<!-- edit employee details -->
+                  <div id="edit"> 
+                    <div class="col-sm-2"></div>
+                            <form class="form-horizontal" method='POST'  enctype="multipart/form-data" id="altEmp" name="altEmp">
+                              <div class=" col-md-8 well">
+                                <h4 align="center">Edit Employee details</h4>
+                                <div class="form-group">
+                                 </div>
+                                 <input class="form-control" type="hidden" name="empId2" id="empId2"  placeholder="First Name">
+                                <div class="col-md-12"> 
+                                  <div class="form-group col-md-5"><b>First Name: </b><input class="form-control" type="text" name="fname" id="fname"  placeholder="First Name"></div> 
+                                  <div class="col-md-2" ></div>
+                                  <div class="form-group col-md-5"><b> Last Name:</b> <input class="form-control" type="text" name="lname" id="lname" placeholder="Last Name" ></div> 
+                                </div>
+                            <div class="col-md-12">
+                                    <div class="form-group col-md-5"><b>Username:</b><input class="form-control" type="text" name="username" id="username" placeholder="Username" required></div>
+                                  <div class="col-md-2" ></div>
+                                  <div class="form-group col-md-5"><b>Gender:</b><input class="form-control" type="text" name="sex" id="sex" placeholder="Gender" required></div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group col-md-5"><b>Id Number: </b><input class="form-control" type="number" name="id" id="id" placeholder="ID Number" minlength="6" maxlength="9"></div> 
+                               <div class="col-md-1"></div>
+                                  <div class="form-group col-md-5">
+                                   <b> Birthday:</b> <input type="" name="birthday" id="birthday">
+                                  </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group col-sm-5"><b>Id Number:</b> <input class="form-control" type="text" name="phone" id="phoneNo" placeholder="Phone Number" required></div> 
+                                  <div class="form-group col-md-2" ></div>
+                                <div  class="form-group col-sm-5"><b> Email: </b>
+                                  <input class="form-control" type="text" name="email" id="email" placeholder="Email">
+                                  <?php
+                                    $staff=$_SESSION['staff_id'];
+                                   $pas="SELECT password FROM staff WHERE staff_id='$staff'";
+                                        $pass=$con->query($pas);
+                                        $rowp=$pass->fetch_assoc();
+                                   ?>
+                                  <input class="form-control" type="hidden" name="pass" id="pass" value="<?= $rowp['password'];?>">
+                                  </div>  
+                             </div>
+                           <div class="col-md-12"> 
+                                    <div class="form-group col-sm-5"><b>Location: </b><input class="form-control" type="text" id="location"  name="location" placeholder="Location"></div> 
+                               <div class="col-md-2"></div> <div class="form-group col-md-5"><b>Level:</b><input class="form-control" type="text" name="level" id="level" placeholder="Level" required></div>
+                            </div>
+                           <div class="col-md-12">
+                                    <div class="col-md-4"><button type="submit" name="codeS" class="btn btn-success form-control">Save</button></div>
+                                    <div class="col-sm-4"></div>
+                                    <div class="col-md-4">
+
+                               <a href="#" ><img  data-toggle="tooltip" data-placement="top" title="Deleting Employee!" src="img/delete.png" class="hd2 pull-right" id="deleteEmp"></a>
+                                  </div>
+                           </div>
+                         </div>                                
+                            </form>
+                            <div class="col-sm-2"></div>
+                          </div>
+</div>
+
   </div>
 </div>
 </div>                                     

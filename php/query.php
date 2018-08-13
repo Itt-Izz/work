@@ -11,7 +11,7 @@
         $query4="SELECT count(*) FROM message WHERE dest_id='$staff_id' AND Msg_read=0  AND subject!='FEEDBACK'";
         $mesNo2=$con->query($query4);
 
-         $emp="SELECT `staff_id`, `fname`, lname, `sex`, year(birthday), `username`, `password`, `date_registered`, `id_number`, `phone_number`, `level`, location, `image` FROM `staff` WHERE `level`!= 'admin'";
+         $emp="SELECT *, year(birthday) FROM `staff` WHERE `level`!= 'admin'";
          $employe = $con->query($emp);
 
          $empW="SELECT * FROM staff WHERE `level`!= 'admin' AND `level`!= 'clerk'";

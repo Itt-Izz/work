@@ -59,17 +59,25 @@
                 <!-- Button (Double) -->
                 <div class="form-group">
                   <label class="col-md-4 control-label" for=""></label>
-                  <div class="col-md-8">
-                    <button id="can" name="" class="btn btn-default">Cancel</button>
-                    <button name="submit" class="btn btn-warning">Login</button>
+                  <div class="col-md-4">
+                    <a href="#" id="forgot">Forgot Password</a>
+                    <button name="submit" class="btn btn-warning pull-right" id="log">Login</button>
                   </div>
+                  <div class="col-md-4"></div>
                 </div>
                 </fieldset>
                 </form>
+  </body>
 <?php include 'inc/footer.php'; ?>
     <script src="assets/jquery-3.2.1.min.js"></script> 
     <script src="assets/script.js"></script>     
     <script src="assets/js/bootstrap.min.js"></script>
-  </body>
+    <script type="text/javascript">
+    $(function() {
+     $('#forgot').click(function(){
+      alert('Please contact')
+     })
+      });
+    </script>
 </html>
   
