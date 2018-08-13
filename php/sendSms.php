@@ -8,7 +8,7 @@ require_once 'connection.php';
 require_once('AfricasTalkingGateway.php');
 if ($mess=$_POST['msg']) {
 	$date=date('Y-m-d');
-$sql="SELECT phone_number FROM staff where phone_number='0710662656'";
+$sql="SELECT phone_number FROM staff";
 $result=$con->query($sql);
 while ($row=$result->fetch_assoc()) {
 	$i=$row['phone_number'];

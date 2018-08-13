@@ -1,3 +1,5 @@
+    <?php
+include('php/connection.php'); ?>
     <!doctype html>
 <html lang="en">
   <head>
@@ -30,7 +32,7 @@
         </ul>
   </div>
   </nav> 
-    <form class="form-horizontal" method='POST' action='login.php'> 
+    <form class="form-horizontal" method='POST' action="login.php"> 
                 <fieldset>
                 <!-- Form Name -->
                 <legend>
@@ -39,23 +41,22 @@
             if (strpos($url, 'error')) {
               echo "<span style='color: red;'> Username and password mismatch. Please Try again</span>";
             }
-             ?><br>Login
+             ?><br>Login<label style="color: red"></label>
                       </legend>
                 <!-- Text input-->
                 <div class="form-group">
                   <label class="col-md-4 control-label">Username</label>  
                   <div class="col-md-4">
-                  <input id="" name="username" type="text"  class="form-control input-md" required>
+                  <input  name="username" type="text"  id="user" class="form-control input-md" required>
                   </div>
                 </div>
                 <!-- Password input-->
                 <div class="form-group">
                   <label class="col-md-4 control-label">Password</label>
                   <div class="col-md-4">
-                    <input id="" name="password" type="password" class="form-control input-md" required>
+                    <input name="password" type="password" id="pass" class="form-control input-md" required>
                   </div>
-                </div>  
-                
+                </div> 
                 <!-- Button (Double) -->
                 <div class="form-group">
                   <label class="col-md-4 control-label" for=""></label>
@@ -66,7 +67,7 @@
                   <div class="col-md-4"></div>
                 </div>
                 </fieldset>
-                </form>
+                </form>  <?php echo $row['username']; ?>
   </body>
 <?php include 'inc/footer.php'; ?>
     <script src="assets/jquery-3.2.1.min.js"></script> 
@@ -74,9 +75,10 @@
     <script src="assets/js/bootstrap.min.js"></script>
     <script type="text/javascript">
     $(function() {
-     $('#forgot').click(function(){
-      alert('Please contact')
+     $('#forget').click(function(){
+       alert('Please contact your Manager to reset your password')
      })
+
       });
     </script>
 </html>

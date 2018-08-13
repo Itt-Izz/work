@@ -558,6 +558,7 @@ $("form[name='updateWage']").submit(function(e) {
       data: formData,
       async: false,
       success: function (msg) {
+        console.log(msg)
         if(msg==1){
           swal('Success','Wage Updated Successful!','success');
           $('#wag1').val('');
@@ -580,7 +581,7 @@ $("form[name='updateWage']").submit(function(e) {
 $("form[name='updatePromotion']").submit(function(e) {
     e.preventDefault();
     var formData = new FormData(this);
-    var r=confirm("Are you sure to promote this clerk?");
+    var r=confirm("Are you sure to promote this Employee to clerk?");
     if(r==true){
     $.ajax({
       url: "./php/updatePromotion.php",
@@ -841,7 +842,7 @@ $('#colT').click(function(){
 $('#changepass').click(function() {
     var pass =$('#password').val();
     var emp =$('#empl').val();
-    var r=confirm("Are you sure to promote this clerk?");
+    var r=confirm("Are you sure to change your password?");
     if(r==true){
     $.ajax({
       url: "./php/changePass.php",
@@ -938,7 +939,7 @@ $('.editCol').click(function(){
    var row=$(this).closest('tr')
    var weight=row.find('.weight').val();
    var stafId=row.find('.staf').val();
-    var r=confirm("Are you sure you want to delete this?")
+    var r=confirm("Are you sure you want to Edit this?")
     if(r==true){
       if($.trim(weight) < 10 || $.trim(weight) > 1000 ){
         alert('Your Value should range from 10 to 1000');
@@ -1072,9 +1073,6 @@ $('#deleteEmp').click(function(){
     }        }
     }
 })
-
-
-
 
 
 });//End of jquery file ................................................................................................................................
